@@ -586,11 +586,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\stels\\source\\repos\\GameServerV1\\GameServerV1.csproj",
+      "projectUniqueName": "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
       "projectName": "GameServerV1",
-      "projectPath": "C:\\Users\\stels\\source\\repos\\GameServerV1\\GameServerV1.csproj",
+      "projectPath": "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
       "packagesPath": "C:\\Users\\stels\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\stels\\source\\repos\\GameServerV1\\obj\\",
+      "outputPath": "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",

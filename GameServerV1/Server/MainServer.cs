@@ -13,7 +13,10 @@ namespace GameServerV1
     public class MainServer
     {
         private static string HOST = "192.168.1.2";
-        private static int PORT = 8080;
+        private static int PORT = 9000;
+           /*
+            * port 9000 -> 10000;
+            */           
         private static int DEFPACSIZE = 2048;
 
 
@@ -22,6 +25,9 @@ namespace GameServerV1
 
         const int TYPE_LogInS = 3;
         const int TYPE_LogInR = 4;
+
+        const int TYPE_CreateRoomS = 5;
+        const int TYPE_CreateRoomR = 6;
 
         const string BD_SOURCE = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\stels\source\repos\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
         private static TcpListener listener;
@@ -148,6 +154,10 @@ namespace GameServerV1
                                     sendDictionary(stream, data);
                                 }
                                 break;
+                            case TYPE_CreateRoomS:
+                                {
+
+                                }break;
                         }
                     }
                     Thread.Sleep(500);
