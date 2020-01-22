@@ -10,7 +10,6 @@ namespace GameServerV1.Server
         public int PORT;
         public string HOST;
         Socket socket;
-        
         private const int bufSize = 8 * 1024;
         private State state = new State();
         private EndPoint epFrom = new IPEndPoint(IPAddress.Any, 0);
@@ -38,7 +37,7 @@ namespace GameServerV1.Server
             var end = IPEndPoint.Parse(address + ":" + port);
             EndPoints.Add(end);
             socket.Connect(end);
-            
+            Receive();
         }
         public void Send(string text)
         {
@@ -47,7 +46,7 @@ namespace GameServerV1.Server
             {
                 State so = (State)ar.AsyncState;
                 int bytes = socket.EndSend(ar);
-                Console.WriteLine("SEND: {0}, {1}", bytes, text);
+                Console.WriteLine("Room on port:{2} SEND: {0}, {1}", bytes, text,PORT);
             }, state);
         }
         private void Receive()
@@ -57,7 +56,8 @@ namespace GameServerV1.Server
                 State so = (State)ar.AsyncState;
                 int bytes = socket.EndReceiveFrom(ar, ref epFrom);
                 socket.BeginReceiveFrom(so.buffer, 0, bufSize, SocketFlags.None, ref epFrom, recv, so);
-                Console.WriteLine("RECV: {0}: {1}, {2}", epFrom.ToString(), bytes, Encoding.ASCII.GetString(so.buffer, 0, bytes));
+                Console.WriteLine("Room on port:{3} RECV: {0}: {1}, {2}", 
+                    epFrom.ToString(), bytes, Encoding.ASCII.GetString(so.buffer, 0, bytes), PORT);
             }, state);
         }
     }

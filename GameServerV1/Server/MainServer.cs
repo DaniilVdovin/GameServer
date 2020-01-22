@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
@@ -12,13 +13,13 @@ namespace GameServerV1
 {
     public class MainServer
     {
-        private static string HOST = "192.168.1.2";
         private static int PORT = 9000;
            /*
             * port 9000 -> 10000;
             */           
         private static int DEFPACSIZE = 2048;
 
+        const int TYPE_NonPack = 0;
 
         const int TYPE_SingUpS = 1;
         const int TYPE_SingUpR = 2;
@@ -29,9 +30,12 @@ namespace GameServerV1
         const int TYPE_CreateRoomS = 5;
         const int TYPE_CreateRoomR = 6;
 
-        const string BD_SOURCE = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\stels\source\repos\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
+        public const string BD_SOURCE_USERS =
+            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=..\..\Server\bd\Users.mdf;Integrated Security=True";
         private static TcpListener listener;
+        private List<TcpClient> clients = new List<TcpClient>();
         private static BinaryFormatter binFormatter;
+        public float IsTimer { internal get; set; } = 5; 
         public static bool _status { get; set; }
         public MainServer()
         {
@@ -72,23 +76,27 @@ namespace GameServerV1
         {
 
             TcpClient Client = (TcpClient)obj;
+            clients.Add(Client);
             NetworkStream stream = Client.GetStream();
             Client.SendBufferSize = DEFPACSIZE;
             Client.ReceiveBufferSize = DEFPACSIZE;
-            Console.WriteLine($"new client: {Client.Client.RemoteEndPoint.ToString()}");
+            Console.WriteLine($"\n\nnew client: {Client.Client.RemoteEndPoint.ToString()} | Count: {clients.Count}");
             try
             {
-
+                float timer = IsTimer;
                 while (true)
                 {
                     Byte[] readingData = new Byte[DEFPACSIZE];
                     int PackSize = 0;
-                    if(stream.DataAvailable)
-                    do
+                    if (stream.DataAvailable)
                     {
-                        PackSize = stream.Read(readingData, 0, readingData.Length);
+                        timer = IsTimer;
+                        do
+                        {
+                            PackSize = stream.Read(readingData, 0, readingData.Length);
+                        }
+                        while (stream.DataAvailable);
                     }
-                    while (stream.DataAvailable);
                     if (PackSize > 0)
                     {
                         var myObject = ByteToDictionary(readingData, PackSize);
@@ -99,7 +107,7 @@ namespace GameServerV1
                                 {
                                     var data = new Dictionary<string, object>();
                                     data["type"] = TYPE_LogInR;
-                                    using SqlConnection connection = new SqlConnection(BD_SOURCE);
+                                    using SqlConnection connection = new SqlConnection(BD_SOURCE_USERS);
                                     try
                                     {
                                         connection.Open();
@@ -125,7 +133,7 @@ namespace GameServerV1
                                 {
                                     var data = new Dictionary<string, object>();
                                     data["type"] = TYPE_SingUpR;
-                                    using (SqlConnection connection = new SqlConnection(BD_SOURCE))
+                                    using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
                                         try
                                         {
                                             connection.Open();
@@ -158,16 +166,38 @@ namespace GameServerV1
                                 {
 
                                 }break;
+                            case TYPE_NonPack:
+                                {
+                                    Console.WriteLine("Non Dictionary Data: " + myObject["data"].ToString().Substring(0,10));
+                                    closeConnect(Client);
+                                }
+                                return;
                         }
+                        
                     }
                     Thread.Sleep(500);
+                    timer -= 0.5f;
+                    if (timer<=0)
+                    {
+                        Console.WriteLine($"Timeout: {IsTimer} sec lost");
+                        closeConnect(Client);
+                        return;
+                    }
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error client {Client.Client.RemoteEndPoint} : {e.Message}\n{e.StackTrace}\n");
-                Client.Close();
+                Console.WriteLine($"Error client {Client.Client.RemoteEndPoint} : {e.Message}");
+                closeConnect(Client);
             }
+        }
+        void closeConnect(TcpClient? client)
+        {
+            Console.WriteLine($"Client disconnected: {client.Client.RemoteEndPoint}");
+            clients.Remove(client);
+            client.Close();
+            client.Dispose();
+            Console.WriteLine($"Client count: {clients.Count}\n");
         }
         void sendDictionary(NetworkStream stream, Dictionary<string, object> valuePairs)
         {
@@ -191,9 +221,23 @@ namespace GameServerV1
                         return binFormatter.Deserialize(mStream) as Dictionary<string, object>;
                     }
                 }
-                catch (Exception e)
+                catch (SerializationException e)
                 {
-                    Console.WriteLine($"Error ByteToDictionary: {e.Message}\n{e.StackTrace}\n");
+                    if (PackSize > 0)
+                    {
+                        var data = new Dictionary<string, object>();
+                        data["type"] = TYPE_NonPack;
+                        try
+                        {
+                            data["data"] = Encoding.ASCII.GetString(readingData, 0, PackSize);
+                            return data;
+                        }
+                        catch (Exception ex)
+                        {
+                            data["data"] = ex.Message;
+                            return data;
+                        }
+                    }
                 }
             return null;
         }
