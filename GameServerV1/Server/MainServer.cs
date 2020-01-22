@@ -11,24 +11,29 @@ using System.Threading;
 
 namespace GameServerV1
 {
+    public enum Types
+    {
+        TYPE_NonPack = 0,
+
+        TYPE_SingUpS = 1,
+        TYPE_SingUpR = 2,
+
+        TYPE_LogInS = 3,
+        TYPE_LogInR = 4,
+
+        TYPE_CreateRoomS = 5,
+        TYPE_CreateRoomR = 6
+    }
+    
     public class MainServer
     {
+        
         private static int PORT = 9000;
            /*
             * port 9000 -> 10000;
             */           
         private static int DEFPACSIZE = 2048;
-
-        const int TYPE_NonPack = 0;
-
-        const int TYPE_SingUpS = 1;
-        const int TYPE_SingUpR = 2;
-
-        const int TYPE_LogInS = 3;
-        const int TYPE_LogInR = 4;
-
-        const int TYPE_CreateRoomS = 5;
-        const int TYPE_CreateRoomR = 6;
+      
 
         public const string BD_SOURCE_USERS =
             @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=..\..\Server\bd\Users.mdf;Integrated Security=True";
@@ -101,12 +106,12 @@ namespace GameServerV1
                     {
                         var myObject = ByteToDictionary(readingData, PackSize);
                         Console.WriteLine($"Type: {myObject["type"]}");
-                        switch ((int)myObject["type"])
+                        switch ((Types)myObject["type"])
                         {
-                            case TYPE_LogInS:
+                            case Types.TYPE_LogInS:
                                 {
                                     var data = new Dictionary<string, object>();
-                                    data["type"] = TYPE_LogInR;
+                                    data["type"] =  Types.TYPE_LogInR;
                                     using SqlConnection connection = new SqlConnection(BD_SOURCE_USERS);
                                     try
                                     {
@@ -129,10 +134,10 @@ namespace GameServerV1
                                     }
                                 }
                                 break;
-                            case TYPE_SingUpS:
+                            case Types.TYPE_SingUpS:
                                 {
                                     var data = new Dictionary<string, object>();
-                                    data["type"] = TYPE_SingUpR;
+                                    data["type"] = Types.TYPE_SingUpR;
                                     using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
                                         try
                                         {
@@ -162,11 +167,11 @@ namespace GameServerV1
                                     sendDictionary(stream, data);
                                 }
                                 break;
-                            case TYPE_CreateRoomS:
+                            case Types.TYPE_CreateRoomS:
                                 {
 
                                 }break;
-                            case TYPE_NonPack:
+                            case Types.TYPE_NonPack:
                                 {
                                     Console.WriteLine("Non Dictionary Data: " + myObject["data"].ToString().Substring(0,10));
                                     closeConnect(Client);
