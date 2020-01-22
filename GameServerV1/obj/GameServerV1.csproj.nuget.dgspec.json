@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj": {}
+    "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\GameServerV1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj": {
+    "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\GameServerV1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
+        "projectUniqueName": "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\GameServerV1.csproj",
         "projectName": "GameServerV1",
-        "projectPath": "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
-        "packagesPath": "C:\\Users\\stels\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\obj\\",
+        "projectPath": "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\GameServerV1.csproj",
+        "packagesPath": "D:\\Users\\vdovin\\.nuget\\packages\\",
+        "outputPath": "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\stels\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "D:\\Users\\vdovin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -43,6 +43,10 @@
       "frameworks": {
         "netcoreapp3.0": {
           "dependencies": {
+            "System.Collections": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.0, )"
@@ -58,12 +62,30 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.0.1, 3.0.1]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[3.0.2, 3.0.2]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.0.0, 3.0.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[3.0.0, 3.0.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
