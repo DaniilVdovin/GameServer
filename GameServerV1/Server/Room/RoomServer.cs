@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Data.SqlClient;
 
-namespace GameServerV1.Server
+namespace GameServerV1.Server.Room
 {
 
     public class RoomServer
@@ -17,7 +17,10 @@ namespace GameServerV1.Server
         private State state = new State();
         private EndPoint epFrom = new IPEndPoint(IPAddress.Any, 0);
         private AsyncCallback recv = null;
-        List<IPEndPoint> EndPoints = new List<IPEndPoint>();  
+
+        List<IPEndPoint> EndPoints = new List<IPEndPoint>();
+        List<User> Users = new List<User>();
+
         public class State
         {
             public byte[] buffer = new byte[bufSize];
@@ -61,6 +64,7 @@ namespace GameServerV1.Server
         public void Connect(string address,int port)
         {
             var end = IPEndPoint.Parse(address + ":" + port);
+          //  Users.Add(new User());
             EndPoints.Add(end);
             socket.Connect(end);
             Receive();
@@ -85,6 +89,12 @@ namespace GameServerV1.Server
                 Console.WriteLine("Room on port:{3} RECV: {0}: {1}, {2}", 
                     epFrom.ToString(), bytes, Encoding.ASCII.GetString(so.buffer, 0, bytes), PORT);
             }, state);
+        }
+        private User getUserData()
+        {
+
+
+            return new User();
         }
     }
 }

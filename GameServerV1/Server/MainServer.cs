@@ -169,8 +169,37 @@ namespace GameServerV1
                                 break;
                             case Types.TYPE_CreateRoomS:
                                 {
+                                    var data = new Dictionary<string, object>();
+                                    data["type"] = Types.TYPE_CreateRoomR;
+                                    using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
+                                        try
+                                        {
+                                            string oString = "Select * from users where email=@email password=@pass";
+                                            SqlCommand oCmd = new SqlCommand(oString, connection);
 
-                                }break;
+                                            oCmd.Parameters.AddWithValue("@email", myObject["emal"]);
+                                            oCmd.Parameters.AddWithValue("@pass", myObject["pass"]);
+
+                                            connection.Open();
+                                            using (SqlDataReader oReader = oCmd.ExecuteReader())
+                                            {
+                                                while (oReader.Read())
+                                                {
+                                                    
+                                                }
+
+                                                connection.Close();
+                                            }
+                                        }
+                                        catch (SqlException e)
+                                        {
+                                            data["req"] = 0;
+                                            data["error"] = e.Message;
+                                            Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
+                                        }
+                                    sendDictionary(stream, data);
+                                }
+                                break;
                             case Types.TYPE_NonPack:
                                 {
                                     Console.WriteLine("Non Dictionary Data: " + myObject["data"].ToString().Substring(0,10));
@@ -231,7 +260,7 @@ namespace GameServerV1
                     if (PackSize > 0)
                     {
                         var data = new Dictionary<string, object>();
-                        data["type"] = TYPE_NonPack;
+                        data["type"] = Types.TYPE_NonPack;
                         try
                         {
                             data["data"] = Encoding.ASCII.GetString(readingData, 0, PackSize);
