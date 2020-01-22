@@ -78,15 +78,13 @@ public class Room {
     }
 }
 public class User {
-    private string name;
-    private string uid;
+    public string name { get; internal set; }
+    public string uid { get; internal set; }
     public User(string name, string uid)
     {
         this.name = name;
         this.uid = uid;
     }
-    public string GetName() => name;
-    public string GetUid() => uid;
 }
 public class CtServer
 {
@@ -96,6 +94,7 @@ public class CtServer
     public const int TYPE_LogInS = 3;
     public const int TYPE_LogInR = 4;
 
+    const int BUFFFER_SIZE = 8 * 1024;
     TcpClient tcpClient;
     NetworkStream stream;
 
@@ -128,7 +127,7 @@ public class CtServer
                 {
                     mStream.Write(readingData, 0, PackSize);
                     mStream.Position = 0;
-
+                    
                     return binFormatter.Deserialize(mStream) as Dictionary<string, object>;
                 }
             }
@@ -138,7 +137,7 @@ public class CtServer
             }
         return null;
     }
-    public bool SingUp(string name, string email, string password, string leng)
+    public User SingUp(string name, string email, string password, string leng)
     {
 
         var data = new Dictionary<string, object>();
@@ -148,14 +147,14 @@ public class CtServer
         data["pass"] = password;
         data["leng"] = leng;
         sendDictionary(data);
-
         while (true)
         {
-            byte[] rdata = new byte[2048];
+            byte[] rdata = new byte[BUFFFER_SIZE];
             int csize = 0;
             do
             {
                 csize = stream.Read(rdata, 0, rdata.Length);
+
             } while (stream.DataAvailable);
             var obj = ByteToDictionary(rdata, csize);
             /*
@@ -169,7 +168,11 @@ public class CtServer
             {
                 if ((string)obj["error"] != null)
                     Debug.LogError($"Error :{obj["error"]}");
-                return (int)obj["req"] == 1;
+                
+                if((int)obj["req"] == 1)
+                {
+                    return new User((string)obj["name"], (string)obj["uid"]);
+                }
             }
         }
 
@@ -184,7 +187,7 @@ public class CtServer
         sendDictionary(data);
         while (true)
         {
-            byte[] rdata = new byte[2048];
+            byte[] rdata = new byte[BUFFFER_SIZE];
             int csize = 0;
             do
             {
@@ -211,4 +214,8 @@ public class CtServer
         }
     }
 
+    public Room CreateRoom()
+    {
+        return null;
+    }
 }
