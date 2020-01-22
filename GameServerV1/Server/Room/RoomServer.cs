@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Data.SqlClient;
 
-namespace GameServerV1.Server.Room
+namespace GameServerV1.Server
 {
 
     public class RoomServer
@@ -89,12 +89,6 @@ namespace GameServerV1.Server.Room
                 Console.WriteLine("Room on port:{3} RECV: {0}: {1}, {2}", 
                     epFrom.ToString(), bytes, Encoding.ASCII.GetString(so.buffer, 0, bytes), PORT);
             }, state);
-        }
-        private User getUserData()
-        {
-
-
-            return new User();
         }
     }
 }

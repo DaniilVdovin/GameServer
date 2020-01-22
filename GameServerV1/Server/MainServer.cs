@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 
-namespace GameServerV1
+namespace GameServerV1.Server
 {
     public enum Types
     {
@@ -21,8 +21,12 @@ namespace GameServerV1
         TYPE_LogInS = 3,
         TYPE_LogInR = 4,
 
+        TYPE_LogOut = 10,
+
         TYPE_CreateRoomS = 5,
         TYPE_CreateRoomR = 6
+
+
     }
     
     public class MainServer
@@ -32,15 +36,16 @@ namespace GameServerV1
            /*
             * port 9000 -> 10000;
             */           
-        private static int DEFPACSIZE = 2048;
+        private static int DEFPACSIZE = 8*1024;
       
 
         public const string BD_SOURCE_USERS =
-            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=..\..\Server\bd\Users.mdf;Integrated Security=True";
+            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
         private static TcpListener listener;
         private List<TcpClient> clients = new List<TcpClient>();
+        private List<RoomServer> rooms = new List<RoomServer>();
         private static BinaryFormatter binFormatter;
-        public float IsTimer { internal get; set; } = 5; 
+        public float IsTimer { internal get; set; } = 60; 
         public static bool _status { get; set; }
         public MainServer()
         {
@@ -81,6 +86,7 @@ namespace GameServerV1
         {
 
             TcpClient Client = (TcpClient)obj;
+            User user = null;
             clients.Add(Client);
             NetworkStream stream = Client.GetStream();
             Client.SendBufferSize = DEFPACSIZE;
@@ -110,63 +116,19 @@ namespace GameServerV1
                         {
                             case Types.TYPE_LogInS:
                                 {
-                                    var data = new Dictionary<string, object>();
-                                    data["type"] =  Types.TYPE_LogInR;
-                                    using SqlConnection connection = new SqlConnection(BD_SOURCE_USERS);
-                                    try
-                                    {
-                                        connection.Open();
-                                        string sql = $"";
-
-                                        SqlCommand command = new SqlCommand(sql, connection);
-                                        command.ExecuteNonQuery();
-                                        command.Dispose();
-
-                                        data["req"] = 1;
-                                        data["error"] = null;
-
-                                    }
-                                    catch (SqlException e)
-                                    {
-                                        data["req"] = 0;
-                                        data["error"] = e.Message;
-                                        Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
-                                    }
+                                   user = LogIn(null,stream,myObject);
                                 }
                                 break;
                             case Types.TYPE_SingUpS:
                                 {
-                                    var data = new Dictionary<string, object>();
-                                    data["type"] = Types.TYPE_SingUpR;
-                                    using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
-                                        try
-                                        {
-                                            connection.Open();
-                                            string g = Guid.NewGuid().ToString();
-                                            string sql = $"INSERT INTO users (name, email, password, uid, leng)"+
-                                                $"VALUES  (" +
-                                                $"'{(string)myObject["name"]}'," +
-                                                $"'{(string)myObject["email"]}'," +
-                                                $"'{(string)myObject["pass"]}', " +
-                                                $"'{g}', " +
-                                                $"'{(string)myObject["leng"]}')";
-                                            Console.WriteLine($"BD New user: \n{(string)myObject["name"]}\n{g}");
-                                            SqlCommand command = new SqlCommand(sql, connection);
-                                            command.ExecuteNonQuery();
-                                            command.Dispose();
-
-                                            data["req"] = 1;
-                                            data["error"] = null;
-                                        }
-                                        catch (SqlException e)
-                                        {
-                                            data["req"] = 0;
-                                            data["error"] = e.Message;
-                                            Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
-                                        }
-                                    sendDictionary(stream, data);
+                                   user = SingUp(stream, myObject);
                                 }
                                 break;
+                            case Types.TYPE_LogOut:
+                                setUserStatys(myObject["uid"].ToString(),0);
+                                user = null;
+                                closeConnect(Client);
+                                return;
                             case Types.TYPE_CreateRoomS:
                                 {
                                     var data = new Dictionary<string, object>();
@@ -174,12 +136,8 @@ namespace GameServerV1
                                     using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
                                         try
                                         {
-                                            string oString = "Select * from users where email=@email password=@pass";
+                                            string oString =   $"Select * from users where uid='{myObject["uid"]}'";
                                             SqlCommand oCmd = new SqlCommand(oString, connection);
-
-                                            oCmd.Parameters.AddWithValue("@email", myObject["emal"]);
-                                            oCmd.Parameters.AddWithValue("@pass", myObject["pass"]);
-
                                             connection.Open();
                                             using (SqlDataReader oReader = oCmd.ExecuteReader())
                                             {
@@ -203,6 +161,8 @@ namespace GameServerV1
                             case Types.TYPE_NonPack:
                                 {
                                     Console.WriteLine("Non Dictionary Data: " + myObject["data"].ToString().Substring(0,10));
+                                    byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r<html><h1 style='display: flex; justify-content: center;'>404</h1></html>");
+                                    stream.Write(data, 0, data.Length);
                                     closeConnect(Client);
                                 }
                                 return;
@@ -221,14 +181,142 @@ namespace GameServerV1
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error client {Client.Client.RemoteEndPoint} : {e.Message}");
+                Console.WriteLine($"Error client {Client.Client.RemoteEndPoint} : {e.Message}\n{e.StackTrace}");
                 closeConnect(Client);
             }
         }
-        void closeConnect(TcpClient? client)
+        User SingUp(NetworkStream? stream, Dictionary<string, object>? myObject)
+        {
+            var data = new Dictionary<string, object>();
+            data["type"] = (int)Types.TYPE_SingUpR;
+            using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
+                try
+                {
+                    string oString = $"Select * from users where email='{myObject["email"]}'";
+                    SqlCommand oCmd = new SqlCommand(oString, connection);
+                    connection.Open();
+                    using (SqlDataReader oReader = oCmd.ExecuteReader())
+                    {
+                        if (oReader.Read())
+                        {
+                            connection.Close();
+                            oReader.Close();
+
+                            return LogIn(data,stream, myObject);
+                        }else
+                        {
+                            oReader.Close();
+                            oCmd.Dispose();
+
+                        }
+                    }
+                    string g = Guid.NewGuid().ToString();
+                    string sql = $"INSERT INTO users (name, email, password, uid, leng)" +
+                        $"VALUES  (" +
+                        $"'{(string)myObject["name"]}'," +
+                        $"'{(string)myObject["email"]}'," +
+                        $"'{(string)myObject["pass"]}', " +
+                        $"'{g}', " +
+                        $"'{(string)myObject["leng"]}')";
+                    Console.WriteLine($"BD New user: {(string)myObject["name"]} :: {g}");
+                    SqlCommand command = new SqlCommand(sql, connection);
+                    command.ExecuteNonQuery();
+                    command.Dispose();
+                    data["uid"] = g;
+                    data["req"] = 1;
+                    data["error"] = null;
+                    sendDictionary(stream, data);
+
+
+                    connection.Close();
+                    return new User((string)myObject["name"], g);
+                }
+                catch (SqlException e)
+                {
+                    data["req"] = 0;
+                    data["error"] = e.Message;
+                    Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
+                    sendDictionary(stream, data);
+                    return null;
+                }
+
+        }
+        User LogIn(Dictionary<string, object> data, NetworkStream? stream, Dictionary<string, object>? myObject)
+        {
+            if (data == null)
+            {
+                data = new Dictionary<string, object>();
+                data["type"] = (int)Types.TYPE_LogInR;
+            }
+            using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
+                try
+                {
+                    string oString = $"Select * from users where email='{myObject["email"]}'";
+                    SqlCommand oCmd = new SqlCommand(oString, connection);
+                    connection.Open();
+                    using (SqlDataReader oReader = oCmd.ExecuteReader())
+                    {
+                        if (oReader.Read())
+                        {
+                            Console.WriteLine($"BD Login user: {oReader["name"].ToString()} :: {oReader["uid"].ToString()}");
+                            data["req"] = 1;
+                            data["name"] = oReader["name"].ToString();
+                            data["uid"] = oReader["uid"].ToString();
+                            data["error"] = null;
+                            setUserStatys(oReader["uid"].ToString(), 1);
+                           
+                            oReader.Close();
+                            connection.Close();
+
+                            sendDictionary(stream, data);
+                            return new User(data["name"].ToString(), data["uid"].ToString());
+                        }
+                        else
+                        {
+                            data["req"] = 0;
+                            data["error"] = "Not Found";
+                            
+                        }
+
+                        oReader.Close();
+                        connection.Close();
+                        sendDictionary(stream, data);
+                        return null;
+                    }
+                }
+                catch (SqlException e)
+                {
+                    data["req"] = 0;
+                    data["error"] = e.Message;
+                    Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
+                  
+                }
+            sendDictionary(stream, data);
+            return null;
+        }
+        void setUserStatys(string uid,int statys)
+        {
+            using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
+                try
+                {
+                    string oString = $"UPDATE users SET status={statys} where uid='{uid}'";
+                    SqlCommand oCmd = new SqlCommand(oString, connection);
+                    connection.Open();
+                    oCmd.ExecuteNonQuery();   
+                }
+                catch (SqlException e)
+                {
+                    Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
+                }
+        }
+        void closeConnect(TcpClient? client,User? user=null)
         {
             Console.WriteLine($"Client disconnected: {client.Client.RemoteEndPoint}");
             clients.Remove(client);
+
+            if (user != null)
+                setUserStatys(user.uId, 0);
+            
             client.Close();
             client.Dispose();
             Console.WriteLine($"Client count: {clients.Count}\n");
@@ -260,7 +348,7 @@ namespace GameServerV1
                     if (PackSize > 0)
                     {
                         var data = new Dictionary<string, object>();
-                        data["type"] = Types.TYPE_NonPack;
+                        data["type"] = (int)Types.TYPE_NonPack;
                         try
                         {
                             data["data"] = Encoding.ASCII.GetString(readingData, 0, PackSize);
@@ -276,5 +364,9 @@ namespace GameServerV1
             return null;
         }
    
+        void CreateNewRoom()
+        {
+
+        }
     }
 }

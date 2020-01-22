@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameServerV1.Server.Room
+namespace GameServerV1.Server
 {
     public class Vector2
     {
