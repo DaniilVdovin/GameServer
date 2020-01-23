@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 2063
-    y: 119
+    x: 2022
+    y: 74
     width: 1447
     height: 913
   m_ShowMode: 4
@@ -70,8 +70,8 @@ MonoBehaviour:
     y: 0
     width: 476
     height: 863
-  m_MinSize: {x: 277, y: 294}
-  m_MaxSize: {x: 4002, y: 8044}
+  m_MinSize: {x: 277, y: 272}
+  m_MaxSize: {x: 4002, y: 8022}
   vertical: 1
   controlID: 116
 --- !u!114 &4
@@ -172,8 +172,8 @@ MonoBehaviour:
     y: 557
     width: 971
     height: 306
-  m_MinSize: {x: 102, y: 122}
-  m_MaxSize: {x: 4002, y: 4022}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 24}
   m_Panes:
   - {fileID: 19}
@@ -203,7 +203,7 @@ MonoBehaviour:
     y: 0
     width: 1447
     height: 913
-  m_MinSize: {x: 950, y: 394}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &9
 MonoBehaviour:
@@ -440,13 +440,13 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1244
-    y: 73
-    width: 674
-    height: 619
+    x: 3020
+    y: 131
+    width: 474
+    height: 556
   m_ViewDataDictionary: {fileID: 0}
   m_PosLeft: {x: 0, y: 0}
-  m_PosRight: {x: 0, y: 0}
+  m_PosRight: {x: 0, y: 180}
   m_Scope: 1
   m_SplitterFlex: 0
 --- !u!114 &17
@@ -522,8 +522,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 2063
-    y: 706
+    x: 2049
+    y: 688
     width: 971
     height: 287
   m_ViewDataDictionary: {fileID: 0}
@@ -658,8 +658,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 3034
-    y: 149
+    x: 2993
+    y: 104
     width: 474
     height: 556
   m_ViewDataDictionary: {fileID: 0}
@@ -696,8 +696,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 2063
-    y: 149
+    x: 2022
+    y: 104
     width: 226
     height: 538
   m_ViewDataDictionary: {fileID: 0}
@@ -706,7 +706,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 72fbffff
+      m_ExpandedIDs: ccf2ffff00f3ffff02f3ffff70f3ffffa4f3ffff36f4ffff72fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -751,8 +751,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 2289
-    y: 149
+    x: 2248
+    y: 104
     width: 743
     height: 538
   m_ViewDataDictionary: {fileID: 0}
@@ -850,8 +850,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 3034
-    y: 724
+    x: 2993
+    y: 679
     width: 474
     height: 269
   m_ViewDataDictionary: {fileID: 0}
@@ -931,8 +931,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 2063
-    y: 706
+    x: 2022
+    y: 661
     width: 971
     height: 287
   m_ViewDataDictionary: {fileID: 0}

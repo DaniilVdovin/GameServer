@@ -45,8 +45,7 @@ namespace GameServerV1.Server
         private const int bufSize = 8 * 1024;
         private State state = new State();
         private AsyncCallback recv = null;
-        private static BinaryFormatter binFormatter;
-        List<EndPoint> EndPoints = new List<EndPoint>();
+        private static BinaryFormatter binFormatter = new BinaryFormatter();
         public List<User> Users { get; internal set; }    
 
         public class State
@@ -68,27 +67,84 @@ namespace GameServerV1.Server
             socket.Start();
             try
             {
-
-                while (true)
-                {
-
-                    using (TcpClient client = socket.AcceptTcpClient())
-                    {
-                        if (Rules.Alive == 1 && Users.Count < Rules.RedUser + Rules.BlueUser)
-                        {
-                            NetworkStream stream = client.GetStream();
-                            Send(stream, FromDictionary(getRules()));
-                        }
-                    }
-
-                    Thread.Sleep(300);
-                }
-
+                new Thread(listner).Start();       
             }
             catch (SocketException e)
             {
-                Console.WriteLine($"      Room: {PORT} have e: {e.Message}\n{e.StackTrace}");
+                Console.WriteLine($"Room: {PORT} have e: {e.Message}\n{e.StackTrace}");
             }
+        }
+        void listner()
+        {
+            while (true) 
+            using (TcpClient client = socket.AcceptTcpClient())
+            {
+                User currentuser = null;
+                NetworkStream stream = client.GetStream();
+                while (true)
+                {
+                    if (stream.DataAvailable)
+                    {
+                        var obj = Udpate(stream);
+                        if (obj != null)
+                            switch ((Types)obj["type"])
+                            {
+                                case Types.TYPE_i_newUser:
+                                    {
+                                        if (Rules.Alive == 1 && Users.Count < Rules.RedUser + Rules.BlueUser)
+                                        {
+                                            currentuser = NewUser(stream, obj);
+                                            Users.Add(currentuser);
+                                        }
+                                    }
+                                    break;
+                                case Types.TYPE_i_wanna_info:
+                                    {
+                                        Send(stream, FromDictionary(getRules()),currentuser.name);
+                                    }
+                                    break;
+                                case Types.TYPE_i_wanna_users:
+                                    {
+                                        Send(stream, FromDictionary(getAllUserData()),currentuser.name);
+                                    }
+                                    break;
+                            }
+                    }
+                    Thread.Sleep(300);
+                }
+            }
+        }
+        Dictionary<string, object> Udpate(NetworkStream stream)
+        {
+            while (true)
+            {
+                State so = new State();
+                int bytes = stream.Read(so.buffer, 0, so.buffer.Length);
+                if (bytes != 0)
+                {
+                    return ByteToDictionary(so.buffer, bytes);
+                }
+            }
+        }
+        User NewUser(NetworkStream? stream, Dictionary<string, object> obj)
+        {
+           User currentuser = new User((string)obj["name"], (string)obj["uid"]);
+
+            if (Rules.BlueUser > Rules.RedUser)
+                currentuser.group = 1;
+            else
+                currentuser.group = 0;
+
+            if ((int)obj["group"] == 0) Rules.BlueUser++;
+            else if ((int)obj["group"] == 1) Rules.RedUser++;
+
+
+            currentuser.Health = (int)obj["health"];
+            currentuser.SolderClass = (int)obj["solderclass"];
+
+            Console.WriteLine($"Room {PORT} new User {currentuser.name}:{currentuser.uId}" +
+                $"\nUser Wanna play in {(int)obj["group"]} group but w`ll be play in {currentuser.group}");
+            return currentuser;
         }
         Dictionary<string, object> getRules()
         {
@@ -111,7 +167,7 @@ namespace GameServerV1.Server
         {
             var users = new Dictionary<string, object>();
             users["type"] = (int)Types.TYPE_update_users;
-            users["users"] = getListUser();
+            users["users"] = getListUser();   
             return users;
         }
         byte[] FromDictionary(Dictionary<string, object> valuePairs)
@@ -119,7 +175,7 @@ namespace GameServerV1.Server
             byte[] temp;
             using (var mStream = new MemoryStream())
             {
-                new BinaryFormatter().Serialize(mStream, valuePairs);
+                binFormatter.Serialize(mStream, valuePairs);
                 temp = mStream.ToArray();
                 mStream.Close();
             }
@@ -140,28 +196,14 @@ namespace GameServerV1.Server
                 }
                 catch (SerializationException e)
                 {
-                    if (PackSize > 0)
-                    {
-                        var data = new Dictionary<string, object>();
-                        data["type"] = (int)Types.TYPE_NonPack;
-                        try
-                        {
-                            data["data"] = Encoding.ASCII.GetString(readingData, 0, PackSize);
-                            return data;
-                        }
-                        catch (Exception ex)
-                        {
-                            data["data"] = ex.Message;
-                            return data;
-                        }
-                    }
+                    Console.WriteLine(e.Message + "\n" + e.StackTrace);
                 }
             return null;
         }
-        public void Send(NetworkStream stream, byte[] data)
+        public void Send(NetworkStream stream, byte[] data,string nameofuser="unknow")
         {
             stream.Write(data, 0, data.Length);
-            Console.WriteLine($"Room {PORT} send: {data.Length} byte");
+            Console.WriteLine($"Room {PORT} send: {data.Length} byte to {nameofuser}");
             /*socket.BeginSend(data, 0, data.Length, SocketFlags.None, (ar) =>
             {
                 int bytes = socket.EndSend(ar);
@@ -190,7 +232,7 @@ namespace GameServerV1.Server
                 user["group"] = u.group;
                 user["health"] = u.Health;
                 user["pos"] = new float[] { u.position.x,u.position.y,u.position.z };
-                user["top"] = new float[] { u.rotation.x, u.rotation.y };
+                user["rot"] = new float[] { u.rotation.x, u.rotation.y };
                 list.Add(user);
             }
             return list.ToArray();
