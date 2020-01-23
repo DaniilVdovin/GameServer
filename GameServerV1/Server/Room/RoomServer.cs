@@ -11,63 +11,41 @@ namespace GameServerV1.Server
     public class RoomServer
     {
         public int PORT;
-        public string HOST;
+        public IPAddress ADDPRES;
         Socket socket;
         private const int bufSize = 8 * 1024;
         private State state = new State();
         private EndPoint epFrom = new IPEndPoint(IPAddress.Any, 0);
         private AsyncCallback recv = null;
 
-        List<IPEndPoint> EndPoints = new List<IPEndPoint>();
+        List<EndPoint> EndPoints = new List<EndPoint>();
         List<User> Users = new List<User>();
 
         public class State
         {
             public byte[] buffer = new byte[bufSize];
         }
-        public RoomServer(string address, int port)
+        public RoomServer(IPAddress address, int port)
         {
             this.PORT = port;
-            this.HOST = address;
+            this.ADDPRES = address;
 
-            init();
-        }
-        void init()
-        {
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            socket.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.ReuseAddress, true);
-            socket.Bind(new IPEndPoint(IPAddress.Parse(HOST), PORT));
-
-            var data = new Dictionary<string, object>();
-            data["type"] = Types.TYPE_LogInR;
-            using SqlConnection connection = new SqlConnection(MainServer.BD_SOURCE_USERS);
-            try
-            {
-                connection.Open();
-                string sql = $"";
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                command.ExecuteNonQuery();
-                command.Dispose();
-
-                data["req"] = 1;
-                data["error"] = null;
-
-            }
-            catch (SqlException e)
-            {
-                data["req"] = 0;
-                data["error"] = e.Message;
-                Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
-            }
+            socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.ReuseAddress, true);
+            socket.Bind(new IPEndPoint(ADDPRES, PORT));
         }
-        public void Connect(string address,int port)
+        public void Connect(TcpClient? point)
         {
-            var end = IPEndPoint.Parse(address + ":" + port);
-          //  Users.Add(new User());
-            EndPoints.Add(end);
-            socket.Connect(end);
-            Receive();
+            //  Users.Add(new User());
+            EndPoints.Add(point.Client.LocalEndPoint);
+
+            socket.BeginConnect(point.Client.RemoteEndPoint, (ar) =>
+             {
+                 socket.EndConnect(ar);
+                 Console.WriteLine($"Room on {PORT} : Connected {socket.RemoteEndPoint} ");
+                 Send($"HTTP/1.1 200 OK\n\r\n\r<html><h1 style='display: flex; justify-content: center;'>{socket.LocalEndPoint} {PORT}</h1></html>");
+                 //  Receive();
+             }, state);
         }
         public void Send(string text)
         {

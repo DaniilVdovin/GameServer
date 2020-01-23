@@ -33,9 +33,10 @@ namespace GameServerV1.Server
     {
         
         private static int PORT = 9000;
-           /*
-            * port 9000 -> 10000;
-            */           
+        /*
+         * port 9000 -> 10000;
+         */
+        private static int portroomnow = PORT; 
         private static int DEFPACSIZE = 8*1024;
       
 
@@ -141,9 +142,9 @@ namespace GameServerV1.Server
                                             connection.Open();
                                             using (SqlDataReader oReader = oCmd.ExecuteReader())
                                             {
-                                                while (oReader.Read())
+                                                if (oReader.Read())
                                                 {
-                                                    
+                                                    CreateNewRoom(IPAddress.Any, ++portroomnow, Client);
                                                 }
 
                                                 connection.Close();
@@ -364,9 +365,12 @@ namespace GameServerV1.Server
             return null;
         }
    
-        void CreateNewRoom()
+        void CreateNewRoom(IPAddress address,int port,TcpClient? tcp)
         {
-
+            RoomServer roomServer = new RoomServer(address,port);
+            roomServer.Connect(tcp);
+            tcp.Close();
+            rooms.Add(roomServer);
         }
     }
 }
