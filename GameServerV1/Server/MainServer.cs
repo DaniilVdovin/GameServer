@@ -24,9 +24,10 @@ namespace GameServerV1.Server
         TYPE_LogOut = 10,
 
         TYPE_CreateRoomS = 5,
-        TYPE_CreateRoomR = 6
+        TYPE_CreateRoomR = 6,
 
-
+        TYPE_update_rules = 7,
+        TYPE_update_users = 8
     }
     
     public class MainServer
@@ -126,37 +127,15 @@ namespace GameServerV1.Server
                                 }
                                 break;
                             case Types.TYPE_LogOut:
-                                setUserStatys(myObject["uid"].ToString(),0);
-                                user = null;
-                                closeConnect(Client);
+                                {
+                                    setUserStatys(myObject["uid"].ToString(), 0);
+                                    user = null;
+                                    closeConnect(Client);
+                                }
                                 return;
                             case Types.TYPE_CreateRoomS:
                                 {
-                                    var data = new Dictionary<string, object>();
-                                    data["type"] = Types.TYPE_CreateRoomR;
-                                    using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
-                                        try
-                                        {
-                                            string oString =   $"Select * from users where uid='{myObject["uid"]}'";
-                                            SqlCommand oCmd = new SqlCommand(oString, connection);
-                                            connection.Open();
-                                            using (SqlDataReader oReader = oCmd.ExecuteReader())
-                                            {
-                                                if (oReader.Read())
-                                                {
-                                                    CreateNewRoom(IPAddress.Any, ++portroomnow, Client);
-                                                }
-
-                                                connection.Close();
-                                            }
-                                        }
-                                        catch (SqlException e)
-                                        {
-                                            data["req"] = 0;
-                                            data["error"] = e.Message;
-                                            Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
-                                        }
-                                    sendDictionary(stream, data);
+                                    CreateNewRoom(stream,IPAddress.Any,++portroomnow,myObject);
                                 }
                                 break;
                             case Types.TYPE_NonPack:
@@ -170,8 +149,8 @@ namespace GameServerV1.Server
                         }
                         
                     }
-                    Thread.Sleep(500);
-                    timer -= 0.5f;
+                    Thread.Sleep(300);
+                    timer -= 0.3f;
                     if (timer<=0)
                     {
                         Console.WriteLine($"Timeout: {IsTimer} sec lost");
@@ -364,13 +343,41 @@ namespace GameServerV1.Server
                 }
             return null;
         }
-   
-        void CreateNewRoom(IPAddress address,int port,TcpClient? tcp)
+
+        RoomServer CreateNewRoom(NetworkStream? stream,IPAddress address, int port, Dictionary<string, object> myObject)
         {
-            RoomServer roomServer = new RoomServer(address,port);
-            roomServer.Connect(tcp);
-            tcp.Close();
-            rooms.Add(roomServer);
+            RoomServer roomServer=null;
+            var data = new Dictionary<string, object>();
+            data["type"] = (int)Types.TYPE_CreateRoomR;
+            using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
+                try
+                {
+                    string oString = $"Select * from users where uid='{myObject["uid"]}'";
+                    SqlCommand oCmd = new SqlCommand(oString, connection);
+                    connection.Open();
+                    using (SqlDataReader oReader = oCmd.ExecuteReader())
+                    {
+                        while (oReader.Read())
+                        {
+                            roomServer = new RoomServer(address, port);
+                            roomServer.Rules = new Rules(RedScore: 1);
+
+                            data["req"] = 1;
+                            data["port"] = roomServer.PORT;
+                            data["error"] = null;
+                        }
+                        connection.Close();
+                        oReader.Close();
+                    }
+                }
+                catch (SqlException e)
+                {
+                    data["req"] = 0;
+                    data["error"] = e.Message;
+                    Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
+                }
+            sendDictionary(stream, data); 
+            return roomServer;
         }
     }
 }
