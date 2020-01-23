@@ -37,36 +37,46 @@ namespace Server
     }
     public class Room
     {
-        
+
         public int port { get; internal set; }
         public Rules rules;
 
         public List<User> users { get; set; }
+        public User GurrentYUser { get; set; }
+
         private const int bufSize = 8 * 1024;
         private AsyncCallback recv = null;
         private State state = new State();
-
+        public User CurrentUser {get;set;}
         TcpClient tcpClient;
         NetworkStream stream;
         public class State
         {
             public byte[] buffer = new byte[bufSize];
         }
-        public Room(string address,int port)
+        public Room(string address,int port,User us)
         {
+            CurrentUser = us;
             this.port = port;
             try
             {
-                tcpClient = new TcpClient(address, this.port);
-                stream = tcpClient.GetStream();
-                new Thread(listner).Start();
-                
+                while (true)
+                {
+                    if (CurrentUser != null)
+                    {
+                        tcpClient = new TcpClient(address, this.port);
+                        stream = tcpClient.GetStream();
+
+                        new Thread(listner).Start();
+                        new Thread(Logic).Start();
+                        break;
+                    }
+                }
             }
-            catch(SocketException e)
+            catch (SocketException e)
             {
                 Debug.LogError(e.Message + "\n" + e.StackTrace);
             }
-            //new Thread(Logic).Start();
         }
         void listner()
         {
@@ -89,12 +99,13 @@ namespace Server
                                     (int)obj["rs"],
                                     (int)obj["ms"],
                                     (int)obj["timer"]);
-                                    Debug.Log("Set new Rules for " + port);
+                                    Debug.Log("Set new Rules");
                                 }
                                 break;
                             case CtServer.TYPE_update_users:
                                 {
                                     UpdateUsersFromDictionaryArray((Dictionary<string, object>[])obj["users"]);
+                                    Debug.Log("Set new user pack");
                                 }
                                 break;
                         }
@@ -123,8 +134,44 @@ namespace Server
         }
         void Logic()
         {
-            
-            //new Thread(sTimer).Start(30);
+            JoinRoom();
+            Thread.Sleep(300);
+            GetNewRules();
+            GetNewUsers();
+        }
+        void JoinRoom()
+        {
+            var data = new Dictionary<string, object>();
+            data["type"] = CtServer.TYPE_i_newUser;
+            data["name"] = CurrentUser.name;
+            data["uid"] = CurrentUser.uId;
+            data["group"] = CurrentUser.group;
+            data["health"] = CurrentUser.Health;
+            data["solderclass"] = CurrentUser.SolderClass;
+
+            sendPack(data);
+        }
+        void GetNewRules()
+        {
+            var data = new Dictionary<string, object>();
+            data["type"] = CtServer.TYPE_i_wanna_info;
+
+        }
+        void GetNewUsers()
+        {
+            var data = new Dictionary<string, object>();
+            data["type"] = CtServer.TYPE_i_wanna_users;
+
+            sendPack(data);
+        }
+        void sendPack(Dictionary<string, object> valuePairs)
+        {
+            using (var mStream = new MemoryStream())
+            {
+                CtServer.binFormatter.Serialize(mStream, valuePairs);
+                stream.Write(mStream.ToArray(), 0, mStream.ToArray().Length);
+                mStream.Close();
+            }
         }
         void sTimer(object st)
         {
@@ -153,6 +200,6 @@ namespace Server
                 }
             }
         }
-      
+        
     }
 }

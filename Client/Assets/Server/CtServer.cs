@@ -26,6 +26,13 @@ namespace Server
         public const int TYPE_update_rules = 7;
         public const int TYPE_update_users = 8;
 
+        public const int TYPE_i_wanna_info = 9;
+        public const int TYPE_i_wanna_users = 11;
+        public const int TYPE_i_newUser = 12;
+
+
+
+
         const int BUFFFER_SIZE = 8 * 1024;
         TcpClient tcpClient;
         NetworkStream stream;
@@ -155,12 +162,12 @@ namespace Server
             sendDictionary(data);
 
         }
-        public Room CreateRoom(string uid)
+        public Room CreateRoom(User us)
         {
-            if (uid == null) return null; 
+            if (us.uId == null) return null; 
             var data = new Dictionary<string, object>();
             data["type"] = TYPE_CreateRoomS;
-            data["uid"] = uid;
+            data["uid"] = us.uId;
 
             sendDictionary(data);
             while (true)
@@ -188,7 +195,7 @@ namespace Server
                     if ((int)obj["req"] == 1)
                     {
                         Debug.Log($"Connect to: {host} : {(int)obj["port"]}");
-                        return new Room(host, (int)obj["port"]); ;
+                        return new Room(host, (int)obj["port"], us); ;
                     }
                     else return null;
                 }      

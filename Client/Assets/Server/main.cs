@@ -59,7 +59,7 @@ namespace Server
         {
             if (user != null)
             {
-                room = server.CreateRoom(user.uId);
+                room = server.CreateRoom(user);
                 if (room != null)
                     text.text += $"\nCreate Room on port: {room.port}";  
             }

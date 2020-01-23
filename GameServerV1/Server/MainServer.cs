@@ -27,7 +27,12 @@ namespace GameServerV1.Server
         TYPE_CreateRoomR = 6,
 
         TYPE_update_rules = 7,
-        TYPE_update_users = 8
+        TYPE_update_users = 8,
+
+        TYPE_i_wanna_info = 9,
+        TYPE_i_wanna_users = 11,
+        TYPE_i_newUser = 12
+
     }
     
     public class MainServer
@@ -46,13 +51,12 @@ namespace GameServerV1.Server
         private static TcpListener listener;
         private List<TcpClient> clients = new List<TcpClient>();
         private List<RoomServer> rooms = new List<RoomServer>();
-        private static BinaryFormatter binFormatter;
+        private static BinaryFormatter binFormatter = new BinaryFormatter();
         public float IsTimer { internal get; set; } = 60; 
         public static bool _status { get; set; }
         public MainServer()
         {
             listener = new TcpListener(IPAddress.Any, PORT);
-            binFormatter = new BinaryFormatter();
             listener.Start();
             Console.WriteLine("Listening...");
             _status = true;
@@ -135,7 +139,7 @@ namespace GameServerV1.Server
                                 return;
                             case Types.TYPE_CreateRoomS:
                                 {
-                                    CreateNewRoom(stream,IPAddress.Any,++portroomnow,myObject);
+                                    CreateNewRoom(stream,IPAddress.Any,myObject);
                                 }
                                 break;
                             case Types.TYPE_NonPack:
@@ -343,41 +347,64 @@ namespace GameServerV1.Server
                 }
             return null;
         }
-
-        RoomServer CreateNewRoom(NetworkStream? stream,IPAddress address, int port, Dictionary<string, object> myObject)
+        RoomServer FindActiveRoom()
         {
-            RoomServer roomServer=null;
+            foreach(RoomServer room in rooms)
+            {
+                Rules rules = room.Rules;
+                if (rules.Alive == 1 & (rules.BlueUser + rules.RedUser) > room.Users.Count)
+                    return room;
+                
+            }return null;
+        }
+        void CreateNewRoom(NetworkStream? stream, IPAddress address, Dictionary<string, object> myObject)
+        {
+           
             var data = new Dictionary<string, object>();
             data["type"] = (int)Types.TYPE_CreateRoomR;
-            using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
-                try
-                {
-                    string oString = $"Select * from users where uid='{myObject["uid"]}'";
-                    SqlCommand oCmd = new SqlCommand(oString, connection);
-                    connection.Open();
-                    using (SqlDataReader oReader = oCmd.ExecuteReader())
+            RoomServer roomServer = FindActiveRoom();
+            if (roomServer == null)
+            {
+                using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
+                    try
                     {
-                        while (oReader.Read())
+                        string oString = $"Select * from users where uid='{myObject["uid"]}'";
+                        SqlCommand oCmd = new SqlCommand(oString, connection);
+                        connection.Open();
+                        using (SqlDataReader oReader = oCmd.ExecuteReader())
                         {
-                            roomServer = new RoomServer(address, port);
-                            roomServer.Rules = new Rules(RedScore: 1);
+                            while (oReader.Read())
+                            {
 
-                            data["req"] = 1;
-                            data["port"] = roomServer.PORT;
-                            data["error"] = null;
+                                roomServer = new RoomServer(address, ++portroomnow)
+                                {
+                                    Rules = new Rules(RedScore: 1)
+                                };
+                                Console.WriteLine($"Create new room{roomServer.PORT}");
+                                rooms.Add(roomServer);
+                                data["req"] = 1;
+                                data["port"] = roomServer.PORT;
+                                data["error"] = null;
+                            }
+                            connection.Close();
+                            oReader.Close();
                         }
-                        connection.Close();
-                        oReader.Close();
                     }
-                }
-                catch (SqlException e)
-                {
-                    data["req"] = 0;
-                    data["error"] = e.Message;
-                    Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
-                }
-            sendDictionary(stream, data); 
-            return roomServer;
+                    catch (SqlException e)
+                    {
+                        data["req"] = 0;
+                        data["error"] = e.Message;
+                        Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
+                    }
+            }
+            else
+            {
+                Console.WriteLine($"Create new.. no we have free room {roomServer.PORT}");
+                data["req"] = 1;
+                data["port"] = roomServer.PORT;
+                data["error"] = null;
+            }
+            sendDictionary(stream, data);
         }
     }
 }
