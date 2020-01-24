@@ -1,5 +1,5 @@
 
-# [Server](Server/MainServer.cs)
+# [Server](Server)
 **Types on MainServer/Client**
 
 | Type | Value | Description |
