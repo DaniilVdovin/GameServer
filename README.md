@@ -26,7 +26,23 @@ I will do the documentation later
 | `TYPE_i_wanna_users` | `11`|Send pack to get info All Users in room  |
 | `TYPE_i_newUser` | `12`| Send pack with User Info |
 
-## [`class MainServer`](GameServerV1/Server/MainServer.cs#L<38>)
+## [class MainServer](GameServerV1/Server/MainServer.cs#L<38>)
+### Loigic Class
+MainServer - This class is responsible for new customers and carries out their registration / login and lets them into the room or creates it.
+
+```
+  -user connect by Tcp
+  -user AcceptTcpClient
+    -new Thread()
+      -user send request on Login/SingUp
+        -user send request on Join/Create Room
+          -new Thread()
+            -Create new RoomServer on Next Active port 
+      
+```
+
+### API Documentation
+
 **Public Parametrs**
 
 | Type | Name | Description | Default Value |
