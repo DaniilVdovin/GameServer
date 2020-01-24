@@ -1,14 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace Server
 {
     public class main : MonoBehaviour
     {
         public Text text;
-        public InputField em, pas;
-        public string Email = "email@mail.com",
+        public InputField em, pas,ipi;
+        public string ip = "192.168.1.2",
+                      Email = "email@mail.com",
                       Name = "thisname",
                       Password = "parol",
                       lang = "ru";
@@ -17,13 +20,21 @@ namespace Server
         Room room;
         void Start()
         {
-            server = new CtServer("192.168.1.2", 9000);
-            text.text += "\nServer Connect";
-            em.text = Email;
-            pas.text = Password;
-
+            server = new CtServer(ip, 9000);
+            try
+            {
+                text.text += "\nServer Connect";
+                em.text = Email;
+                pas.text = Password;
+            }
+            catch(Exception e)
+            {
+                Debug.LogError(e.Message + "\n" + e.StackTrace);
+                Application.Quit();
+            }
+            server.Logout("0");
             //StartCoroutine(test());
-        }
+        }/*
         public IEnumerator test()
         {
             for(int i = 0; i < 1000; i++)
@@ -67,6 +78,6 @@ namespace Server
         private void OnDestroy()
         {
             server.Logout(user.uId);
-        }
+        }*/
     }
 }

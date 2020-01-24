@@ -45,7 +45,6 @@ namespace Server
         public User GurrentYUser { get; set; }
 
         private const int bufSize = 8 * 1024;
-        private AsyncCallback recv = null;
         private State state = new State();
         public User CurrentUser {get;set;}
         TcpClient tcpClient;
@@ -141,13 +140,15 @@ namespace Server
         }
         void JoinRoom()
         {
-            var data = new Dictionary<string, object>();
-            data["type"] = CtServer.TYPE_i_newUser;
-            data["name"] = CurrentUser.name;
-            data["uid"] = CurrentUser.uId;
-            data["group"] = CurrentUser.group;
-            data["health"] = CurrentUser.Health;
-            data["solderclass"] = CurrentUser.SolderClass;
+            var data = new Dictionary<string, object>
+            {
+                ["type"] = CtServer.TYPE_i_newUser,
+                ["name"] = CurrentUser.name,
+                ["uid"] = CurrentUser.uId,
+                ["group"] = CurrentUser.group,
+                ["health"] = CurrentUser.Health,
+                ["solderclass"] = CurrentUser.SolderClass
+            };
 
             sendPack(data);
         }
@@ -196,7 +197,7 @@ namespace Server
                 if (bytes != 0)
                 {
                     Debug.Log($"Pack size: {bytes} byte");
-                    return CtServer.ByteToDictionary(so.buffer, bytes);
+                  //  return CtServer.ByteToDictionary(so.buffer, bytes);
                 }
             }
         }

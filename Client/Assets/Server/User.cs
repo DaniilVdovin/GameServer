@@ -51,5 +51,6 @@ namespace Server
         {
             this.group = group;
         }
+        
     }
 }

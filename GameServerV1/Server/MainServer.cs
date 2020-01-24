@@ -8,7 +8,8 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace GameServerV1.Server
 {
     public enum Types
@@ -70,7 +71,6 @@ namespace GameServerV1.Server
                         Thread temp = new Thread(Channel);
                         temp.Start(client);
                     }
-
                 }
                 catch (Exception e)
                 {
@@ -87,7 +87,8 @@ namespace GameServerV1.Server
                 listener.Stop();
             }
         }
-
+         
+     
         private void Channel(object obj)
         {
 
@@ -116,8 +117,11 @@ namespace GameServerV1.Server
                     }
                     if (PackSize > 0)
                     {
-                        var myObject = ByteToDictionary(readingData, PackSize);
+
+                        Dictionary<string, string> myObject = ByteToDictionary(readingData, PackSize);
+                        
                         Console.WriteLine($"Type: {myObject["type"]}");
+                        /*
                         switch ((Types)myObject["type"])
                         {
                             case Types.TYPE_LogInS:
@@ -150,7 +154,7 @@ namespace GameServerV1.Server
                                     closeConnect(Client);
                                 }
                                 return;
-                        }
+                        }*/
                         
                     }
                     Thread.Sleep(300);
@@ -314,7 +318,7 @@ namespace GameServerV1.Server
                 mStream.Close();
             }
         }
-        Dictionary<string, object> ByteToDictionary(byte[] readingData, int PackSize)
+        Dictionary<string, string>  ByteToDictionary(byte[] readingData, int PackSize)
         {
             using (var mStream = new MemoryStream())
                 try
@@ -324,15 +328,15 @@ namespace GameServerV1.Server
                         mStream.Write(readingData, 0, PackSize);
                         mStream.Position = 0;
 
-                        return binFormatter.Deserialize(mStream) as Dictionary<string, object>;
+                        return binFormatter.Deserialize(mStream) as Dictionary<string, string> ;
                     }
                 }
                 catch (SerializationException e)
                 {
                     if (PackSize > 0)
                     {
-                        var data = new Dictionary<string, object>();
-                        data["type"] = (int)Types.TYPE_NonPack;
+                        var data = new Dictionary<string, string>();
+                        data["type"] = "TYPE_NonPack";
                         try
                         {
                             data["data"] = Encoding.ASCII.GetString(readingData, 0, PackSize);

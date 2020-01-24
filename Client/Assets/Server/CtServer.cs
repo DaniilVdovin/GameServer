@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,7 @@ using System.Threading;
 using UnityEngine;
 namespace Server
 {
+    
     public class CtServer
     {
         public const int TYPE_SingUpS = 1;
@@ -44,21 +46,24 @@ namespace Server
             tcpClient = new TcpClient(this.host, port);
             stream = tcpClient.GetStream();
         }
-        void sendDictionary(Dictionary<string, object> valuePairs)
+
+        void sendDictionary(Dictionary<string, string> valuePairs)
         {
             using (var mStream = new MemoryStream())
             {
                 binFormatter.Serialize(mStream, valuePairs);
+                mStream.Position = 0;
                 stream.Write(mStream.ToArray(), 0, mStream.ToArray().Length);
                 mStream.Close();
             }
         }
-        void sendString(string msg)
+        public void sendString(string msg)
         {
             byte[] data = Encoding.ASCII.GetBytes(msg);
             stream.Write(data, 0, data.Length);
         }
-        public static Dictionary<string, object> ByteToDictionary(byte[] readingData, int PackSize)
+        
+        public static Dictionary<string, string> ByteToDictionary(byte[] readingData, int PackSize)
         {
             using (var mStream = new MemoryStream())
                 try
@@ -68,7 +73,7 @@ namespace Server
                         mStream.Write(readingData, 0, PackSize);
                         mStream.Position = 0;
 
-                        return binFormatter.Deserialize(mStream) as Dictionary<string, object>;
+                        return binFormatter.Deserialize(mStream) as Dictionary<string, string>;
                     }
                 }
                 catch (Exception e)
@@ -77,130 +82,131 @@ namespace Server
                 }
             return null;
         }
-        public User SingUp(string name, string email, string password, string leng)
-        {
+        
+        //public User SingUp(string name, string email, string password, string leng)
+        //{
 
-            var data = new Dictionary<string, object>();
-            data["type"] = TYPE_SingUpS;
-            data["name"] = name;
-            data["email"] = email;
-            data["pass"] = password;
-            data["leng"] = leng;
-            sendDictionary(data);
-            while (true)
-            {
-                byte[] rdata = new byte[BUFFFER_SIZE];
-                int csize = 0;
-                do
-                {
-                    csize = stream.Read(rdata, 0, rdata.Length);
+        //    var data = new Dictionary<string, string>();
+        //    data["type"] = TYPE_SingUpS;
+        //    data["name"] = name;
+        //    data["email"] = email;
+        //    data["pass"] = password;
+        //    data["leng"] = leng;
+        //    sendDictionary(data);
+        //    while (true)
+        //    {
+        //        byte[] rdata = new byte[BUFFFER_SIZE];
+        //        int csize = 0;
+        //        do
+        //        {
+        //            csize = stream.Read(rdata, 0, rdata.Length);
 
-                } while (stream.DataAvailable);
-                var obj = ByteToDictionary(rdata, csize);
-                /*
-                 * [Sing Up Pack]
-                 * type  - 0xFB
-                 * req  -  0 or 1 
-                 * error - info
-                 * 
-                 */
-                if ((int)obj["type"] == TYPE_SingUpR)
-                {
-                    if ((string)obj["error"] != null)
-                        Debug.LogError($"Error :{obj["error"]}");
+        //        } while (stream.DataAvailable);
+        //        var obj = ByteToDictionary(rdata, csize);
+        //        /*
+        //         * [Sing Up Pack]
+        //         * type  - 0xFB
+        //         * req  -  0 or 1 
+        //         * error - info
+        //         * 
+        //         */
+        //        if ((int)obj["type"] == TYPE_SingUpR)
+        //        {
+        //            if ((string)obj["error"] != null)
+        //                Debug.LogError($"Error :{obj["error"]}");
 
-                    if ((int)obj["req"] == 1)
-                    {
-                        return new User((string)obj["name"], (string)obj["uid"]);
-                    }
-                }
-            }
+        //            if ((int)obj["req"] == 1)
+        //            {
+        //                return new User((string)obj["name"], (string)obj["uid"]);
+        //            }
+        //        }
+        //    }
 
-        }
-        public User LogIn(string email, string password)
-        {
-            var data = new Dictionary<string, object>();
-            data["type"] = TYPE_LogInS;
-            data["email"] = email;
-            data["pass"] = password;
+        //}
+        //public User LogIn(string email, string password)
+        //{
+        //    var data = new Dictionary<string, string>();
+        //    data["type"] = TYPE_LogInS;
+        //    data["email"] = email;
+        //    data["pass"] = password;
 
-            sendDictionary(data);
-            while (true)
-            {
-                byte[] rdata = new byte[BUFFFER_SIZE];
-                int csize = 0;
-                do
-                {
-                    csize = stream.Read(rdata, 0, rdata.Length);
-                } while (stream.DataAvailable);
-                var obj = ByteToDictionary(rdata, csize);
-                /*
-                 * [Log in Pack]
-                 * type  - 0xAF
-                 * req  -  0 or 1 
-                 * error - info
-                 * 
-                 * uid - id
-                 * name - name
-                 *
-                 */
-                if ((int)obj["type"] == TYPE_LogInR)
-                {
-                    if ((string)obj["error"] != null)
-                        Debug.LogError($"Error :{obj["error"]}");
-                    if ((int)obj["req"] == 1)
-                        return new User((string)obj["name"], (string)obj["uid"]);
-                }
-            }
-        }
+        //    sendDictionary(data);
+        //    while (true)
+        //    {
+        //        byte[] rdata = new byte[BUFFFER_SIZE];
+        //        int csize = 0;
+        //        do
+        //        {
+        //            csize = stream.Read(rdata, 0, rdata.Length);
+        //        } while (stream.DataAvailable);
+        //        var obj = ByteToDictionary(rdata, csize);
+        //        /*
+        //         * [Log in Pack]
+        //         * type  - 0xAF
+        //         * req  -  0 or 1 
+        //         * error - info
+        //         * 
+        //         * uid - id
+        //         * name - name
+        //         *
+        //         */
+        //        if ((int)obj["type"] == TYPE_LogInR)
+        //        {
+        //            if ((string)obj["error"] != null)
+        //                Debug.LogError($"Error :{obj["error"]}");
+        //            if ((int)obj["req"] == 1)
+        //                return new User((string)obj["name"], (string)obj["uid"]);
+        //        }
+        //    }
+        //}
+        
         public void Logout(string uid)
         {
-            var data = new Dictionary<string, object>();
-            data["type"] = TYPE_LogOut;
+            var data = new Dictionary<string, string>();
+            data["type"] = "TYPE_LogOut";
             data["uid"] = uid;
 
             sendDictionary(data);
 
         }
-        public Room CreateRoom(User us)
-        {
-            if (us.uId == null) return null; 
-            var data = new Dictionary<string, object>();
-            data["type"] = TYPE_CreateRoomS;
-            data["uid"] = us.uId;
+        //public Room CreateRoom(User us)
+        //{
+        //    if (us.uId == null) return null; 
+        //    var data = new Dictionary<string, string>();
+        //    data["type"] = TYPE_CreateRoomS;
+        //    data["uid"] = us.uId;
 
-            sendDictionary(data);
-            while (true)
-            {
-                byte[] rdata = new byte[BUFFFER_SIZE];
-                int csize = 0;
-                do
-                {
-                    csize = stream.Read(rdata, 0, rdata.Length);
-                } while (stream.DataAvailable);
-                var obj = ByteToDictionary(rdata, csize);
-                /*
-                 * [Log in Pack]
-                 * type  - 0xAF
-                 * req  -  0 or 1 
-                 * error - info
-                 * 
-                 * uid - id
-                 * name - name
-                 *
-                 */
-                if ((int)obj["type"] == TYPE_CreateRoomR)
-                {
-                    if ((string)obj["error"] != null)Debug.LogError($"Error :{obj["error"]}");
-                    if ((int)obj["req"] == 1)
-                    {
-                        Debug.Log($"Connect to: {host} : {(int)obj["port"]}");
-                        return new Room(host, (int)obj["port"], us); ;
-                    }
-                    else return null;
-                }      
-            }
-            return null;
-        }
+        //    sendDictionary(data);
+        //    while (true)
+        //    {
+        //        byte[] rdata = new byte[BUFFFER_SIZE];
+        //        int csize = 0;
+        //        do
+        //        {
+        //            csize = stream.Read(rdata, 0, rdata.Length);
+        //        } while (stream.DataAvailable);
+        //        var obj = ByteToDictionary(rdata, csize);
+        //        /*
+        //         * [Log in Pack]
+        //         * type  - 0xAF
+        //         * req  -  0 or 1 
+        //         * error - info
+        //         * 
+        //         * uid - id
+        //         * name - name
+        //         *
+        //         */
+        //        if ((int)obj["type"] == TYPE_CreateRoomR)
+        //        {
+        //            if ((string)obj["error"] != null)Debug.LogError($"Error :{obj["error"]}");
+        //            if ((int)obj["req"] == 1)
+        //            {
+        //                Debug.Log($"Connect to: {host} : {(int)obj["port"]}");
+        //                return new Room(host, (int)obj["port"], us); ;
+        //            }
+        //            else return null;
+        //        }      
+        //    }
+        //}
     }
 }
