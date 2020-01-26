@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace GameServerV1.Server
 {
@@ -87,7 +88,7 @@ namespace GameServerV1.Server
                     {
                         var obj = Udpate(stream);
                         if (obj != null)
-                            switch ((Types)obj["type"])
+                            switch ((Types)Convert.ToInt32(obj["type"]))
                             {
                                 case Types.TYPE_i_newUser:
                                     {
@@ -100,12 +101,12 @@ namespace GameServerV1.Server
                                     break;
                                 case Types.TYPE_i_wanna_info:
                                     {
-                                        Send(stream, FromDictionary(getRules()),currentuser.name);
+                                        Send(stream, ConvertDictionaryToByteHard(getRules()),currentuser.name);
                                     }
                                     break;
                                 case Types.TYPE_i_wanna_users:
                                     {
-                                        Send(stream, FromDictionary(getAllUserData()),currentuser.name);
+                                        Send(stream, ConvertDictionaryToByteHard(getAllUserData()),currentuser.name);
                                     }
                                     break;
                             }
@@ -122,7 +123,7 @@ namespace GameServerV1.Server
                 int bytes = stream.Read(so.buffer, 0, so.buffer.Length);
                 if (bytes != 0)
                 {
-                    return ByteToDictionary(so.buffer, bytes);
+                    return StringJsonToDictionary(so.buffer, bytes);
                 }
             }
         }
@@ -135,15 +136,15 @@ namespace GameServerV1.Server
             else
                 currentuser.group = 0;
 
-            if ((int)obj["group"] == 0) Rules.BlueUser++;
-            else if ((int)obj["group"] == 1) Rules.RedUser++;
+            if ((int)Convert.ToInt32(obj["group"]) == 0) Rules.BlueUser++;
+            else if ((int)Convert.ToInt32(obj["group"]) == 1) Rules.RedUser++;
 
 
-            currentuser.Health = (int)obj["health"];
-            currentuser.SolderClass = (int)obj["solderclass"];
+            currentuser.Health = (int)Convert.ToInt32(obj["health"]);
+            currentuser.SolderClass = (int)Convert.ToInt32(obj["solderclass"]);
 
             Console.WriteLine($"Room {PORT} new User {currentuser.name}:{currentuser.uId}" +
-                $"\nUser Wanna play in {(int)obj["group"]} group but w`ll be play in {currentuser.group}");
+                $"\nUser Wanna play in {obj["group"]} group but w`ll be play in {currentuser.group}");
             return currentuser;
         }
         Dictionary<string, object> getRules()
@@ -167,7 +168,8 @@ namespace GameServerV1.Server
         {
             var users = new Dictionary<string, object>();
             users["type"] = (int)Types.TYPE_update_users;
-            users["users"] = getListUser();   
+            users["users"] = (string)getListUser();
+            Console.WriteLine("user pack: " + users["users"]);
             return users;
         }
         byte[] FromDictionary(Dictionary<string, object> valuePairs)
@@ -220,22 +222,66 @@ namespace GameServerV1.Server
                      bytes, Encoding.ASCII.GetString(so.buffer, 0, bytes), PORT);
             }, state);
         }
-        public Dictionary<string, object>[] getListUser()
+        public string getListUser()
         {
-            var list = new List<Dictionary<string, object>>();
+            string list = "[";
             foreach(User u in Users)
             {
-                var user = new Dictionary<string, object>();
-                user["name"] = u.name;
-                user["uid"] = u.uId;
-                user["solderclass"] = u.SolderClass;
-                user["group"] = u.group;
-                user["health"] = u.Health;
-                user["pos"] = new float[] { u.position.x,u.position.y,u.position.z };
-                user["rot"] = new float[] { u.rotation.x, u.rotation.y };
-                list.Add(user);
+                string user = $"" +
+                    $"'name':'{u.name}'#" +
+                    $"'uid':'{u.uId}'#" +
+                    $"'solderclass':{u.SolderClass}#" +
+                    $"'group':{u.group}#" +
+                    $"'health':{u.Health}#" +
+                    $"'px':{u.position.x}#" +
+                    $"'py':{u.position.y}#" +
+                    $"'pz':{u.position.z}#" +
+
+                    $"'rx':{u.rotation.x}#" +
+                    $"'ry':{u.rotation.y}*";
+                /* 
+                 user["name"] = ;
+                 user["uid"] = ;
+                 user["solderclass"] = ;
+                 user["group"] = u.group;
+                 user["health"] = u.Health;
+                 user["pos"] = new float[] { u.position.x,u.position.y,u.position.z };
+                 user["rot"] = new float[] { u.rotation.x, u.rotation.y };
+                 */
+                list +=user;
             }
-            return list.ToArray();
+            return list[0..^1] + "]";
+        }
+        Dictionary<string, object> StringJsonToDictionary(byte[] data, int size)
+        {
+            Dictionary<string, object> temp = new Dictionary<string, object>();
+            try
+            {
+                string json = Encoding.UTF8.GetString(data, 0, size);
+                Console.WriteLine($"I have: {json}");
+                temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                return temp;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error in StrJsonToDict: {e.Message}\n{e.StackTrace}");
+                return null;
+            }
+        }
+        byte[] ConvertDictionaryToByteHard(Dictionary<string, object> valuePairs)
+        {
+            string temp = @"{";
+
+            foreach (KeyValuePair<string, object> obj in valuePairs)
+            {
+                if (obj.Value is int)
+                    temp += $@"'{obj.Key}':{(Int32)obj.Value},";
+                if (obj.Value is string)
+                    temp += $@"'{obj.Key}':'{(string)obj.Value}',";
+            }
+            Console.WriteLine("Pack send: " + temp);
+            return Encoding.UTF8.GetBytes(temp[0..^1] + "}");
+
         }
     }
 }

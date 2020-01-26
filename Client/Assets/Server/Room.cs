@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Threading;
 using UnityEngine;
 namespace Server
@@ -42,7 +43,6 @@ namespace Server
         public Rules rules;
 
         public List<User> users { get; set; }
-        public User GurrentYUser { get; set; }
 
         private const int bufSize = 8 * 1024;
         private State state = new State();
@@ -86,9 +86,9 @@ namespace Server
                     var obj = Udpate();
                     if (obj != null)
                     {
-                        switch ((int)obj["type"])
+                        switch ((Types)Convert.ToInt32(obj["type"]))
                         {
-                            case CtServer.TYPE_update_rules:
+                            case Types.TYPE_update_rules:
                                 {
                                     rules = new Rules(
                                     (int)obj["alive"],
@@ -101,9 +101,9 @@ namespace Server
                                     Debug.Log("Set new Rules");
                                 }
                                 break;
-                            case CtServer.TYPE_update_users:
+                            case Types.TYPE_update_users:
                                 {
-                                    UpdateUsersFromDictionaryArray((Dictionary<string, object>[])obj["users"]);
+                                    UpdateUsersFromDictionaryArray((string)obj["users"]);
                                     Debug.Log("Set new user pack");
                                 }
                                 break;
@@ -112,10 +112,10 @@ namespace Server
                 }
             }
         }
-        void UpdateUsersFromDictionaryArray(Dictionary<string, object>[] value)
+        void UpdateUsersFromDictionaryArray(string data)
             {
             List<User> temp = new List<User>();
-            foreach (Dictionary<string, object> data in value)
+            /*foreach (Dictionary<string, object> data in value)
             {
                 User user = new User((string)data["name"], (string)data["uid"]);
                 user.group = (int)data["group"];
@@ -127,22 +127,43 @@ namespace Server
                 user.rotation = new Vector2(rot[0], rot[1]);
                 temp.Add(user);
             }
-            
+            */
+           
+            var t = data.Replace("'[", "").Replace("]'", "");
+            string[] d;
+            if (t.Contains("*")) d = t.Split('*');
+            else d = new string[] {t};
+
+            Debug.Log($"User Pack: {d[0]}");
+            foreach (object us in d)
+                if (us != null)
+                {
+                    var tl = us.ToString().Split('#');
+                    User user = new User((string)tl[0].Split(':')[1], (string)tl[1].Split(':')[1]);
+                    user.SolderClass = int.Parse(tl[2].Split(':')[1]);
+                    user.group = int.Parse(tl[3].Split(':')[1]);
+                    user.Health = int.Parse(tl[4].Split(':')[1]);
+                    user.position = new Vector3(
+                        int.Parse(tl[5].Split(':')[1]),
+                        int.Parse(tl[6].Split(':')[1]),
+                        int.Parse(tl[7].Split(':')[1]));
+                    user.rotation = new Vector2(
+                        int.Parse(tl[8].Split(':')[1]),
+                        int.Parse(tl[9].Split(':')[1]));
+                    temp.Add(user);
+                }
             users = temp;
             temp.Clear();
         }
         void Logic()
         {
             JoinRoom();
-            Thread.Sleep(300);
-            GetNewRules();
-            GetNewUsers();
         }
-        void JoinRoom()
+        private void JoinRoom()
         {
             var data = new Dictionary<string, object>
             {
-                ["type"] = CtServer.TYPE_i_newUser,
+                ["type"] = (int)Types.TYPE_i_newUser,
                 ["name"] = CurrentUser.name,
                 ["uid"] = CurrentUser.uId,
                 ["group"] = CurrentUser.group,
@@ -152,27 +173,25 @@ namespace Server
 
             sendPack(data);
         }
-        void GetNewRules()
+        public void GetNewRules()
         {
             var data = new Dictionary<string, object>();
-            data["type"] = CtServer.TYPE_i_wanna_info;
-
+            data["type"] = (int)Types.TYPE_i_wanna_info;
+            sendPack(data);
         }
-        void GetNewUsers()
+        public void GetNewUsers()
         {
             var data = new Dictionary<string, object>();
-            data["type"] = CtServer.TYPE_i_wanna_users;
-
+            data["type"] = (int)Types.TYPE_i_wanna_users;
             sendPack(data);
         }
         void sendPack(Dictionary<string, object> valuePairs)
         {
-            using (var mStream = new MemoryStream())
-            {
-                CtServer.binFormatter.Serialize(mStream, valuePairs);
-                stream.Write(mStream.ToArray(), 0, mStream.ToArray().Length);
-                mStream.Close();
-            }
+            //string json = JsonUtility.ToJson(valuePairs);
+            string json = CtServer.ConvertDictionaryToJsonHard(valuePairs);
+            Debug.Log(json);
+            byte[] data = Encoding.UTF8.GetBytes(json);
+            stream.Write(data, 0, data.Length);
         }
         void sTimer(object st)
         {
@@ -197,7 +216,7 @@ namespace Server
                 if (bytes != 0)
                 {
                     Debug.Log($"Pack size: {bytes} byte");
-                  //  return CtServer.ByteToDictionary(so.buffer, bytes);
+                    return CtServer.ByteJsonToDictionaryHard(so.buffer, bytes);
                 }
             }
         }
