@@ -47,12 +47,6 @@ namespace Server
             }
             text += $"\nPing to {ip} : {p.time}";
         }
-
-        private void Server_OnPingDone(object sender, string e)
-        {
-            text += $"Ping: {e}";
-        }
-
         private void FixedUpdate()
         {
             textUI.text = text; 

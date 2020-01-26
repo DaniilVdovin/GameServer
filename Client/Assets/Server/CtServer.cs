@@ -42,6 +42,7 @@ namespace Server
         public event EventHandler OnChangeUser;
         public event EventHandler OnNewRoom;
         public event EventHandler<string> OnError;
+
         public void ChangeUser()
         {
             OnChangeUser?.Invoke(this, EventArgs.Empty);

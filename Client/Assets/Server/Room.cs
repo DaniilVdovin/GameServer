@@ -34,6 +34,7 @@ namespace Server
             this.RedScore = RedScore;
 
             this.MatchState = MatchState;
+            this.timer = timer;
         }
     }
     public class Room
