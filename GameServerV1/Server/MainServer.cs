@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace GameServerV1.Server
 {
@@ -15,11 +16,11 @@ namespace GameServerV1.Server
     {
         TYPE_NonPack = 0,
 
-        TYPE_SingUpS = 1,
-        TYPE_SingUpR = 2,
+        TYPE_SingUp = 1,
+        TYPE_LogIn = 3,
 
-        TYPE_LogInS = 3,
-        TYPE_LogInR = 4,
+        TYPE_Get_User = 4,
+
 
         TYPE_LogOut = 10,
 
@@ -70,7 +71,6 @@ namespace GameServerV1.Server
                         Thread temp = new Thread(Channel);
                         temp.Start(client);
                     }
-
                 }
                 catch (Exception e)
                 {
@@ -87,7 +87,6 @@ namespace GameServerV1.Server
                 listener.Stop();
             }
         }
-
         private void Channel(object obj)
         {
 
@@ -116,42 +115,45 @@ namespace GameServerV1.Server
                     }
                     if (PackSize > 0)
                     {
-                        var myObject = ByteToDictionary(readingData, PackSize);
+
+                        //Dictionary<string, object> myObject = ByteToDictionary(readingData, PackSize); 
+                        Dictionary<string, object> myObject = StringJsonToDictionary(readingData, PackSize); 
+                        
                         Console.WriteLine($"Type: {myObject["type"]}");
-                        switch ((Types)myObject["type"])
+                        switch ((Types)Convert.ToInt32(myObject["type"]))
                         {
-                            case Types.TYPE_LogInS:
+                            case Types.TYPE_LogIn:
                                 {
-                                   user = LogIn(null,stream,myObject);
+                                    user = LogIn(null, stream, myObject);
                                 }
                                 break;
-                            case Types.TYPE_SingUpS:
+                            case Types.TYPE_SingUp:
                                 {
-                                   user = SingUp(stream, myObject);
+                                    user = SingUp(stream, myObject);
                                 }
                                 break;
                             case Types.TYPE_LogOut:
                                 {
-                                    setUserStatys(myObject["uid"].ToString(), 0);
+                                    setUserStatys(user.uId, 0);
                                     user = null;
                                     closeConnect(Client);
                                 }
                                 return;
                             case Types.TYPE_CreateRoomS:
                                 {
-                                    CreateNewRoom(stream,IPAddress.Any,myObject);
+                                    CreateNewRoom(stream, IPAddress.Any, user);
                                 }
                                 break;
                             case Types.TYPE_NonPack:
                                 {
-                                    Console.WriteLine("Non Dictionary Data: " + myObject["data"].ToString().Substring(0,10));
+                                    Console.WriteLine("Non Dictionary Data: " + myObject["data"].ToString().Substring(0, 10));
                                     byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r<html><h1 style='display: flex; justify-content: center;'>404</h1></html>");
                                     stream.Write(data, 0, data.Length);
                                     closeConnect(Client);
                                 }
                                 return;
                         }
-                        
+
                     }
                     Thread.Sleep(300);
                     timer -= 0.3f;
@@ -172,7 +174,7 @@ namespace GameServerV1.Server
         User SingUp(NetworkStream? stream, Dictionary<string, object>? myObject)
         {
             var data = new Dictionary<string, object>();
-            data["type"] = (int)Types.TYPE_SingUpR;
+            data["type"] = (int)Types.TYPE_Get_User;
             using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
                 try
                 {
@@ -208,8 +210,8 @@ namespace GameServerV1.Server
                     command.Dispose();
                     data["uid"] = g;
                     data["req"] = 1;
-                    data["error"] = null;
-                    sendDictionary(stream, data);
+                    data["error"] = "null";
+                    sendDictionaryByJson(stream, data);
 
 
                     connection.Close();
@@ -220,7 +222,7 @@ namespace GameServerV1.Server
                     data["req"] = 0;
                     data["error"] = e.Message;
                     Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
-                    sendDictionary(stream, data);
+                    sendDictionaryByJson(stream, data);
                     return null;
                 }
 
@@ -230,7 +232,7 @@ namespace GameServerV1.Server
             if (data == null)
             {
                 data = new Dictionary<string, object>();
-                data["type"] = (int)Types.TYPE_LogInR;
+                data["type"] = (int)Types.TYPE_Get_User;
             }
             using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
                 try
@@ -246,13 +248,13 @@ namespace GameServerV1.Server
                             data["req"] = 1;
                             data["name"] = oReader["name"].ToString();
                             data["uid"] = oReader["uid"].ToString();
-                            data["error"] = null;
+                            data["error"] = "null";
                             setUserStatys(oReader["uid"].ToString(), 1);
                            
                             oReader.Close();
                             connection.Close();
 
-                            sendDictionary(stream, data);
+                            sendDictionaryByJson(stream, data);
                             return new User(data["name"].ToString(), data["uid"].ToString());
                         }
                         else
@@ -264,7 +266,7 @@ namespace GameServerV1.Server
 
                         oReader.Close();
                         connection.Close();
-                        sendDictionary(stream, data);
+                        sendDictionaryByJson(stream, data);
                         return null;
                     }
                 }
@@ -275,7 +277,7 @@ namespace GameServerV1.Server
                     Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
                   
                 }
-            sendDictionary(stream, data);
+            sendDictionaryByJson(stream, data);
             return null;
         }
         void setUserStatys(string uid,int statys)
@@ -314,7 +316,7 @@ namespace GameServerV1.Server
                 mStream.Close();
             }
         }
-        Dictionary<string, object> ByteToDictionary(byte[] readingData, int PackSize)
+        Dictionary<string, object>  ByteToDictionary(byte[] readingData, int PackSize)
         {
             using (var mStream = new MemoryStream())
                 try
@@ -324,7 +326,7 @@ namespace GameServerV1.Server
                         mStream.Write(readingData, 0, PackSize);
                         mStream.Position = 0;
 
-                        return binFormatter.Deserialize(mStream) as Dictionary<string, object>;
+                        return binFormatter.Deserialize(mStream) as Dictionary<string, object> ;
                     }
                 }
                 catch (SerializationException e)
@@ -332,7 +334,7 @@ namespace GameServerV1.Server
                     if (PackSize > 0)
                     {
                         var data = new Dictionary<string, object>();
-                        data["type"] = (int)Types.TYPE_NonPack;
+                        data["type"] = "TYPE_NonPack";
                         try
                         {
                             data["data"] = Encoding.ASCII.GetString(readingData, 0, PackSize);
@@ -357,7 +359,7 @@ namespace GameServerV1.Server
                 
             }return null;
         }
-        void CreateNewRoom(NetworkStream? stream, IPAddress address, Dictionary<string, object> myObject)
+        void CreateNewRoom(NetworkStream? stream, IPAddress address, User user)
         {
            
             var data = new Dictionary<string, object>();
@@ -368,7 +370,7 @@ namespace GameServerV1.Server
                 using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
                     try
                     {
-                        string oString = $"Select * from users where uid='{myObject["uid"]}'";
+                        string oString = $"Select * from users where uid='{user.uId}'";
                         SqlCommand oCmd = new SqlCommand(oString, connection);
                         connection.Open();
                         using (SqlDataReader oReader = oCmd.ExecuteReader())
@@ -384,7 +386,7 @@ namespace GameServerV1.Server
                                 rooms.Add(roomServer);
                                 data["req"] = 1;
                                 data["port"] = roomServer.PORT;
-                                data["error"] = null;
+                                data["error"] = "null";
                             }
                             connection.Close();
                             oReader.Close();
@@ -404,7 +406,42 @@ namespace GameServerV1.Server
                 data["port"] = roomServer.PORT;
                 data["error"] = null;
             }
-            sendDictionary(stream, data);
+            sendDictionaryByJson(stream, data);
+        }
+        Dictionary<string, object> StringJsonToDictionary(byte[] data,int size) {
+            Dictionary<string, object> temp = new Dictionary<string, object>();
+            try
+            {
+                string json = Encoding.UTF8.GetString(data,0,size);
+                Console.WriteLine($"I have: {json}");
+                temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                return temp;
+            }catch(Exception e) {
+                Console.WriteLine($"Error in StrJsonToDict: {e.Message}\n{e.StackTrace}");
+                return null;
+            }
+        }
+        void sendDictionaryByJson(NetworkStream stream, Dictionary<string, object> valuePairs)
+        {
+             string json = ConvertDictionaryToJsonHard(valuePairs);
+             Console.WriteLine($"Send Json: {json}");
+             byte[] data = Encoding.UTF8.GetBytes(json);
+             stream.Write(data, 0, data.Length);             
+        }
+        string ConvertDictionaryToJsonHard(Dictionary<string, object> valuePairs)
+        {
+            string temp = "{";
+
+            foreach (KeyValuePair<string, object> obj in valuePairs)
+            {
+                if (obj.Value is int)
+                    temp += $@"'{obj.Key}':{(Int32)obj.Value},";
+                if (obj.Value is string)
+                    temp += $@"'{obj.Key}':'{(string)obj.Value}',";
+            }
+
+            return temp[startIndex: 0..^1] +"}";
+
         }
     }
 }

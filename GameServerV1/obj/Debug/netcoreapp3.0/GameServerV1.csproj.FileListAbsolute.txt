@@ -88,3 +88,4 @@ C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\bin\Debug\netco
 C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\bin\Debug\netcoreapp3.0\runtimes\win\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
 C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\bin\Debug\netcoreapp3.0\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
 C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\obj\Debug\netcoreapp3.0\GameServerV1.csproj.CopyComplete
+C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\bin\Debug\netcoreapp3.0\Newtonsoft.Json.dll
