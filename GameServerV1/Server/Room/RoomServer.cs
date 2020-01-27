@@ -39,6 +39,7 @@ namespace GameServerV1.Server
     }
     public class RoomServer
     {
+        public int TickServer = 300;
         public Rules Rules          { get;  set; }
         public int PORT             { get; internal set; }
         public IPAddress ADDPRES    { get; internal set; }
@@ -77,44 +78,55 @@ namespace GameServerV1.Server
         }
         void listner()
         {
-            while (true) 
-            using (TcpClient client = socket.AcceptTcpClient())
-            {
-                User currentuser = null;
-                NetworkStream stream = client.GetStream();
-                while (true)
-                {
-                    if (stream.DataAvailable)
+            while (true)
+                using (TcpClient client = socket.AcceptTcpClient())
+                    try
                     {
-                        var obj = Udpate(stream);
-                        if (obj != null)
-                            switch ((Types)Convert.ToInt32(obj["type"]))
+                        User currentuser = null;
+                        NetworkStream stream = client.GetStream();
+                        while (true)
+                        {
+                            if (stream.DataAvailable)
                             {
-                                case Types.TYPE_i_newUser:
+                                var obj = Udpate(stream);
+                                if (obj != null)
+                                    switch ((Types)Convert.ToInt32(obj["type"]))
                                     {
-                                        if (Rules.Alive == 1 && Users.Count < Rules.RedUser + Rules.BlueUser)
-                                        {
-                                            currentuser = NewUser(stream, obj);
-                                            Users.Add(currentuser);
-                                        }
+                                        case Types.TYPE_i_newUser:
+                                            {
+                                                if (Rules.Alive == 1 && Users.Count < Rules.RedUser + Rules.BlueUser)
+                                                {
+                                                    currentuser = NewUser(stream, obj);
+                                                    Users.Add(currentuser);
+                                                }
+                                            }
+                                            break;
+                                        case Types.TYPE_i_wanna_info:
+                                            {
+                                                Send(stream, ConvertDictionaryToByteHard(getRules()), currentuser.name);
+                                            }
+                                            break;
+                                        case Types.TYPE_i_wanna_users:
+                                            {
+                                                Send(stream, ConvertDictionaryToByteHard(getAllUserData()), currentuser.name);
+                                            }
+                                            break;
                                     }
-                                    break;
-                                case Types.TYPE_i_wanna_info:
-                                    {
-                                        Send(stream, ConvertDictionaryToByteHard(getRules()),currentuser.name);
-                                    }
-                                    break;
-                                case Types.TYPE_i_wanna_users:
-                                    {
-                                        Send(stream, ConvertDictionaryToByteHard(getAllUserData()),currentuser.name);
-                                    }
-                                    break;
                             }
+
+                            //Logic
+                            {
+                                //Send(stream, ConvertDictionaryToByteHard(getAllUserDataByGroup(currentuser.group)), currentuser.name);
+                            }
+                            Thread.Sleep(TickServer);
+                        }
                     }
-                    Thread.Sleep(300);
-                }
-            }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message + "\n" + e.StackTrace);
+                    }
         }
+        
         Dictionary<string, object> Udpate(NetworkStream stream)
         {
             while (true)
@@ -172,6 +184,14 @@ namespace GameServerV1.Server
             Console.WriteLine("user pack: " + users["users"]);
             return users;
         }
+        Dictionary<string, object> getAllUserDataByGroup(int group)
+        {
+            var users = new Dictionary<string, object>();
+            users["type"] = (int)Types.TYPE_roomsend_auto_user;
+            users["users"] = (string)getListByGroup(group);
+            Console.WriteLine("user pack: " + users["users"]);
+            return users;
+        }
         byte[] FromDictionary(Dictionary<string, object> valuePairs)
         {
             byte[] temp;
@@ -206,10 +226,6 @@ namespace GameServerV1.Server
         {
             stream.Write(data, 0, data.Length);
             Console.WriteLine($"Room {PORT} send: {data.Length} byte to {nameofuser}");
-            /*socket.BeginSend(data, 0, data.Length, SocketFlags.None, (ar) =>
-            {
-                int bytes = socket.EndSend(ar);
-            }, state);*/
         }
         private void Receive(Socket socket)
         {
@@ -249,6 +265,28 @@ namespace GameServerV1.Server
                  user["rot"] = new float[] { u.rotation.x, u.rotation.y };
                  */
                 list +=user;
+            }
+            return list[0..^1] + "]";
+        }
+        public string getListByGroup(int group)
+        {
+            string list = "[";
+            foreach (User u in Users)
+            if(u.group == group)
+            {
+                string user = $"" +
+                    $"'name':'{u.name}'#" +
+                    $"'uid':'{u.uId}'#" +
+                    $"'solderclass':{u.SolderClass}#" +
+                    $"'group':{u.group}#" +
+                    $"'health':{u.Health}#" +
+                    $"'px':{u.position.x}#" +
+                    $"'py':{u.position.y}#" +
+                    $"'pz':{u.position.z}#" +
+
+                    $"'rx':{u.rotation.x}#" +
+                    $"'ry':{u.rotation.y}*";
+                list += user;
             }
             return list[0..^1] + "]";
         }

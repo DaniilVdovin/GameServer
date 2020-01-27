@@ -32,8 +32,9 @@ namespace GameServerV1.Server
 
         TYPE_i_wanna_info = 9,
         TYPE_i_wanna_users = 11,
-        TYPE_i_newUser = 12
+        TYPE_i_newUser = 12,
 
+        TYPE_roomsend_auto_user = 13
     }
     
     public class MainServer
