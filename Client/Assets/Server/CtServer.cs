@@ -70,8 +70,10 @@ namespace Server
 
         public CtServer(string host, int port)
         {
+            
             this.host = host;
             this.port = port;
+            
             tcpClient = new TcpClient(this.host, this.port);
             stream = tcpClient.GetStream();
             new Thread(Listner).Start();

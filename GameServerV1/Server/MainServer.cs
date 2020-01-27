@@ -50,6 +50,7 @@ namespace GameServerV1.Server
 
         public const string BD_SOURCE_USERS =
             @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
+            //@"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Alexey\Documents\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security = True";
         private static TcpListener listener;
         private List<TcpClient> clients = new List<TcpClient>();
         private List<RoomServer> rooms = new List<RoomServer>();
@@ -126,6 +127,11 @@ namespace GameServerV1.Server
                             case Types.TYPE_LogIn:
                                 {
                                     user = LogIn(null, stream, myObject);
+                                    if (user is null)
+                                    {
+                                        closeConnect(Client);
+                                        return;
+                                    }
                                 }
                                 break;
                             case Types.TYPE_SingUp:
@@ -147,10 +153,22 @@ namespace GameServerV1.Server
                                 break;
                             case Types.TYPE_NonPack:
                                 {
-                                    Console.WriteLine("Non Dictionary Data: " + myObject["data"].ToString().Substring(0, 10));
-                                    byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r<html><h1 style='display: flex; justify-content: center;'>404</h1></html>");
-                                    stream.Write(data, 0, data.Length);
-                                    closeConnect(Client);
+                                    string t = myObject["data"].ToString();
+                                    Console.WriteLine("Non Dictionary Data: " +t.Substring(0, 11));
+                                    byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r" + File.ReadAllText("~/WebUI/NotFound.html"));
+                                    if (t.Contains("/?r="))
+                                    {
+                                       string rq = t.Substring(t.IndexOf("=")+1);
+                                       int rm = int.Parse(rq.Substring(0, rq.IndexOf(" ")));
+                                        foreach(RoomServer room in rooms)
+                                            if(room.PORT == rm)
+                                            {
+                                                data = Encoding.ASCII.GetBytes($"HTTP/1.1 200\n\r\n\r");
+                                                break;
+                                            }
+                                    }
+                                     stream.Write(data, 0, data.Length);
+                                    //closeConnect(Client);
                                 }
                                 return;
                         }
@@ -168,7 +186,7 @@ namespace GameServerV1.Server
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error client {Client.Client.RemoteEndPoint} : {e.Message}\n{e.StackTrace}");
+                Console.WriteLine($"Error client: {e.Message}\n{e.StackTrace}");
                 closeConnect(Client);
             }
         }
@@ -209,6 +227,7 @@ namespace GameServerV1.Server
                     SqlCommand command = new SqlCommand(sql, connection);
                     command.ExecuteNonQuery();
                     command.Dispose();
+                    data["name"] = (string)myObject["name"];
                     data["uid"] = g;
                     data["req"] = 1;
                     data["error"] = "null";
@@ -262,7 +281,7 @@ namespace GameServerV1.Server
                         {
                             data["req"] = 0;
                             data["error"] = "Not Found";
-                            
+                            sendDictionaryByJson(stream, data);
                         }
 
                         oReader.Close();
@@ -411,14 +430,20 @@ namespace GameServerV1.Server
         }
         Dictionary<string, object> StringJsonToDictionary(byte[] data,int size) {
             Dictionary<string, object> temp = new Dictionary<string, object>();
+            string json = Encoding.UTF8.GetString(data, 0, size);
             try
             {
-                string json = Encoding.UTF8.GetString(data,0,size);
-                Console.WriteLine($"I have: {json}");
-                temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                Console.WriteLine($"I get: {size} byte");
+                if (json.Contains("type"))
+                    temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                else
+                {
+                    temp["type"] = (int)Types.TYPE_NonPack;
+                    temp["data"] = json;
+                }
                 return temp;
             }catch(Exception e) {
-                Console.WriteLine($"Error in StrJsonToDict: {e.Message}\n{e.StackTrace}");
+                Console.WriteLine($"Error in StrJsonToDict: {e.Message}");
                 return null;
             }
         }

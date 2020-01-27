@@ -11,7 +11,7 @@ namespace Server
         private string text = "";
         public Text textUI;
         public InputField em, pas, ipi;
-        public string ip = "192.168.1.2",
+        public string ip = "server.minms.keenetic.pro",
                       Email = "email@mail.com",
                       Name = "thisname",
                       Password = "parol",
@@ -21,21 +21,19 @@ namespace Server
         {
             em.text = Email;
             pas.text = Password;
-            ip = ipi.text;
+            ipi.text = ip;
 
         }
         public void init()
         {
-            server = new CtServer(ip, 9000);
+            server = new CtServer(ipi.text, 9000);
             server.OnChangeUser += Server_OnChangeUser;
             server.OnError += Server_OnError;
             server.OnNewRoom += Server_OnNewRoom;
 
-            StartCoroutine(StartPing(ip));
-            StartCoroutine(StartPing("64.233.162.94"));
-            StartCoroutine(StartPing("87.250.250.242"));
+            StartCoroutine(StartPing(ipi.text));
 
-            text += "\nServer Connect";
+            
         }
         IEnumerator StartPing(string ip)
         {
@@ -46,6 +44,7 @@ namespace Server
                 yield return f;
             }
             text += $"\nPing to {ip} : {p.time}";
+            text += "\nServer Connect";
         }
         private void FixedUpdate()
         {
