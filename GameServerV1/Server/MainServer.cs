@@ -46,11 +46,12 @@ namespace GameServerV1.Server
          */
         private static int portroomnow = PORT; 
         private static int DEFPACSIZE = 8*1024;
-      
+
 
         public const string BD_SOURCE_USERS =
-            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
-            //@"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Alexey\Documents\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security = True";
+        /*Daniil Home*///  @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
+        /*Daniil Work*/  @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Users\vdovin\Documents\GitHub\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
+        /*    Alex   *///  @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Alexey\Documents\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security = True";
         private static TcpListener listener;
         private List<TcpClient> clients = new List<TcpClient>();
         private List<RoomServer> rooms = new List<RoomServer>();
@@ -155,17 +156,33 @@ namespace GameServerV1.Server
                                 {
                                     string t = myObject["data"].ToString();
                                     Console.WriteLine("Non Dictionary Data: " +t.Substring(0, 11));
-                                    byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r" + File.ReadAllText("~/WebUI/NotFound.html"));
-                                    if (t.Contains("/?r="))
+                                    byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r" + File.ReadAllText("Server/WebUI/NotFound.html"));
+                                    if (t.Contains("/?"))
                                     {
-                                       string rq = t.Substring(t.IndexOf("=")+1);
-                                       int rm = int.Parse(rq.Substring(0, rq.IndexOf(" ")));
-                                        foreach(RoomServer room in rooms)
-                                            if(room.PORT == rm)
-                                            {
-                                                data = Encoding.ASCII.GetBytes($"HTTP/1.1 200\n\r\n\r");
-                                                break;
-                                            }
+                                        if (t.Contains("n="))
+                                        {
+                                            myObject["email"] = "admin";
+                                            user = LogIn(null, stream, myObject);
+                                            CreateNewRoom(stream, IPAddress.Any, user);
+                                        }
+                                        if (t.Contains("r="))
+                                        {
+                                            string rq = t.Substring(t.IndexOf("r=") + 2);
+                                            int rm = int.Parse(rq.Substring(0, rq.IndexOf(" ")));
+                                            foreach (RoomServer room in rooms)
+                                                if (room.PORT == rm)
+                                                {
+                                                    data = Encoding.ASCII.GetBytes($"HTTP/1.1 201\n\r\n\r" + File.ReadAllText("Server/WebUI/RoomUI.html")
+                                                        .Replace("{0}", "" + room.PORT)
+                                                        .Replace("{1}", "" + room.Rules.RedUser)
+                                                        .Replace("{2}", "" + room.Rules.BlueUser)
+                                                        .Replace("{3}", "" + room.Rules.RedScore)
+                                                        .Replace("{4}", "" + room.Rules.BlueScore)
+                                                        .Replace("{5}", "" + room.getListUser())
+                                                        );
+                                                    break;
+                                                }
+                                        }
                                     }
                                      stream.Write(data, 0, data.Length);
                                     //closeConnect(Client);
