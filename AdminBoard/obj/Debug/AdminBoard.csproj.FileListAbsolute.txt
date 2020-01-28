@@ -1,0 +1,5 @@
+D:\Users\vdovin\Documents\GitHub\GameServer\AdminBoard\obj\Debug\AdminBoard.csprojAssemblyReference.cache
+D:\Users\vdovin\Documents\GitHub\GameServer\AdminBoard\obj\Debug\MainWindow.g.cs
+D:\Users\vdovin\Documents\GitHub\GameServer\AdminBoard\obj\Debug\App.g.cs
+D:\Users\vdovin\Documents\GitHub\GameServer\AdminBoard\obj\Debug\AdminBoard_MarkupCompile.cache
+D:\Users\vdovin\Documents\GitHub\GameServer\AdminBoard\obj\Debug\AdminBoard_MarkupCompile.lref
