@@ -34,7 +34,9 @@ namespace GameServerV1.Server
         TYPE_i_wanna_users = 11,
         TYPE_i_newUser = 12,
 
-        TYPE_roomsend_auto_user = 13
+        TYPE_roomsend_auto_user = 13,
+
+        ADMIN = 1000
     }
     
     public class MainServer
@@ -50,11 +52,11 @@ namespace GameServerV1.Server
 
         public const string BD_SOURCE_USERS =
         /*Daniil Home*///  @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
-        /*Daniil Work*/  @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Users\vdovin\Documents\GitHub\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
+        /*Daniil Work*/    @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Users\vdovin\Documents\GitHub\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
         /*    Alex   *///  @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Alexey\Documents\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security = True";
         private static TcpListener listener;
         private List<TcpClient> clients = new List<TcpClient>();
-        private List<RoomServer> rooms = new List<RoomServer>();
+        public static List<RoomServer> rooms = new List<RoomServer>();
         private static BinaryFormatter binFormatter = new BinaryFormatter();
         public float IsTimer { internal get; set; } = 60; 
         public static bool _status { get; set; }
@@ -185,9 +187,26 @@ namespace GameServerV1.Server
                                         }
                                     }
                                      stream.Write(data, 0, data.Length);
-                                    //closeConnect(Client);
+                                    closeConnect(Client);
                                 }
                                 return;
+
+                            case Types.ADMIN:
+                                {
+                                    switch (myObject["cmd"])
+                                    {
+                                        case "getRoom":
+                                            {
+                                                var d = new Dictionary<string, object>();
+                                                rooms.ForEach(room =>
+                                                {
+                                                    d.Add(""+room.PORT, room.Rules.MatchState);
+                                                });
+                                                sendDictionaryByJson(stream,d);
+                                            }
+                                            break;
+                                    }
+                                }break; 
                         }
 
                     }
