@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <ListBox x:Name="RoomList" HorizontalAlignment="Left" Height="399" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"/>
+        <Canvas x:Name="plane" HorizontalAlignment="Left" Height="399" Margin="143,10,0,0" VerticalAlignment="Top" Width="639"/>
 
     </Grid>
 </Window>
