@@ -4,4 +4,5 @@ AdminBoard/.vs/AdminBoard/v16/.suo
 *.ide
 *.ide
 GameServerV1/.vs/GameServerV1/v16/.suo
-GameServerV1/.vs/GameServerV1/v16/Server/sqlite3/storage.ide-shm
+*.ide
+GameServerV1/.vs/GameServerV1/v16/Server/sqlite3/storage.ide-wal
