@@ -1,5 +1,5 @@
 # GameServer
-I will do the documentation later
+Doc on WIKI
 
 ![Datagram](/diagram.jpg)
 
