@@ -69,64 +69,90 @@ namespace GameServerV1.Server
             socket.Start();
             try
             {
-                new Thread(listner).Start();       
+                while (true)
+                    using (TcpClient client = socket.AcceptTcpClient())
+                        try
+                        {
+                            new Thread(listner).Start(client);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message + "\n" + e.StackTrace);
+                        }
             }
             catch (SocketException e)
             {
                 Console.WriteLine($"Room: {PORT} have e: {e.Message}\n{e.StackTrace}");
             }
         }
-        void listner()
-        {
+        void listner(object? client)
+        {       
+            User currentuser = null;
+            NetworkStream stream = ((TcpClient)client).GetStream();
             while (true)
-                using (TcpClient client = socket.AcceptTcpClient())
-                    try
-                    {
-                        User currentuser = null;
-                        NetworkStream stream = client.GetStream();
-                        while (true)
+            {
+                if (stream.DataAvailable)
+                {
+                    var obj = Udpate(stream);
+                    if (obj != null)
+                        switch ((Types)Convert.ToInt32(obj["type"]))
                         {
-                            if (stream.DataAvailable)
-                            {
-                                var obj = Udpate(stream);
-                                if (obj != null)
-                                    switch ((Types)Convert.ToInt32(obj["type"]))
+                            case Types.TYPE_i_newUser:
+                                {
+                                    if (Rules.Alive == 1 && Users.Count < Rules.RedUser + Rules.BlueUser)
                                     {
-                                        case Types.TYPE_i_newUser:
-                                            {
-                                                if (Rules.Alive == 1 && Users.Count < Rules.RedUser + Rules.BlueUser)
-                                                {
-                                                    currentuser = NewUser(stream, obj);
-                                                    Users.Add(currentuser);
-                                                }
-                                            }
-                                            break;
-                                        case Types.TYPE_i_wanna_info:
-                                            {
-                                                Send(stream, ConvertDictionaryToByteHard(getRules()), currentuser.name);
-                                            }
-                                            break;
-                                        case Types.TYPE_i_wanna_users:
-                                            {
-                                                Send(stream, ConvertDictionaryToByteHard(getAllUserData()), currentuser.name);
-                                            }
-                                            break;
+                                        currentuser = NewUser(stream, obj);
+                                        Users.Add(currentuser);
                                     }
-                            }
-
-                            //Logic
-                            {
-                                //Send(stream, ConvertDictionaryToByteHard(getAllUserDataByGroup(currentuser.group)), currentuser.name);
-                            }
-                            Thread.Sleep(TickServer);
+                                }
+                                break;
+                            case Types.TYPE_i_wanna_info:
+                                {
+                                    Send(stream, ConvertDictionaryToByteHard(getRules()), currentuser.name);
+                                }
+                                break;
+                            case Types.TYPE_i_wanna_users:
+                                {
+                                    Send(stream, ConvertDictionaryToByteHard(getAllUserData()), currentuser.name);
+                                }
+                                break;
+                            case Types.ROOM_Leave:
+                                {
+                                    stream.Close();
+                                    ((TcpClient)client).Close();
+                                    Users.Remove(currentuser);
+                                    Thread.CurrentThread.Abort();
+                                }
+                                return;
+                            case Types.ROOM_Send_Damage:
+                                {
+                                    //if (DetectDamageVector())
+                                    {
+                                        //setdamage
+                                    }
+                                }
+                                break;
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message + "\n" + e.StackTrace);
-                    }
+                }
+                //Logic
+                {
+                    Send(stream, ConvertDictionaryToByteHard(getAllUserDataByGroup(currentuser.group)), currentuser.name);
+                }
+                Thread.Sleep(TickServer);
+            }
+                   
         }
-        
+
+
+        bool DetectDamageVector(Vector3 UserPosition, Vector2 UserRotation, Vector3 TargetPosition, Vector2 TargetRotation)
+        {
+            
+            //mat
+            return false;
+        }
+
+
+
         Dictionary<string, object> Udpate(NetworkStream stream)
         {
             while (true)

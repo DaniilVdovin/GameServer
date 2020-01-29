@@ -36,6 +36,9 @@ namespace GameServerV1.Server
 
         TYPE_roomsend_auto_user = 13,
 
+        ROOM_Leave = 14,
+        ROOM_Send_Damage = 15,
+        
         ADMIN = 1000
     }
     
@@ -190,7 +193,6 @@ namespace GameServerV1.Server
                                     closeConnect(Client);
                                 }
                                 return;
-
                             case Types.ADMIN:
                                 {
                                     switch (myObject["cmd"])
