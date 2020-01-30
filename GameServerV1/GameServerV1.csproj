@@ -12,6 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Server\bd\Users.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Server\bd\Users_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Server\WebUI\NotFound.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -101,8 +101,7 @@ namespace GameServerV1.Server
                                 {
                                     if (Rules.Alive == 1 && Users.Count < Rules.RedUser + Rules.BlueUser)
                                     {
-                                        currentuser = NewUser(stream, obj);
-                                        Users.Add(currentuser);
+                                        Users.Add(currentuser = NewUser(stream, obj));
                                     }
                                 }
                                 break;
@@ -126,7 +125,7 @@ namespace GameServerV1.Server
                                 return;
                             case Types.ROOM_Send_Damage:
                                 {
-                                    User? To = FindUserByUID((string)obj["uid"]);
+                                    User To = FindUserByUID((string)obj["uid"]);
                                     if (DetectDamageVector(new Vector2(currentuser.position.x,currentuser.position.y),
                                                            currentuser.rotation.y,
                                                            new Vector2(To.position.x, To.position.y)
@@ -135,6 +134,14 @@ namespace GameServerV1.Server
                                         //setdamage((int)obj["damage"]);
                                         Console.WriteLine($"Room {PORT} Damage from {currentuser.name} to {To.name} {obj["damage"]}");
                                     }
+                                }
+                                break;
+                            case Types.Room_Send_Transform: 
+                                {
+                                    int ind = Users.IndexOf(currentuser);
+                                    currentuser.setPosition((float)obj["px"], (float)obj["py"], (float)obj["pz"]);
+                                    currentuser.setRotation((float)obj["rx"], (float)obj["rx"]);
+                                    Users[ind] = currentuser;
                                 }
                                 break;
                         }

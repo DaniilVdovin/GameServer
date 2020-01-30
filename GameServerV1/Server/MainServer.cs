@@ -38,7 +38,8 @@ namespace GameServerV1.Server
 
         ROOM_Leave = 14,
         ROOM_Send_Damage = 15,
-        
+        Room_Send_Transform = 16,
+
         ADMIN = 1000
     }
     

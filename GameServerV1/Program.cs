@@ -16,7 +16,6 @@ namespace GameServerV1.Server
              {
                  cki = Console.ReadKey();
              } while (cki.Key != ConsoleKey.Escape);
-
         }
        
     }
