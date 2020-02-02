@@ -52,6 +52,18 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "Npgsql/4.1.3": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "4.6.0"
+        },
+        "compile": {
+          "lib/netcoreapp3.0/Npgsql.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/Npgsql.dll": {}
+        }
+      },
       "runtime.native.System.Data.SqlClient.sni/4.7.0": {
         "type": "package",
         "dependencies": {
@@ -146,7 +158,7 @@
       "System.Runtime.CompilerServices.Unsafe/4.7.0": {
         "type": "package",
         "compile": {
-          "ref/netstandard2.0/_._": {}
+          "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
         },
         "runtime": {
           "lib/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
@@ -320,6 +332,30 @@
         "newtonsoft.json.12.0.3.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
+      ]
+    },
+    "Npgsql/4.1.3": {
+      "sha512": "sWTXCb6WPPO7WEw4+1XoRqE49EdWmuyMA15LVbzV6jZgRxYWK8TbdniWMjguzmAgOZVYTmrCf+jsqPYoSqACvA==",
+      "type": "package",
+      "path": "npgsql/4.1.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net461/Npgsql.dll",
+        "lib/net461/Npgsql.pdb",
+        "lib/net461/Npgsql.xml",
+        "lib/netcoreapp3.0/Npgsql.dll",
+        "lib/netcoreapp3.0/Npgsql.pdb",
+        "lib/netcoreapp3.0/Npgsql.xml",
+        "lib/netstandard2.0/Npgsql.dll",
+        "lib/netstandard2.0/Npgsql.pdb",
+        "lib/netstandard2.0/Npgsql.xml",
+        "lib/netstandard2.1/Npgsql.dll",
+        "lib/netstandard2.1/Npgsql.pdb",
+        "lib/netstandard2.1/Npgsql.xml",
+        "npgsql.4.1.3.nupkg.sha512",
+        "npgsql.nuspec",
+        "postgresql.png"
       ]
     },
     "runtime.native.System.Data.SqlClient.sni/4.7.0": {
@@ -819,30 +855,31 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
       "Newtonsoft.Json >= 12.0.3",
+      "Npgsql >= 4.1.3",
       "System.Collections >= 4.3.0",
       "System.Data.SqlClient >= 4.8.0"
     ]
   },
   "packageFolders": {
-    "D:\\Users\\vdovin\\.nuget\\packages\\": {},
+    "C:\\Users\\stels\\.nuget\\packages\\": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\GameServerV1.csproj",
+      "projectUniqueName": "C:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
       "projectName": "GameServerV1",
-      "projectPath": "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\GameServerV1.csproj",
-      "packagesPath": "D:\\Users\\vdovin\\.nuget\\packages\\",
-      "outputPath": "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\obj\\",
+      "projectPath": "C:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
+      "packagesPath": "C:\\Users\\stels\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\GameServerV1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "D:\\Users\\vdovin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\stels\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -870,6 +907,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[12.0.3, )"
+          },
+          "Npgsql": {
+            "target": "Package",
+            "version": "[4.1.3, )"
           },
           "System.Collections": {
             "target": "Package",

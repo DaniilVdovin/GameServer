@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
