@@ -32,8 +32,15 @@ namespace GameServerV1.Server
 
         TYPE_i_wanna_info = 9,
         TYPE_i_wanna_users = 11,
-        TYPE_i_newUser = 12
+        TYPE_i_newUser = 12,
 
+        TYPE_roomsend_auto_user = 13,
+
+        ROOM_Leave = 14,
+        ROOM_Send_Damage = 15,
+        Room_Send_Transform = 16,
+
+        ADMIN = 1000
     }
     
     public class MainServer
@@ -45,13 +52,15 @@ namespace GameServerV1.Server
          */
         private static int portroomnow = PORT; 
         private static int DEFPACSIZE = 8*1024;
-      
+
 
         public const string BD_SOURCE_USERS =
-            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
+        /*Daniil Home*///  @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
+        /*Daniil Work*/    @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Users\vdovin\Documents\GitHub\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
+        /*    Alex   *///  @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Alexey\Documents\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security = True";
         private static TcpListener listener;
         private List<TcpClient> clients = new List<TcpClient>();
-        private List<RoomServer> rooms = new List<RoomServer>();
+        public static List<RoomServer> rooms = new List<RoomServer>();
         private static BinaryFormatter binFormatter = new BinaryFormatter();
         public float IsTimer { internal get; set; } = 60; 
         public static bool _status { get; set; }
@@ -125,6 +134,11 @@ namespace GameServerV1.Server
                             case Types.TYPE_LogIn:
                                 {
                                     user = LogIn(null, stream, myObject);
+                                    if (user is null)
+                                    {
+                                        closeConnect(Client);
+                                        return;
+                                    }
                                 }
                                 break;
                             case Types.TYPE_SingUp:
@@ -146,12 +160,56 @@ namespace GameServerV1.Server
                                 break;
                             case Types.TYPE_NonPack:
                                 {
-                                    Console.WriteLine("Non Dictionary Data: " + myObject["data"].ToString().Substring(0, 10));
-                                    byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r<html><h1 style='display: flex; justify-content: center;'>404</h1></html>");
-                                    stream.Write(data, 0, data.Length);
+                                    string t = myObject["data"].ToString();
+                                    Console.WriteLine("Non Dictionary Data: " +t.Substring(0, 11));
+                                    byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r" + File.ReadAllText("Server/WebUI/NotFound.html"));
+                                    if (t.Contains("/?"))
+                                    {
+                                        if (t.Contains("n="))
+                                        {
+                                            myObject["email"] = "admin";
+                                            user = LogIn(null, stream, myObject);
+                                            CreateNewRoom(stream, IPAddress.Any, user);
+                                        }
+                                        if (t.Contains("r="))
+                                        {
+                                            string rq = t.Substring(t.IndexOf("r=") + 2);
+                                            int rm = int.Parse(rq.Substring(0, rq.IndexOf(" ")));
+                                            foreach (RoomServer room in rooms)
+                                                if (room.PORT == rm)
+                                                {
+                                                    data = Encoding.ASCII.GetBytes($"HTTP/1.1 201\n\r\n\r" + File.ReadAllText("Server/WebUI/RoomUI.html")
+                                                        .Replace("{0}", "" + room.PORT)
+                                                        .Replace("{1}", "" + room.Rules.RedUser)
+                                                        .Replace("{2}", "" + room.Rules.BlueUser)
+                                                        .Replace("{3}", "" + room.Rules.RedScore)
+                                                        .Replace("{4}", "" + room.Rules.BlueScore)
+                                                        .Replace("{5}", "" + room.getListUser())
+                                                        );
+                                                    break;
+                                                }
+                                        }
+                                    }
+                                     stream.Write(data, 0, data.Length);
                                     closeConnect(Client);
                                 }
                                 return;
+                            case Types.ADMIN:
+                                {
+                                    switch (myObject["cmd"])
+                                    {
+                                        case "getRoom":
+                                            {
+                                                var d = new Dictionary<string, object>();
+                                                rooms.ForEach(room =>
+                                                {
+                                                    d.Add(""+room.PORT, room.Rules.MatchState);
+                                                });
+                                                sendDictionaryByJson(stream,d);
+                                            }
+                                            break;
+                                    }
+                                }break; 
                         }
 
                     }
@@ -167,7 +225,7 @@ namespace GameServerV1.Server
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error client {Client.Client.RemoteEndPoint} : {e.Message}\n{e.StackTrace}");
+                Console.WriteLine($"Error client: {e.Message}\n{e.StackTrace}");
                 closeConnect(Client);
             }
         }
@@ -208,6 +266,7 @@ namespace GameServerV1.Server
                     SqlCommand command = new SqlCommand(sql, connection);
                     command.ExecuteNonQuery();
                     command.Dispose();
+                    data["name"] = (string)myObject["name"];
                     data["uid"] = g;
                     data["req"] = 1;
                     data["error"] = "null";
@@ -261,7 +320,7 @@ namespace GameServerV1.Server
                         {
                             data["req"] = 0;
                             data["error"] = "Not Found";
-                            
+                            sendDictionaryByJson(stream, data);
                         }
 
                         oReader.Close();
@@ -410,14 +469,20 @@ namespace GameServerV1.Server
         }
         Dictionary<string, object> StringJsonToDictionary(byte[] data,int size) {
             Dictionary<string, object> temp = new Dictionary<string, object>();
+            string json = Encoding.UTF8.GetString(data, 0, size);
             try
             {
-                string json = Encoding.UTF8.GetString(data,0,size);
-                Console.WriteLine($"I have: {json}");
-                temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                Console.WriteLine($"I get: {size} byte");
+                if (json.Contains("type"))
+                    temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                else
+                {
+                    temp["type"] = (int)Types.TYPE_NonPack;
+                    temp["data"] = json;
+                }
                 return temp;
             }catch(Exception e) {
-                Console.WriteLine($"Error in StrJsonToDict: {e.Message}\n{e.StackTrace}");
+                Console.WriteLine($"Error in StrJsonToDict: {e.Message}");
                 return null;
             }
         }

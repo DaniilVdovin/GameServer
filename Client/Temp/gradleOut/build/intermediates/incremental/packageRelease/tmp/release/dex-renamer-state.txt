@@ -1,4 +1,0 @@
-#Sun Jan 26 20:52:28 MSK 2020
-base.0=C\:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\Client\\Temp\\gradleOut\\build\\intermediates\\transforms\\dexMerger\\release\\0
-path.0=classes.dex
-renamed.0=classes.dex
