@@ -11,12 +11,18 @@ namespace Server
         private string text = "";
         public Text textUI;
         public InputField em, pas, ipi;
-        public string ip = "server.minms.keenetic.pro",
-                      Email = "email@mail.com",
-                      Name = "thisname",
-                      Password = "parol",
-                      lang = "ru";
+        public string ip        = "server.minms.keenetic.pro",
+                      Email     = "email@mail.com",
+                      Name      = "thisname",
+                      Password  = "parol",
+                      lang      = "ru";
         CtServer server;
+
+        public GameObject enPref;
+        public GameObject player;
+
+        public List<GameObject> enemy = new List<GameObject>();
+        
         void Start()
         {
             em.text = Email;
@@ -27,33 +33,83 @@ namespace Server
         public void init()
         {
             server = new CtServer(ipi.text, 9000);
+           
             server.OnChangeUser += Server_OnChangeUser;
             server.OnError += Server_OnError;
             server.OnNewRoom += Server_OnNewRoom;
 
             StartCoroutine(StartPing(ipi.text));
+            StartCoroutine(UdpateTransform());
+        }
 
-            
+        private void Server_OnUpdate(object sender, User[] e)
+        {
+            foreach (User user in e)
+            {
+                if (!con(enemy, user))
+                {
+                    var en = Instantiate(enPref);
+                    en.name = user.uId;
+                    en.transform.position = user.position;
+                    enemy.Add(en);
+                }
+            }
+        }
+        bool con(List<GameObject>e,User user)
+        {
+            foreach (GameObject u in e)
+                if (u.name == user.uId)
+                {
+                    u.transform.position = user.position;
+                    return true;
+                }
+            return false;
         }
         IEnumerator StartPing(string ip)
         {
             WaitForSeconds f = new WaitForSeconds(0.05f);
             Ping p = new Ping(ip);
+            int timeout = 300;
             while (p.isDone == false)
             {
+                timeout--;
+                if (timeout <= 0) break;
                 yield return f;
             }
             text += $"\nPing to {ip} : {p.time}";
             text += "\nServer Connect";
         }
+        private void Update()
+        {
+#if UNITY_ANDROID
+            foreach (Touch touch in Input.touches)
+            {
+                if (touch.fingerId == 0)
+                    switch (touch.phase)
+                    {
+                        case TouchPhase.Ended:
+                            {
+                                player.transform.position = Camera.main.ScreenToWorldPoint(touch.position) + Vector3.forward * 10;
+                            }
+                            break;
+                    }
+            }
+#endif
+#if UNITY_EDITOR
+            if (Input.GetMouseButtonDown(0))
+                    player.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 10;
+#endif
+
+        }
         private void FixedUpdate()
         {
-            textUI.text = text; 
+            textUI.text = text;                
         }
 
         private void Server_OnNewRoom(object sender, EventArgs e)
         {
             text += $"\nRoom: {server.CurrentRoom.port}";
+            server.CurrentRoom.OnUpdate += Server_OnUpdate;
         }
         private void Server_OnError(object sender,string e)
         {
@@ -87,7 +143,30 @@ namespace Server
         }
         private void OnDestroy()
         {
+            server.CurrentRoom.Leave();
             server.Logout();
+        }
+
+        public IEnumerator UdpateTransform()
+        {
+            var WaitForSeconds = new WaitForSeconds(0.3f);
+            while (true)
+            {
+                if (server != null && server.CurrentRoom != null)
+                {
+                    server.CurrentRoom.SendTransform(
+                        new float[] { 
+                            transform.position.x,
+                            transform.position.y, 
+                            transform.position.z 
+                        },
+                        new float[] {
+                            transform.position.x,
+                            transform.position.y
+                        });
+                }
+                yield return WaitForSeconds;
+            }
         }
     }
 }

@@ -39,7 +39,11 @@ namespace Server
     }
     public class Room
     {
-
+        public event EventHandler<User[]> OnUpdate;
+        public void uUpdate()
+        {
+            OnUpdate?.Invoke(this, users.ToArray());
+        }
         public int port { get; internal set; }
         public Rules rules;
 
@@ -47,14 +51,15 @@ namespace Server
 
         private const int bufSize = 8 * 1024;
         private State state = new State();
-        public User CurrentUser {get;set;}
+        public User CurrentUser { get; set; }
         TcpClient tcpClient;
         NetworkStream stream;
+
         public class State
         {
             public byte[] buffer = new byte[bufSize];
         }
-        public Room(string address,int port,User us)
+        public Room(string address, int port, User us)
         {
             CurrentUser = us;
             this.port = port;
@@ -65,6 +70,7 @@ namespace Server
                     if (CurrentUser != null)
                     {
                         tcpClient = new TcpClient(address, this.port);
+                        tcpClient.NoDelay = true;
                         stream = tcpClient.GetStream();
 
                         new Thread(listner).Start();
@@ -81,7 +87,7 @@ namespace Server
         void listner()
         {
             while (true)
-            {  
+            {
                 if (stream.DataAvailable)
                 {
                     var obj = Udpate();
@@ -105,6 +111,7 @@ namespace Server
                             case Types.TYPE_update_users:
                                 {
                                     UpdateUsersFromDictionaryArray((string)obj["users"]);
+                                    uUpdate();
                                     Debug.Log("Set new user pack");
                                 }
                                 break;
@@ -114,7 +121,7 @@ namespace Server
             }
         }
         void UpdateUsersFromDictionaryArray(string data)
-            {
+        {
             List<User> temp = new List<User>();
             /*foreach (Dictionary<string, object> data in value)
             {
@@ -129,11 +136,11 @@ namespace Server
                 temp.Add(user);
             }
             */
-           
+
             var t = data.Replace("'[", "").Replace("]'", "");
             string[] d;
             if (t.Contains("*")) d = t.Split('*');
-            else d = new string[] {t};
+            else d = new string[] { t };
 
             Debug.Log($"User Pack: {d[0]}");
             foreach (object us in d)
@@ -159,6 +166,20 @@ namespace Server
         void Logic()
         {
             JoinRoom();
+        }
+        public void SendTransform(float[] position, float[] rotation)
+        {
+            var data = new Dictionary<string, object>();
+            data["type"] = (int)Types.Room_Send_Transform;
+            //position
+            data["px"] = position[0].ToString();
+            data["py"] = position[1].ToString();
+            data["pz"] = position[2].ToString();
+            //rotation
+            data["rx"] = rotation[0].ToString();
+            data["ry"] = rotation[1].ToString();
+
+            sendPack(data);
         }
         private void JoinRoom()
         {
@@ -208,6 +229,12 @@ namespace Server
         {
 
         } 
+        public void Leave()
+        {
+            var data = new Dictionary<string, object>();
+            data["type"] = (int)Types.ROOM_Leave;
+            sendPack(data);
+        }
         private Dictionary<string, object> Udpate()
         {
             while(true)

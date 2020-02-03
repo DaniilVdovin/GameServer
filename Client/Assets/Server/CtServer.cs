@@ -33,16 +33,21 @@ namespace Server
 
         TYPE_i_wanna_info = 9,
         TYPE_i_wanna_users = 11,
-        TYPE_i_newUser = 12
+        TYPE_i_newUser = 12,
 
+        TYPE_roomsend_auto_user = 13,
+
+        ROOM_Leave = 14,
+        ROOM_Send_Damage = 15,
+        Room_Send_Transform = 16,
+
+        ADMIN = 1000
     }
     public class CtServer
     {
-
         public event EventHandler OnChangeUser;
         public event EventHandler OnNewRoom;
         public event EventHandler<string> OnError;
-
         public void ChangeUser()
         {
             OnChangeUser?.Invoke(this, EventArgs.Empty);
