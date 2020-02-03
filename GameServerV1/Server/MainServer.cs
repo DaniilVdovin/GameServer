@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -9,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
+using Npgsql;
 
 namespace GameServerV1.Server
 {
@@ -54,10 +54,9 @@ namespace GameServerV1.Server
         private static int DEFPACSIZE = 8*1024;
 
 
-        public const string BD_SOURCE_USERS =
-        /*Daniil Home*///  @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
-        /*Daniil Work*/    @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Users\vdovin\Documents\GitHub\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security=True";
-        /*    Alex   *///  @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Alexey\Documents\GameServer\GameServerV1\Server\bd\Users.mdf;Integrated Security = True";
+        public const string BD_SOURCE_USERS = @"Host=localhost; Database=postgres;Username=postgres;Password=24112000;Persist Security Info=True";
+        
+            
         private static TcpListener listener;
         private List<TcpClient> clients = new List<TcpClient>();
         public static List<RoomServer> rooms = new List<RoomServer>();
@@ -155,7 +154,7 @@ namespace GameServerV1.Server
                                 return;
                             case Types.TYPE_CreateRoomS:
                                 {
-                                    CreateNewRoom(stream, IPAddress.Any, user);
+                                    CreateNewRoom(stream, IPAddress.Any);
                                 }
                                 break;
                             case Types.TYPE_NonPack:
@@ -165,11 +164,20 @@ namespace GameServerV1.Server
                                     byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r" + File.ReadAllText("Server/WebUI/NotFound.html"));
                                     if (t.Contains("/?"))
                                     {
+                                        if (t.Contains("l="))
+                                        {
+                                            myObject["name"] = "admin";
+                                            myObject["email"] = "admin@admin.admin";
+                                            myObject["pass"] = "admin";
+                                            user = SingUp(stream, myObject);
+                                            CreateNewRoom(stream, IPAddress.Any);
+                                        }
                                         if (t.Contains("n="))
                                         {
-                                            myObject["email"] = "admin";
+                                            myObject["email"] = "admin@admin.admin";
+                                            myObject["pass"] = "admin";
                                             user = LogIn(null, stream, myObject);
-                                            CreateNewRoom(stream, IPAddress.Any, user);
+                                            CreateNewRoom(stream, IPAddress.Any);
                                         }
                                         if (t.Contains("r="))
                                         {
@@ -233,37 +241,36 @@ namespace GameServerV1.Server
         {
             var data = new Dictionary<string, object>();
             data["type"] = (int)Types.TYPE_Get_User;
-            using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
+            using (var connection = new NpgsqlConnection(BD_SOURCE_USERS))
                 try
                 {
-                    string oString = $"Select * from users where email='{myObject["email"]}'";
-                    SqlCommand oCmd = new SqlCommand(oString, connection);
+                    string oString = $"Select * from users where \"Uemail\"='{myObject["email"]}'";
+                    var oCmd = new NpgsqlCommand(oString, connection);
                     connection.Open();
-                    using (SqlDataReader oReader = oCmd.ExecuteReader())
-                    {
-                        if (oReader.Read())
-                        {
-                            connection.Close();
-                            oReader.Close();
+                    using (NpgsqlDataReader oReader = oCmd.ExecuteReader())
+                        while (oReader.Read())
+                            if (oReader.Read())
+                            {
+                                connection.Close();
+                                oReader.Close();
 
-                            return LogIn(data,stream, myObject);
-                        }else
-                        {
-                            oReader.Close();
-                            oCmd.Dispose();
+                                return LogIn(data, stream, myObject);
+                            }
+                            else
+                            {
+                                oReader.Close();
+                                oCmd.Dispose();
+                            }
 
-                        }
-                    }
                     string g = Guid.NewGuid().ToString();
-                    string sql = $"INSERT INTO users (name, email, password, uid, leng)" +
+                    string sql = $"INSERT INTO users (\"Uname\", \"Uemail\", \"Upassword\", \"Uid\")" +
                         $"VALUES  (" +
                         $"'{(string)myObject["name"]}'," +
                         $"'{(string)myObject["email"]}'," +
                         $"'{(string)myObject["pass"]}', " +
-                        $"'{g}', " +
-                        $"'{(string)myObject["leng"]}')";
+                        $"'{g}')";
                     Console.WriteLine($"BD New user: {(string)myObject["name"]} :: {g}");
-                    SqlCommand command = new SqlCommand(sql, connection);
+                    var command = new NpgsqlCommand(sql, connection);
                     command.ExecuteNonQuery();
                     command.Dispose();
                     data["name"] = (string)myObject["name"];
@@ -276,7 +283,7 @@ namespace GameServerV1.Server
                     connection.Close();
                     return new User((string)myObject["name"], g);
                 }
-                catch (SqlException e)
+                catch (NpgsqlException e)
                 {
                     data["req"] = 0;
                     data["error"] = e.Message;
@@ -293,22 +300,22 @@ namespace GameServerV1.Server
                 data = new Dictionary<string, object>();
                 data["type"] = (int)Types.TYPE_Get_User;
             }
-            using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
+            using (NpgsqlConnection connection = new NpgsqlConnection(BD_SOURCE_USERS))
                 try
                 {
-                    string oString = $"Select * from users where email='{myObject["email"]}'";
-                    SqlCommand oCmd = new SqlCommand(oString, connection);
+                    string oString = $"Select * from users where \"Uemail\"='{myObject["email"]}'  and \"Upassword\"='{myObject["pass"]}'";
+                    NpgsqlCommand oCmd = new NpgsqlCommand(oString, connection);
                     connection.Open();
-                    using (SqlDataReader oReader = oCmd.ExecuteReader())
+                    using (NpgsqlDataReader oReader = oCmd.ExecuteReader())
                     {
                         if (oReader.Read())
                         {
-                            Console.WriteLine($"BD Login user: {oReader["name"].ToString()} :: {oReader["uid"].ToString()}");
+                            Console.WriteLine($"BD Login user: {oReader["Uname"].ToString()} :: {oReader["Uid"].ToString()}");
                             data["req"] = 1;
-                            data["name"] = oReader["name"].ToString();
-                            data["uid"] = oReader["uid"].ToString();
+                            data["name"] = oReader["Uname"].ToString();
+                            data["uid"] = oReader["Uid"].ToString();
                             data["error"] = "null";
-                            setUserStatys(oReader["uid"].ToString(), 1);
+                            setUserStatys(oReader["Uid"].ToString(), 1);
                            
                             oReader.Close();
                             connection.Close();
@@ -329,7 +336,7 @@ namespace GameServerV1.Server
                         return null;
                     }
                 }
-                catch (SqlException e)
+                catch (NpgsqlException e)
                 {
                     data["req"] = 0;
                     data["error"] = e.Message;
@@ -341,15 +348,15 @@ namespace GameServerV1.Server
         }
         void setUserStatys(string uid,int statys)
         {
-            using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
+            using (NpgsqlConnection connection = new NpgsqlConnection(BD_SOURCE_USERS))
                 try
                 {
-                    string oString = $"UPDATE users SET status={statys} where uid='{uid}'";
-                    SqlCommand oCmd = new SqlCommand(oString, connection);
+                    string oString = $"UPDATE users SET \"Ustatus\"={statys} where \"Uid\"='{uid}'";
+                    NpgsqlCommand oCmd = new NpgsqlCommand(oString, connection);
                     connection.Open();
                     oCmd.ExecuteNonQuery();   
                 }
-                catch (SqlException e)
+                catch (NpgsqlException e)
                 {
                     Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
                 }
@@ -418,7 +425,7 @@ namespace GameServerV1.Server
                 
             }return null;
         }
-        void CreateNewRoom(NetworkStream? stream, IPAddress address, User user)
+        void CreateNewRoom(NetworkStream? stream, IPAddress address)
         {
            
             var data = new Dictionary<string, object>();
@@ -426,37 +433,24 @@ namespace GameServerV1.Server
             RoomServer roomServer = FindActiveRoom();
             if (roomServer == null)
             {
-                using (SqlConnection connection = new SqlConnection(BD_SOURCE_USERS))
-                    try
+                try
+                {
+                    roomServer = new RoomServer(address, ++portroomnow)
                     {
-                        string oString = $"Select * from users where uid='{user.uId}'";
-                        SqlCommand oCmd = new SqlCommand(oString, connection);
-                        connection.Open();
-                        using (SqlDataReader oReader = oCmd.ExecuteReader())
-                        {
-                            while (oReader.Read())
-                            {
-
-                                roomServer = new RoomServer(address, ++portroomnow)
-                                {
-                                    Rules = new Rules(RedScore: 1)
-                                };
-                                Console.WriteLine($"Create new room{roomServer.PORT}");
-                                rooms.Add(roomServer);
-                                data["req"] = 1;
-                                data["port"] = roomServer.PORT;
-                                data["error"] = "null";
-                            }
-                            connection.Close();
-                            oReader.Close();
-                        }
-                    }
-                    catch (SqlException e)
-                    {
-                        data["req"] = 0;
-                        data["error"] = e.Message;
-                        Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
-                    }
+                        Rules = new Rules(RedScore: 1)
+                    };
+                    Console.WriteLine($"Create new room{roomServer.PORT}");
+                    rooms.Add(roomServer);
+                    data["req"] = 1;
+                    data["port"] = roomServer.PORT;
+                    data["error"] = "null";
+                }
+                catch (Exception e)
+                {
+                    data["req"] = 0;
+                    data["error"] = e.Message;
+                    Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
+                }
             }
             else
             {

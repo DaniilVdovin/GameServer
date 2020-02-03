@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\GameServerV1.csproj": {}
+    "C:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj": {}
   },
   "projects": {
-    "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\GameServerV1.csproj": {
+    "C:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\GameServerV1.csproj",
+        "projectUniqueName": "C:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
         "projectName": "GameServerV1",
-        "projectPath": "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\GameServerV1.csproj",
-        "packagesPath": "D:\\Users\\vdovin\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\vdovin\\Documents\\GitHub\\GameServer\\GameServerV1\\obj\\",
+        "projectPath": "C:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
+        "packagesPath": "C:\\Users\\stels\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\GameServerV1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "D:\\Users\\vdovin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\stels\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -46,6 +46,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[4.1.3, )"
             },
             "System.Collections": {
               "target": "Package",

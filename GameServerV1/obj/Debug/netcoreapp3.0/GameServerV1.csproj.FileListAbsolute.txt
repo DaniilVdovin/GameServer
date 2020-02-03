@@ -94,3 +94,4 @@ D:\Users\vdovin\Documents\GitHub\GameServer\GameServerV1\bin\Debug\netcoreapp3.0
 D:\Users\vdovin\Documents\GitHub\GameServer\GameServerV1\bin\Debug\netcoreapp3.0\Newtonsoft.Json.dll
 C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\bin\Debug\netcoreapp3.0\Server\WebUI\NotFound.html
 C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\bin\Debug\netcoreapp3.0\Server\WebUI\RoomUI.html
+C:\Users\stels\source\repos\DaniilVdovin\GameServer\GameServerV1\bin\Debug\netcoreapp3.0\Npgsql.dll
