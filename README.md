@@ -66,7 +66,27 @@ public void CreateRoom()
 ```
 `CreateRoom()`don't have argument because used internal variable `CurrentUser`. After create room or join `MainServer` send data about room in internal variable `CurrentRoom`, You can get all info about Current Room.
 
-After create room you can activate **event listner** `
+After create room you can activate **event listner** `Server_OnUpdate`
+For example:
+```
+server.CurrentRoom.OnUpdate += Server_OnUpdate;
+```
+this you can udpate user position
+```
+ private void Server_OnUpdate(object sender, User[] e)
+ {
+    foreach (User user in e)
+    {
+        if (!con(enemy, user))
+        {
+            var en = Instantiate(enPref);
+            en.name = user.uId;
+            en.transform.position = user.position;
+            enemy.Add(en);
+        }
+     }
+}
+```
 
 Perfect we get data about current user from  `MainServer` and get simple data about current room. Now we need get room rules.
 ## Rules
