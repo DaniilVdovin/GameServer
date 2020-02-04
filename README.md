@@ -1,7 +1,10 @@
 ![banner](UGV2p2CjOYU.jpg)
 
 # GameServer
+Basic server logic.
 ![Datagram](/diagram.jpg)
+Logic damage
+![Datagram](-TjkDHnTKKw.jpg)
 
 ***
 
