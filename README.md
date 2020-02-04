@@ -3,13 +3,11 @@
 # GameServer
 Basic server logic.
 ![Datagram](/diagram.jpg)
-Logic damage
-![Datagram](-TjkDHnTKKw.jpg)
 
 ***
 
 Oke now i show how use server API in you'r Unity project
-# Client
+# Instal and integrate
 * [Global Types](#global-types)
 * [Get Start](#get-start)
   * [Unity](#unity)
