@@ -10,12 +10,34 @@ Oke now i show how use server API in you'r Unity project
 # Instal and integrate
 * [Global Types](#global-types)
 * [Get Start](#get-start)
-  * [Unity](#unity)
-    * [Install](#install)
-    * [Initialization Server](#initialization)
-    * [Sing Up and Log In](#sing-up--log-in)
-    * [Joint and Create Room](#room)
-    * [Rules Room](#rules)
+  * Client
+    * [Unity](#unity)
+      * [Install](#install)
+      * [Initialization Server](#initialization)
+      * [Sing Up and Log In](#sing-up--log-in)
+      * [Joint and Create Room](#room)
+      * [Rules Room](#rules)
+  * Server
+    * Windows
+      * Instal
+        * Instal Visual Studio Community 2019
+        * Instal PosgtreSQL
+        * Clone GameServer
+      * Settings
+        * Setup Visual Studio
+        * Setup PostgreSQL Admin
+        * Insert SQL Setver in your Postgre
+      * Build
+    * Linux
+      * Instal
+        * Instal Visual Studio Code 2019
+        * Instal PosgtreSQL
+        * Clone GameServer
+      * Settings
+        * Setup Visual Studio
+        * Setup PostgreSQL Admin
+        * Insert SQL Setver in your Postgre
+      * Build
 
 ## Global Types
 
