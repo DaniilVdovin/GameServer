@@ -68,11 +68,11 @@ public void CreateRoom()
 
 After create room you can activate **event listner** `Server_OnUpdate`
 For example:
-```
+```cs
 server.CurrentRoom.OnUpdate += Server_OnUpdate;
 ```
 this you can udpate user position
-```
+```cs
  private void Server_OnUpdate(object sender, User[] e)
  {
     foreach (User user in e)
