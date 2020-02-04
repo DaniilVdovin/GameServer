@@ -64,12 +64,11 @@ private void Server_OnChangeUser(object sender, EventArgs e){}
 ## Sing Up / Log In
 Need SingUp or LogIn, for example:
 ```cs
-void SingUp(string name, string email, string password, string leng);
+void SingUp(string name, string email, string password);
 /*
  *string name = User Name (min 4 symbol)
  *string email = User Email (@gmail.com and other)
  *string password = User Password (min 6 symbol)
- *string leng = Code countries (For example ru, us and other) 
  *
  */
 
