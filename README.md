@@ -5,11 +5,14 @@
 
 Oke now i show how use server API in you'r Unity project
 # Client
-* [Global Types](#Global-Types)
-* [Initialization Server](#initialization)
-* [Sing Up and Log In](#sing-up--log-in)
-* [Joint and Create Room](#room)
-* [Rules Room](#rules)
+* [Global Types](#global-types)
+* [Get Start](#get-start)
+  * [Unity](#unity)
+    * [Install](#install)
+    * [Initialization Server](#initialization)
+    * [Sing Up and Log In](#sing-up--log-in)
+    * [Joint and Create Room](#room)
+    * [Rules Room](#rules)
 
 ## Global Types
 
@@ -38,7 +41,23 @@ Oke now i show how use server API in you'r Unity project
 | `ROOM_Send_Damage ` | `15`| Say server what you wanna send damage|
 | `Room_Send_Transform   ` | `15`| Sent user Transform to server |
 | `ADMIN ` | `1000`| For WPF aplication  `AdminBoard` |
-## Initialization
+
+
+
+***
+
+# Get Start
+## Unity
+### Install
+   1. Clone folder [Server](Client/Assets) into you'r Assets folder
+   2. Add Server namespace
+      ```cs
+      namespace Server
+      {
+         <You'r Class : MonoBehaviour>
+      }
+      ```
+### Initialization
 First step declare variable CtServer   
 ```cs
 private CtServer server;
@@ -59,7 +78,7 @@ private void Server_OnError(object sender, string e){}
 private void Server_OnChangeUser(object sender, EventArgs e){}
 
 ```
-## Sing Up / Log In
+### Sing Up / Log In
 Need SingUp or LogIn, for example:
 ```cs
 void SingUp(string name, string email, string password);
@@ -85,7 +104,7 @@ If user Log in or Sing Up you can find open or create new room. If user wanna ex
 public void Logout();
 ```
 `Logout();` don't have argument because used internal variable `CurrentUser` 
-## Room
+### Room
 If user wanna create Quick Match Just need call `CreateRoom()`
 ```cs
 public void CreateRoom()
@@ -115,7 +134,7 @@ this you can udpate user position
 ```
 
 Perfect we get data about current user from  `MainServer` and get simple data about current room. Now we need get room rules.
-## Rules
+### Rules
 Rules have all data about room and players:
 
 |Type | Name | Default Value| Description |
@@ -137,9 +156,9 @@ public void GetNewUsers();
 ```
 Don't have arguments and don't `return`. Just call `GetNewUsers()` if you wanna get users data.
 
-#### >WARNING: `GetNewUsers()` all user data, not from you'r command/group because it's used for get firs table or other UI
+##### >WARNING: `GetNewUsers()` all user data, not from you'r command/group because it's used for get firs table or other UI
 
-#### Good Luck.
+##### Good Luck.
 
 
 
