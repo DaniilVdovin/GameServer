@@ -7,10 +7,10 @@ Doc on WIKI
 
 Oke now i show how use server API in you'r Unity project
 # Client
-* [Initialization Server](API-Client#initialization)
-* [Sing Up and Log In](API-Client#sing-up--log-in)
-* [Joint and Create Room](API-Client#room)
-* [Rules Room](API-Client#rules)
+* [Initialization Server](#initialization)
+* [Sing Up and Log In](#sing-up--log-in)
+* [Joint and Create Room](#room)
+* [Rules Room](#rules)
 ## Initialization
 First step declare variable CtServer   
 ```cs
