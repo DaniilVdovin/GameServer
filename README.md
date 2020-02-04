@@ -66,6 +66,8 @@ public void CreateRoom()
 ```
 `CreateRoom()`don't have argument because used internal variable `CurrentUser`. After create room or join `MainServer` send data about room in internal variable `CurrentRoom`, You can get all info about Current Room.
 
+After create room you can activate **event listner** `
+
 Perfect we get data about current user from  `MainServer` and get simple data about current room. Now we need get room rules.
 ## Rules
 Rules have all data about room and players:
