@@ -172,12 +172,12 @@ namespace Server
             var data = new Dictionary<string, object>();
             data["type"] = (int)Types.Room_Send_Transform;
             //position
-            data["px"] = position[0].ToString();
-            data["py"] = position[1].ToString();
-            data["pz"] = position[2].ToString();
+            data["px"] = position[0];
+            data["py"] = position[1];
+            data["pz"] = position[2];
             //rotation
-            data["rx"] = rotation[0].ToString();
-            data["ry"] = rotation[1].ToString();
+            data["rx"] = rotation[0];
+            data["ry"] = rotation[1];
 
             sendPack(data);
         }

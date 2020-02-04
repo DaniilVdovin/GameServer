@@ -261,6 +261,8 @@ namespace Server
 
             foreach (KeyValuePair<string, object> obj in valuePairs)
             {
+                if (obj.Value is float)
+                    temp += $@"'{obj.Key}':{(float)obj.Value},";
                 if (obj.Value is int)
                     temp += $@"'{obj.Key}':{(Int32)obj.Value},";
                 if (obj.Value is string)
