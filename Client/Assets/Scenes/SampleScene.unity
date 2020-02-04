@@ -823,7 +823,7 @@ MonoBehaviour:
   em: {fileID: 2056853279}
   pas: {fileID: 1802827670}
   ipi: {fileID: 380899700}
-  ip: 192.168.1.2
+  ip: server.minms.keenetic.pro:80
   Email: email@mail.com
   Name: thisname
   Password: parol

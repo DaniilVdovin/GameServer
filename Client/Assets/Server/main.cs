@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +13,7 @@ namespace Server
         private string text = "";
         public Text textUI;
         public InputField em, pas, ipi;
-        public string ip        = "server.minms.keenetic.pro",
+        public string ip        = "server.minms.keenetic.pro:90",
                       Email     = "email@mail.com",
                       Name      = "thisname",
                       Password  = "parol",
@@ -29,11 +30,10 @@ namespace Server
             em.text = Email;
             pas.text = Password;
             ipi.text = ip;
-
         }
         public void init()
         {
-            server = new CtServer(ipi.text, 9000);
+            server = new CtServer(ipi.text.Split(':')[0], int.Parse(ipi.text.Split(':')[1]));
            
             server.OnChangeUser += Server_OnChangeUser;
             server.OnError += Server_OnError;
