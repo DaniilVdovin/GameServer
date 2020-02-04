@@ -7,10 +7,39 @@ Doc on WIKI
 
 Oke now i show how use server API in you'r Unity project
 # Client
+* [Global Types](#Global-Types)
 * [Initialization Server](#initialization)
 * [Sing Up and Log In](#sing-up--log-in)
 * [Joint and Create Room](#room)
 * [Rules Room](#rules)
+
+## Global Types
+
+| Type | Value | Description |
+| --- |--- | --- |
+| **Default Types** |
+| `TYPE_NonPack` |`0`| If ur pack brouken or http |
+| `TYPE_Get_User` |`4`| Get Pack with User info |
+| **SingUP Types** |
+| `TYPE_SingUp` | `1 `| Send pack for SingUP |
+| **Login Types** |
+| `TYPE_LogIn` | `3 `| Send pack for login |
+| `TYPE_LogOut` | `10 `|Send Info about logout from server  |
+|**CreateRoom Types** |
+| `TYPE_CreateRoomS` | `5 `| Send pack for Create Rooom |
+| `TYPE_CreateRoomR` | `6 `| Get pack with Room info  |
+|**Update Room Types** |
+| `TYPE_update_rules` | `7 `| Get pack with new Rules data |
+| `TYPE_update_users` | `8 `| Get pack with new Users data in Room  |
+|**Update Room Types** |
+| `TYPE_i_wanna_info` | `9`| Send pack to get info about Rules  |
+| `TYPE_i_wanna_users` | `11`|Send pack to get info All Users in room  |
+| `TYPE_i_newUser` | `12`| Send pack with User Info |
+| `TYPE_roomsend_auto_user ` | `13`| in process |
+| `ROOM_Leave  ` | `14`| Room Leave |
+| `ROOM_Send_Damage ` | `15`| Say server what you wanna send damage|
+| `Room_Send_Transform   ` | `15`| Sent user Transform to server |
+| `ADMIN ` | `1000`| For WPF aplication  `AdminBoard` |
 ## Initialization
 First step declare variable CtServer   
 ```cs
