@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,6 +55,7 @@ namespace Server
                     enemy.Add(en);
                 }
             }
+            text += "\n Users: " + e.Length;
         }
         bool con(List<GameObject>e,User user)
         {
@@ -155,14 +157,14 @@ namespace Server
                 if (server != null && server.CurrentRoom != null)
                 {
                     server.CurrentRoom.SendTransform(
-                        new float[] { 
-                            transform.position.x,
-                            transform.position.y, 
-                            transform.position.z 
+                        new Single[] { 
+                            player.transform.position.x,
+                            player.transform.position.y,
+                            player.transform.position.z 
                         },
-                        new float[] {
-                            transform.position.x,
-                            transform.position.y
+                        new Single[] {
+                            player.transform.position.x,
+                            player.transform.position.y
                         });
                 }
                 yield return WaitForSeconds;

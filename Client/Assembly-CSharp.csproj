@@ -56,10 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
-      <HintPath>D:\Programs\Unity\Hub\Editor\2019.3.0f6\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
+      <HintPath>W:\UnityFolders\2019.3.0f6\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>D:\Programs\Unity\Hub\Editor\2019.3.0f6\Editor\Data\Managed/UnityEditor.dll</HintPath>
+      <HintPath>W:\UnityFolders\2019.3.0f6\Editor\Data\Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -68,553 +68,553 @@
     <Compile Include="Assets\Server\User.cs" />
     <Compile Include="Assets\Server\main.cs" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>D:/Users/vdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/stels/source/repos/DaniilVdovin/GameServer/Client/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>D:/Users/vdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/Users/stels/source/repos/DaniilVdovin/GameServer/Client/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/Users/vdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/stels/source/repos/DaniilVdovin/GameServer/Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/Users/vdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/stels/source/repos/DaniilVdovin/GameServer/Client/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>D:/Users/vdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/stels/source/repos/DaniilVdovin/GameServer/Client/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>D:/Users/vdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/stels/source/repos/DaniilVdovin/GameServer/Client/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>D:/Users/vdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/Users/stels/source/repos/DaniilVdovin/GameServer/Client/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>D:/Users/vdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+      <HintPath>C:/Users/stels/source/repos/DaniilVdovin/GameServer/Client/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Editor">
-      <HintPath>D:/Users/vdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+      <HintPath>C:/Users/stels/source/repos/DaniilVdovin/GameServer/Client/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/Users/vdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/stels/source/repos/DaniilVdovin/GameServer/Client/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>D:/Users/vdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/stels/source/repos/DaniilVdovin/GameServer/Client/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ARModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AccessibilityModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AndroidJNIModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AndroidJNIModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AndroidJNIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AssetBundleModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClothModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CrashReportingModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.DSPGraphModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.DSPGraphModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.DSPGraphModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.DirectorModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.DirectorModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.DirectorModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GameCenterModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.GameCenterModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.GameCenterModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GridModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.GridModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.GridModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.HotReloadModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.HotReloadModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.HotReloadModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.InputLegacyModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.JSONSerializeModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.LocalizationModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.LocalizationModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.LocalizationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PerformanceReportingModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Physics2DModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.Physics2DModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.Physics2DModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ProfilerModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ProfilerModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ProfilerModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ScreenCaptureModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SharedInternalsModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.SharedInternalsModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.SharedInternalsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpriteMaskModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpriteShapeModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteShapeModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteShapeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StreamingModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.StreamingModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.StreamingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SubstanceModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.SubstanceModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.SubstanceModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SubsystemsModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.SubsystemsModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.SubsystemsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TLSModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TLSModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TLSModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainPhysicsModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextCoreModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TextCoreModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TextCoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TilemapModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIElementsModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UNETModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UmbraModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UmbraModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UmbraModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityAnalyticsModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityConnectModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityTestProtocolModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityTestProtocolModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityTestProtocolModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestTextureModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VFXModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.VFXModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.VFXModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VRModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VehiclesModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VideoModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.WindModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XRModule">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/Microsoft.Win32.Primitives.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.AppContext">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.AppContext.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.AppContext.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections.Concurrent">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.Concurrent.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.Concurrent.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections.NonGeneric">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.NonGeneric.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.NonGeneric.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections.Specialized">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.Specialized.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.Specialized.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.EventBasedAsync">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.EventBasedAsync.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.EventBasedAsync.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Primitives">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.Primitives.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.TypeConverter">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.TypeConverter.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.TypeConverter.dll</HintPath>
     </Reference>
     <Reference Include="System.Console">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Console.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Console.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.Common">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Data.Common.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Data.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.Contracts">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Contracts.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.Debug">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Debug.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Debug.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.FileVersionInfo">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.FileVersionInfo.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.FileVersionInfo.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.Process">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Process.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Process.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.StackTrace">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.StackTrace.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.StackTrace.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.TextWriterTraceListener">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.TextWriterTraceListener.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.TextWriterTraceListener.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.Tools">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Tools.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Tools.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.TraceSource">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.TraceSource.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.TraceSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.Tracing">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Tracing.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Tracing.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing.Primitives">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Drawing.Primitives.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Drawing.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Dynamic.Runtime">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Dynamic.Runtime.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Dynamic.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System.Globalization.Calendars">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.Calendars.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.Calendars.dll</HintPath>
     </Reference>
     <Reference Include="System.Globalization">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.dll</HintPath>
     </Reference>
     <Reference Include="System.Globalization.Extensions">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.Extensions.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Compression">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Compression.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Compression.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Compression.ZipFile">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Compression.ZipFile.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Compression.ZipFile.dll</HintPath>
     </Reference>
     <Reference Include="System.IO">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.FileSystem">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.FileSystem.DriveInfo">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.DriveInfo.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.DriveInfo.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.FileSystem.Primitives">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.Primitives.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.FileSystem.Watcher">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.Watcher.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.Watcher.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.IsolatedStorage">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.IsolatedStorage.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.IsolatedStorage.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.MemoryMappedFiles">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.MemoryMappedFiles.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.MemoryMappedFiles.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Pipes">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Pipes.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Pipes.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.UnmanagedMemoryStream">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.UnmanagedMemoryStream.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.UnmanagedMemoryStream.dll</HintPath>
     </Reference>
     <Reference Include="System.Linq">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Linq.Expressions">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Expressions.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Expressions.dll</HintPath>
     </Reference>
     <Reference Include="System.Linq.Parallel">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Parallel.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Parallel.dll</HintPath>
     </Reference>
     <Reference Include="System.Linq.Queryable">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Queryable.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Queryable.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Http.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.NameResolution">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.NameResolution.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.NameResolution.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.NetworkInformation">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.NetworkInformation.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.NetworkInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Ping">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Ping.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Ping.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Primitives">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Primitives.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Requests">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Requests.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Requests.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Security">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Security.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Security.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Sockets">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Sockets.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Sockets.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.WebHeaderCollection">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebHeaderCollection.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebHeaderCollection.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.WebSockets.Client">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebSockets.Client.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebSockets.Client.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.WebSockets">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebSockets.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebSockets.dll</HintPath>
     </Reference>
     <Reference Include="System.ObjectModel">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ObjectModel.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ObjectModel.dll</HintPath>
     </Reference>
     <Reference Include="System.Reflection">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="System.Reflection.Extensions">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.Extensions.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Reflection.Primitives">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.Primitives.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Resources.Reader">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.Reader.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.Reader.dll</HintPath>
     </Reference>
     <Reference Include="System.Resources.ResourceManager">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.ResourceManager.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.ResourceManager.dll</HintPath>
     </Reference>
     <Reference Include="System.Resources.Writer">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.Writer.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.Writer.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.VisualC">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.CompilerServices.VisualC.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.CompilerServices.VisualC.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Extensions">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Extensions.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Handles">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Handles.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Handles.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.InteropServices">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.InteropServices.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.InteropServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Numerics">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Numerics.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization.Formatters">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Formatters.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Formatters.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization.Json">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Json.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization.Primitives">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Primitives.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization.Xml">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Xml.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Xml.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Claims">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Claims.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Claims.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Algorithms">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Algorithms.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Algorithms.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Csp">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Csp.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Csp.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Encoding">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Encoding.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Encoding.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Primitives">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Primitives.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.X509Certificates">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Principal">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Principal.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Principal.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.SecureString">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.SecureString.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.SecureString.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Encoding">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.Encoding.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.Encoding.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Encoding.Extensions">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.Encoding.Extensions.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.Encoding.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.RegularExpressions">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.RegularExpressions.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.RegularExpressions.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Overlapped">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Overlapped.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Overlapped.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Tasks.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Tasks.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Parallel">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Tasks.Parallel.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Tasks.Parallel.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Thread">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Thread.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Thread.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.ThreadPool">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.ThreadPool.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.ThreadPool.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Timer">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Timer.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Timer.dll</HintPath>
     </Reference>
     <Reference Include="System.ValueTuple">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ValueTuple.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.ReaderWriter">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.ReaderWriter.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.ReaderWriter.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.XDocument">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XDocument.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XDocument.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.XmlDocument">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XmlDocument.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XmlDocument.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.XmlSerializer">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XmlSerializer.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XmlSerializer.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.XPath">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XPath.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XPath.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.XPath.XDocument">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XPath.XDocument.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XPath.XDocument.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics.Vectors">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/Extensions/2.0.0/System.Numerics.Vectors.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/Extensions/2.0.0/System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.InteropServices.WindowsRuntime">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/mscorlib.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.ComponentModel.Composition.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.ComponentModel.Composition.dll</HintPath>
     </Reference>
     <Reference Include="System.Core">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Core.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Data">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Data.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Data.dll</HintPath>
     </Reference>
     <Reference Include="System">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Drawing.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Compression.FileSystem">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.IO.Compression.FileSystem.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.IO.Compression.FileSystem.dll</HintPath>
     </Reference>
     <Reference Include="System.Net">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Net.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Net.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Numerics.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Runtime.Serialization.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Runtime.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="System.ServiceModel.Web">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.ServiceModel.Web.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.ServiceModel.Web.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Transactions.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Transactions.dll</HintPath>
     </Reference>
     <Reference Include="System.Web">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Web.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Web.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Windows.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Linq.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Serialization">
-      <HintPath>D:/Programs/Unity/Hub/Editor/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
+      <HintPath>W:/UnityFolders/2019.3.0f6/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

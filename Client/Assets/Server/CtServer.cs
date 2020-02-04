@@ -246,11 +246,30 @@ namespace Server
                 if (obj != null)
                 {
                     int val;
+                    float fval;
                     object[] t = obj.Split(':');
                     t[0] = t[0].ToString().Replace(@"'", "");
-                    t[1] = t[1].ToString().Replace(@"'", "");
+                    var a = t[1].ToString();
+                    if (a.Contains("."))
+                    {
+                        a = a.Replace(@"'", "").Replace(".",",");
+                        if (float.TryParse(a, out fval))
+                            temp.Add((string)t[0], fval);
+                        else
+                            temp.Add((string)t[0], a);
+                    }
+                    else
+                    {
+                        a = a.Replace(@"'", "");
+                        if (int.TryParse(a, out val))
+                            temp.Add((string)t[0], val);
+                        else
+                            temp.Add((string)t[0], a);
+                    }
+                        
+                    
                     //Debug.Log($"json parameter Key:{t[0]} Value:{(int.TryParse((string)t[1], out val) ? val: t[1])}");
-                    temp.Add((string)t[0], int.TryParse((string)t[1],out val)?val:t[1]);
+                    
                 }
              return temp;
             
@@ -262,7 +281,7 @@ namespace Server
             foreach (KeyValuePair<string, object> obj in valuePairs)
             {
                 if (obj.Value is float)
-                    temp += $@"'{obj.Key}':{(float)obj.Value},";
+                    temp += $@"'{obj.Key}':{(Single)obj.Value},";
                 if (obj.Value is int)
                     temp += $@"'{obj.Key}':{(Int32)obj.Value},";
                 if (obj.Value is string)

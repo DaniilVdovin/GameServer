@@ -33,7 +33,7 @@ namespace GameServerV1.Server
             Health -= damage;
             DamageLog.Add(damage);
         }
-        public void setPosition(float x,float y, float z)
+        public void setPosition(float x, float y, float z)
         {
             position = new Vector3(x, y, z);
         }

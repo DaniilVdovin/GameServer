@@ -48,23 +48,23 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11156}
+      Script: {instanceID: 11154}
     - Class: 114
-      Script: {instanceID: 11326}
+      Script: {instanceID: 11324}
     - Class: 114
-      Script: {instanceID: 11366}
+      Script: {instanceID: 11364}
     - Class: 114
-      Script: {instanceID: 11598}
+      Script: {instanceID: 11596}
     - Class: 114
-      Script: {instanceID: 11782}
+      Script: {instanceID: 11780}
     - Class: 114
-      Script: {instanceID: 12192}
+      Script: {instanceID: 12190}
     - Class: 114
-      Script: {instanceID: 12392}
+      Script: {instanceID: 12390}
     - Class: 114
-      Script: {instanceID: 12702}
+      Script: {instanceID: 12700}
     - Class: 114
-      Script: {instanceID: 13086}
+      Script: {instanceID: 13084}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128

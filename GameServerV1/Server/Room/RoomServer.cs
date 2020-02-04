@@ -8,6 +8,7 @@ using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace GameServerV1.Server
 {
@@ -123,6 +124,7 @@ namespace GameServerV1.Server
                                     ((TcpClient)client).Close();
                                     Console.WriteLine($"Room {PORT} User:{currentuser.name} Leave");
                                     Users.Remove(currentuser);
+                                    currentuser = null;
                                 }
                                 return;
                             case Types.ROOM_Send_Damage:
@@ -140,15 +142,19 @@ namespace GameServerV1.Server
                                 break;
                             case Types.Room_Send_Transform: 
                                 {
-                                    int ind = Users.IndexOf(currentuser);
-                                    currentuser.setPosition(
-                                        float.Parse((string)obj["px"]),
-                                        float.Parse((string)obj["py"]), 
-                                        float.Parse((string)obj["pz"]));
-                                    currentuser.setRotation(
-                                        float.Parse((string)obj["rx"]),
-                                        float.Parse((string)obj["ry"]));
-                                    Users[ind] = currentuser;
+                                    if (obj.ContainsKey("px") && obj.ContainsKey("rx"))
+                                    {
+                                        Console.WriteLine($"Room {PORT} {(string)obj["px"]}  {(string)obj["py"]}  {(string)obj["pz"]}");
+                                        int ind = Users.IndexOf(currentuser);
+                                        currentuser.setPosition(
+                                            float.Parse(((string)obj["px"]).Replace(".", ",")),
+                                            float.Parse(((string)obj["py"]).Replace(".", ",")),
+                                            float.Parse(((string)obj["pz"]).Replace(".", ",")));
+                                        currentuser.setRotation(
+                                            float.Parse(((string)obj["rx"]).Replace(".", ",")),
+                                            float.Parse(((string)obj["ry"]).Replace(".", ",")));
+                                        Users[ind] = currentuser;
+                                    }
                                 }
                                 break;
                         }
@@ -156,17 +162,17 @@ namespace GameServerV1.Server
                 //Logic
                 {
                     if(currentuser != null)
-                    Send(stream, ConvertDictionaryToByteHard(getAllUserDataByGroup(currentuser.group)), currentuser.name);
+                        Send(stream, ConvertDictionaryToByteHard(getAllUserData()), currentuser.name);
                 }
                 Thread.Sleep(TickServer);
             }
                    
         }
-        bool DetectDamageVector(Vector2 UserPosition, float UserRotation, Vector2 TargetPosition)
+        bool DetectDamageVector(Vector2 UserPosition, double UserRotation, Vector2 TargetPosition)
         {
             double angleRadian = (UserRotation) * Math.PI / 180;
-            float x, y, k, m, n;
-            float
+            double x, y, k, m, n;
+            double
                 x1 = UserPosition.x,
                 y1 = UserPosition.y,
 
@@ -325,8 +331,15 @@ namespace GameServerV1.Server
         }
         public void Send(NetworkStream stream, byte[] data,string nameofuser="unknow")
         {
-            stream.Write(data, 0, data.Length);
-            Console.WriteLine($"Room {PORT} send: {data.Length} byte to {nameofuser} | users: {Users.Count}");
+            try
+            {
+                stream.Write(data, 0, data.Length);
+                Console.WriteLine($"Room {PORT} send: {data.Length} byte to {nameofuser} | users: {Users.Count}");
+            }
+            catch (IOException e)
+            {
+                
+            }
         }
         private void Receive(Socket socket)
         {
@@ -350,12 +363,12 @@ namespace GameServerV1.Server
                     $"'solderclass':{u.SolderClass}#" +
                     $"'group':{u.group}#" +
                     $"'health':{u.Health}#" +
-                    $"'px':{u.position.x}#" +
-                    $"'py':{u.position.y}#" +
-                    $"'pz':{u.position.z}#" +
+                    $"'px':{u.position.x.ToString().Replace(",", ".")}#" +
+                    $"'py':{u.position.y.ToString().Replace(",", ".")}#" +
+                    $"'pz':{u.position.z.ToString().Replace(",", ".")}#" +
 
-                    $"'rx':{u.rotation.x}#" +
-                    $"'ry':{u.rotation.y}*";
+                    $"'rx':{u.rotation.x.ToString().Replace(",", ".")}#" +
+                    $"'ry':{u.rotation.y.ToString().Replace(",", ".")}*";
                 /* 
                  user["name"] = ;
                  user["uid"] = ;
