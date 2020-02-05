@@ -63,28 +63,35 @@ namespace GameServerV1.Server
         private static BinaryFormatter binFormatter = new BinaryFormatter();
         public float IsTimer { internal get; set; } = 60; 
         public static bool _status { get; set; }
-        public MainServer()
+        public MainServer(int port)
         {
-            listener = new TcpListener(IPAddress.Any, PORT);
-            listener.Start();
-            Console.WriteLine("Listening...");
-            _status = true;
-            while (_status)
+            try
             {
-                TcpClient client = listener.AcceptTcpClient();
-                try
+                PORT = port;
+                listener = new TcpListener(IPAddress.Any, PORT);
+                listener.Start();
+                Console.WriteLine("Listening...");
+                _status = true;
+                while (_status)
                 {
-                    if (client != null)
+                    TcpClient client = listener.AcceptTcpClient();
+                    try
                     {
-                        Thread temp = new Thread(Channel);
-                        temp.Start(client);
+                        if (client != null)
+                        {
+                            Thread temp = new Thread(Channel);
+                            temp.Start(client);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: " + e.Message);
                     }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: " + e.Message);
-                }
-            }
+
+            } catch (Exception e) {
+                Console.WriteLine("Error: " + e.Message);
+            }       
         }
         ~MainServer()
         {

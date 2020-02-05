@@ -9,7 +9,8 @@ namespace GameServerV1.Server
     {
         static void Main(string[] args)
         {
-             MainServer server = new MainServer();
+             int port = int.Parse(Console.ReadLine());
+             MainServer server = new MainServer(port);
 
              ConsoleKeyInfo cki;
              do
