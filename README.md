@@ -169,6 +169,17 @@ Don't have arguments and don't `return`. Just call `GetNewUsers()` if you wanna 
 
 ##### >WARNING: `GetNewUsers()` all user data, not from you'r command/group because it's used for get firs table or other UI
 
+## Get start Server
+#### Setup GameServer
+ 1. [Donwload](https://www.postgresql.org/download/)
+ 2. Setup PostgreSQL
+    1. Instal all default plugin
+    2. Instal pgAdmin
+    3. Instal 1 random module
+    3. Clone folder [data]() in root folder
+ 3. Instal Build [GameServer]()
+ 4. Start server and write IP\Host and port
+ 
 ##### Good Luck.
 
 
