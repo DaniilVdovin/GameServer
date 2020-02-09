@@ -39,7 +39,6 @@ namespace Server
             server.OnError += Server_OnError;
             server.OnNewRoom += Server_OnNewRoom;
 
-            StartCoroutine(StartPing(ipi.text));
             StartCoroutine(UdpateTransform());
         }
 
