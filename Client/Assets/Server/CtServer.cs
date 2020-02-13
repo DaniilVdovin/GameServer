@@ -266,8 +266,7 @@ namespace Server
                         else
                             temp.Add((string)t[0], a);
                     }
-                        
-                    
+
                     //Debug.Log($"json parameter Key:{t[0]} Value:{(int.TryParse((string)t[1], out val) ? val: t[1])}");
                     
                 }
