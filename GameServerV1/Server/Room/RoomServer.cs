@@ -96,7 +96,8 @@ namespace GameServerV1.Server
             {
                 if (stream.DataAvailable)
                 {
-                    var obj = Udpate(stream);
+                    var ob = Udpate(stream);
+                    foreach(var obj in ob)
                     if (obj != null)
                         switch ((Types)Convert.ToInt32(obj["type"]))
                         {
@@ -234,7 +235,7 @@ namespace GameServerV1.Server
             }
             return null;
         }
-        Dictionary<string, object> Udpate(NetworkStream stream)
+        Dictionary<string, object>[] Udpate(NetworkStream stream)
         {
             while (true)
             {
@@ -404,15 +405,18 @@ namespace GameServerV1.Server
             }
             return list[0..^1] + "]";
         }
-        Dictionary<string, object> StringJsonToDictionary(byte[] data, int size)
+        Dictionary<string, object>[] StringJsonToDictionary(byte[] data, int size)
         {
-            Dictionary<string, object> temp = new Dictionary<string, object>();
+            List<Dictionary<string, object>> temp = new List<Dictionary<string, object>>();
             try
             {
-                string json = Encoding.UTF8.GetString(data, 0, size);
-                //Console.WriteLine($"I have: {json}");
-                temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-                return temp;
+                string jsonall = Encoding.UTF8.GetString(data, 0, size);
+                foreach (string json in jsonall.Split("}{"))
+                {
+                    var js = $"{{ { json.Replace('{', ' ').Replace('}', ' ')} }}";
+                    temp.Add(JsonConvert.DeserializeObject<Dictionary<string, object>>(js));
+                }
+                return temp.ToArray();
             }
             catch (Exception e)
             {
