@@ -116,7 +116,7 @@ public void Logout();
 ```
 `Logout();` don't have argument because used internal variable `CurrentUser` 
 ### Room
-If user wanna create Quick Match Just need call `CreateRoom()`
+If user wanna create Quick Match  Just need call `CreateRoom()`
 ```cs
 public void CreateRoom()
 ```
