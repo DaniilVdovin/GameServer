@@ -32,6 +32,10 @@ namespace AdminBoard
             TcpClient tcpClient = new TcpClient("server.minms.keenetic.pro", 80);
             
         }
-      
+
+        private void TextBlock_AccessKeyPressed()
+        {
+
+        }
     }
 }
