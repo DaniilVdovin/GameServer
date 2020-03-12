@@ -52,7 +52,7 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
-      "Npgsql/4.1.3": {
+      "Npgsql/4.1.3.1": {
         "type": "package",
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "4.6.0"
@@ -110,7 +110,7 @@
           "ref/netstandard1.3/System.Collections.dll": {}
         }
       },
-      "System.Data.SqlClient/4.8.0": {
+      "System.Data.SqlClient/4.8.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.Win32.Registry": "4.7.0",
@@ -334,10 +334,10 @@
         "packageIcon.png"
       ]
     },
-    "Npgsql/4.1.3": {
-      "sha512": "sWTXCb6WPPO7WEw4+1XoRqE49EdWmuyMA15LVbzV6jZgRxYWK8TbdniWMjguzmAgOZVYTmrCf+jsqPYoSqACvA==",
+    "Npgsql/4.1.3.1": {
+      "sha512": "354pl/Picmt5/AIrm8urFwtxfK4n4NbmfBnLA9yvP8VtILSQF3/sFo3+lGuz+q4iyD18QeNFy0NMNBzsocFVlw==",
       "type": "package",
-      "path": "npgsql/4.1.3",
+      "path": "npgsql/4.1.3.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -353,7 +353,7 @@
         "lib/netstandard2.1/Npgsql.dll",
         "lib/netstandard2.1/Npgsql.pdb",
         "lib/netstandard2.1/Npgsql.xml",
-        "npgsql.4.1.3.nupkg.sha512",
+        "npgsql.4.1.3.1.nupkg.sha512",
         "npgsql.nuspec",
         "postgresql.png"
       ]
@@ -485,13 +485,14 @@
         "system.collections.nuspec"
       ]
     },
-    "System.Data.SqlClient/4.8.0": {
-      "sha512": "xsSRvrPbeXgD6rAqFGw1FZsMLaoDVwzgflHig8OLypDpiyb4XISChy2XOutoNsQIkBP9SJ4nSvhd8uStDU7AiA==",
+    "System.Data.SqlClient/4.8.1": {
+      "sha512": "HKLykcv6eZLbLnSMnlQ6Os4+UAmFE+AgYm92CTvJYeTOBtOYusX3qu8OoGhFrnKZax91UcLcDo5vPrqvJUTSNQ==",
       "type": "package",
-      "path": "system.data.sqlclient/4.8.0",
+      "path": "system.data.sqlclient/4.8.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "Icon.png",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/MonoAndroid10/_._",
@@ -564,7 +565,7 @@
         "runtimes/win/lib/netstandard2.0/System.Data.SqlClient.xml",
         "runtimes/win/lib/uap10.0.16299/System.Data.SqlClient.dll",
         "runtimes/win/lib/uap10.0.16299/System.Data.SqlClient.xml",
-        "system.data.sqlclient.4.8.0.nupkg.sha512",
+        "system.data.sqlclient.4.8.1.nupkg.sha512",
         "system.data.sqlclient.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -855,39 +856,30 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
       "Newtonsoft.Json >= 12.0.3",
-      "Npgsql >= 4.1.3",
+      "Npgsql >= 4.1.3.1",
       "System.Collections >= 4.3.0",
-      "System.Data.SqlClient >= 4.8.0"
+      "System.Data.SqlClient >= 4.8.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\stels\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/Users/daniilvdovin/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
+      "projectUniqueName": "/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/GameServerV1.csproj",
       "projectName": "GameServerV1",
-      "projectPath": "C:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
-      "packagesPath": "C:\\Users\\stels\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\stels\\source\\repos\\DaniilVdovin\\GameServer\\GameServerV1\\obj\\",
+      "projectPath": "/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/GameServerV1.csproj",
+      "packagesPath": "/Users/daniilvdovin/.nuget/packages/",
+      "outputPath": "/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\stels\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "/Users/daniilvdovin/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -910,7 +902,7 @@
           },
           "Npgsql": {
             "target": "Package",
-            "version": "[4.1.3, )"
+            "version": "[4.1.3.1, )"
           },
           "System.Collections": {
             "target": "Package",
@@ -918,7 +910,7 @@
           },
           "System.Data.SqlClient": {
             "target": "Package",
-            "version": "[4.8.0, )"
+            "version": "[4.8.1, )"
           }
         },
         "imports": [
@@ -937,15 +929,7 @@
             "version": "[3.0.1, 3.0.1]"
           },
           {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[3.0.2, 3.0.2]"
-          },
-          {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[3.0.0, 3.0.0]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
             "version": "[3.0.0, 3.0.0]"
           }
         ],
@@ -954,7 +938,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
       }
     }
   }
