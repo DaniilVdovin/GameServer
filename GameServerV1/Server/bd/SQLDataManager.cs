@@ -25,14 +25,12 @@ namespace GameServerV1.Server
 
             if (!File.Exists(dbFileName))
                 SQLiteConnection.CreateFile(dbFileName);
-
             try
             {
                 m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
                 m_dbConn.Open();
                 m_sqlCmd.Connection = m_dbConn;
-
-                m_sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS Catalog (id INTEGER PRIMARY KEY AUTOINCREMENT, author TEXT, book TEXT)";
+                //m_sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS Catalog (id INTEGER PRIMARY KEY AUTOINCREMENT, author TEXT, book TEXT)";
                 m_sqlCmd.ExecuteNonQuery();
 
                 Console.WriteLine(TAG + "Create Table");

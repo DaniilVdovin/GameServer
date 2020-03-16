@@ -3,9 +3,9 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Server/bd/SQLDataManager.cs">
     <Files>
       <File FileName="Program.cs" Line="24" Column="1" />
-      <File FileName="Server/Room/RoomServer.cs" Line="1" Column="1" />
-      <File FileName="Server/bd/SQLDataManager.cs" Line="10" Column="13" />
-      <File FileName="Server/Room/User.cs" Line="1" Column="1" />
+      <File FileName="Server/Room/RoomServer.cs" />
+      <File FileName="Server/bd/SQLDataManager.cs" Line="32" Column="48" />
+      <File FileName="Server/Room/User.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
