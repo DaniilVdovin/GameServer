@@ -1,14 +1,27 @@
 ﻿<Properties StartupConfiguration="{62AC9F66-AE13-41C6-8826-D335A5A1EDE5}|Default">
   <MonoDevelop.Ide.ItemProperties.GameServerV1 PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Server/bd/SQLDataManager.cs">
     <Files>
       <File FileName="Program.cs" Line="24" Column="1" />
+      <File FileName="Server/Room/RoomServer.cs" Line="1" Column="1" />
+      <File FileName="Server/bd/SQLDataManager.cs" Line="10" Column="13" />
+      <File FileName="Server/Room/User.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="GameServerV1" expanded="True">
-            <Node name="GameServerV1" expanded="True" selected="True" />
+            <Node name="GameServerV1" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="PackageDependencies" expanded="True" />
+              </Node>
+              <Node name="Server" expanded="True">
+                <Node name="bd" expanded="True">
+                  <Node name="SQLDataManager.cs" selected="True" />
+                </Node>
+                <Node name="Room" expanded="True" />
+              </Node>
+            </Node>
           </Node>
         </State>
       </Pad>

@@ -128,3 +128,8 @@ C:/Users/stels/source/repos/DaniilVdovin/GameServer/GameServerV1/bin/Debug/netco
 /Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/obj/Debug/netcoreapp3.0/GameServerV1.csproj.CopyComplete
 /Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/obj/Debug/netcoreapp3.0/GameServerV1.dll
 /Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/obj/Debug/netcoreapp3.0/GameServerV1.pdb
+/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/bin/Debug/netcoreapp3.0/System.Data.SQLite.dll
+/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/bin/Debug/netcoreapp3.0/runtimes/linux-x64/native/netstandard2.0/SQLite.Interop.dll
+/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/bin/Debug/netcoreapp3.0/runtimes/osx-x64/native/netstandard2.0/SQLite.Interop.dll
+/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/bin/Debug/netcoreapp3.0/runtimes/win-x64/native/netstandard2.0/SQLite.Interop.dll
+/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/bin/Debug/netcoreapp3.0/runtimes/win-x86/native/netstandard2.0/SQLite.Interop.dll

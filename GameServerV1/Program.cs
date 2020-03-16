@@ -9,8 +9,10 @@ namespace GameServerV1.Server
     {
         static void Main(string[] args)
         {
-             int port = int.Parse(Console.ReadLine());
-             MainServer server = new MainServer(port);
+            // int port = int.Parse(Console.ReadLine());
+            //  MainServer server = new MainServer(port);
+            SQLDataManager.InitSQL();
+            
 
              ConsoleKeyInfo cki;
              do
