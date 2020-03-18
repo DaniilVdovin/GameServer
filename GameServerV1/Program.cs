@@ -11,14 +11,13 @@ namespace GameServerV1.Server
         {
             // int port = int.Parse(Console.ReadLine());
             //  MainServer server = new MainServer(port);
-            SQLDataManager.InitSQL();
-            
-
-             ConsoleKeyInfo cki;
-             do
-             {
-                 cki = Console.ReadKey();
-             } while (cki.Key != ConsoleKey.Escape);
+           SQLDataManager.InitSQL();
+           SQLDataManager.CreateNewUser("mike", "email2", "passs");
+           ConsoleKeyInfo cki;
+           do
+           {
+              cki = Console.ReadKey();
+           } while (cki.Key != ConsoleKey.Escape);
         }
        
     }
