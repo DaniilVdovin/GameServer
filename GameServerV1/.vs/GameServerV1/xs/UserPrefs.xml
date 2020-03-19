@@ -1,12 +1,12 @@
 ﻿<Properties StartupConfiguration="{62AC9F66-AE13-41C6-8826-D335A5A1EDE5}|Default">
   <MonoDevelop.Ide.ItemProperties.GameServerV1 PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Server/Room/RoomServer.cs">
     <Files>
-      <File FileName="Program.cs" Line="15" Column="56" />
+      <File FileName="Program.cs" Line="15" Column="57" />
       <File FileName="Server/Room/RoomServer.cs" Line="1" Column="1" />
-      <File FileName="Server/bd/SQLDataManager.cs" Line="89" Column="105" />
+      <File FileName="Server/bd/SQLDataManager.cs" Line="125" Column="8" />
       <File FileName="Server/Room/User.cs" Line="1" Column="1" />
-      <File FileName="Server/MainServer.cs" Line="292" Column="18" />
+      <File FileName="Server/MainServer.cs" Line="264" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,9 +18,10 @@
               </Node>
               <Node name="Server" expanded="True">
                 <Node name="bd" expanded="True" />
-                <Node name="Room" expanded="True" />
+                <Node name="Room" expanded="True">
+                  <Node name="RoomServer.cs" selected="True" />
+                </Node>
               </Node>
-              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>

@@ -12,7 +12,7 @@ namespace GameServerV1.Server
             // int port = int.Parse(Console.ReadLine());
             //  MainServer server = new MainServer(port);
            SQLDataManager.InitSQL();
-           SQLDataManager.CreateNewUser("mike", "email2", "passs");
+           SQLDataManager.CreateNewUser("mike", "email2f", "passs");
            ConsoleKeyInfo cki;
            do
            {

@@ -109,6 +109,19 @@ namespace GameServerV1.Server
             }
             return null;
         }
+        public static void UdpateStatus(string uid, int statys)
+        {
+            string oString = $"UPDATE users SET \"status\"={statys} where \"id\"='{uid}'";
+            try
+            {
+                SQLiteCommand Command = new SQLiteCommand(oString, m_dbConn);
+                Command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(TAG + "Error: " + e.Message);
+            }
+        }
         static string GetMd5Hash(string input)
         {
 

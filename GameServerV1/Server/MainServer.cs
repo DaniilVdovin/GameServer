@@ -42,26 +42,26 @@ namespace GameServerV1.Server
 
         ADMIN = 1000
     }
-    
+
     public class MainServer
     {
-        
+
         private static int PORT = 9000;
         /*
          * port 9000 -> 10000;
          */
-        private static int portroomnow = PORT; 
-        private static int DEFPACSIZE = 8*1024;
+        private static int portroomnow = PORT;
+        private static int DEFPACSIZE = 8 * 1024;
 
 
         public const string BD_SOURCE_USERS = @"Host=localhost; Database=postgres;Username=postgres;Password=24112000;Persist Security Info=True";
-        
-            
+
+
         private static TcpListener listener;
         private List<TcpClient> clients = new List<TcpClient>();
         public static List<RoomServer> rooms = new List<RoomServer>();
         private static BinaryFormatter binFormatter = new BinaryFormatter();
-        public float IsTimer { internal get; set; } = 60; 
+        public float IsTimer { internal get; set; } = 60;
         public static bool _status { get; set; }
         public MainServer(int port)
         {
@@ -89,9 +89,11 @@ namespace GameServerV1.Server
                     }
                 }
 
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Console.WriteLine("Error: " + e.Message);
-            }       
+            }
         }
         ~MainServer()
         {
@@ -132,8 +134,8 @@ namespace GameServerV1.Server
                     {
 
                         //Dictionary<string, object> myObject = ByteToDictionary(readingData, PackSize); 
-                        Dictionary<string, object> myObject = StringJsonToDictionary(readingData, PackSize); 
-                        
+                        Dictionary<string, object> myObject = StringJsonToDictionary(readingData, PackSize);
+
                         Console.WriteLine($"Type: {myObject["type"]}");
                         switch ((Types)Convert.ToInt32(myObject["type"]))
                         {
@@ -167,7 +169,7 @@ namespace GameServerV1.Server
                             case Types.TYPE_NonPack:
                                 {
                                     string t = myObject["data"].ToString();
-                                    Console.WriteLine("Non Dictionary Data: " +t.Substring(0, 11));
+                                    Console.WriteLine("Non Dictionary Data: " + t.Substring(0, 11));
                                     byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r" + File.ReadAllText("Server/WebUI/NotFound.html"));
                                     if (t.Contains("/?"))
                                     {
@@ -205,7 +207,7 @@ namespace GameServerV1.Server
                                                 }
                                         }
                                     }
-                                     stream.Write(data, 0, data.Length);
+                                    stream.Write(data, 0, data.Length);
                                     closeConnect(Client);
                                 }
                                 return;
@@ -218,19 +220,20 @@ namespace GameServerV1.Server
                                                 var d = new Dictionary<string, object>();
                                                 rooms.ForEach(room =>
                                                 {
-                                                    d.Add(""+room.PORT, room.Rules.MatchState);
+                                                    d.Add("" + room.PORT, room.Rules.MatchState);
                                                 });
-                                                sendDictionaryByJson(stream,d);
+                                                sendDictionaryByJson(stream, d);
                                             }
                                             break;
                                     }
-                                }break; 
+                                }
+                                break;
                         }
 
                     }
                     Thread.Sleep(300);
                     timer -= 0.3f;
-                    if (timer<=0)
+                    if (timer <= 0)
                     {
                         Console.WriteLine($"Timeout: {IsTimer} sec lost");
                         closeConnect(Client);
@@ -248,134 +251,29 @@ namespace GameServerV1.Server
         {
             var data = new Dictionary<string, object>();
             data["type"] = (int)Types.TYPE_Get_User;
-            using (var connection = new NpgsqlConnection(BD_SOURCE_USERS))
-                try
-                {
-                    string oString = $"Select * from users where \"Uemail\"='{myObject["email"]}'";
-                    var oCmd = new NpgsqlCommand(oString, connection);
-                    connection.Open();
-                    using (NpgsqlDataReader oReader = oCmd.ExecuteReader())
-                        while (oReader.Read())
-                            if (oReader.Read())
-                            {
-                                connection.Close();
-                                oReader.Close();
+            User user = SQLDataManager.CreateNewUser((string)myObject["name"], (string)myObject["email"], (string)myObject["pass"]);
 
-                                return LogIn(data, stream, myObject);
-                            }
-                            else
-                            {
-                                oReader.Close();
-                                oCmd.Dispose();
-                            }
+            data["name"] = (string)myObject["name"];
+            data["uid"] = user.uId;
+            data["req"] = 1;
+            data["error"] = "null";
 
-                    string g = Guid.NewGuid().ToString();
-                    string sql = $"INSERT INTO users (\"Uname\", \"Uemail\", \"Upassword\", \"Uid\")" +
-                        $"VALUES  (" +
-                        $"'{(string)myObject["name"]}'," +
-                        $"'{(string)myObject["email"]}'," +
-                        $"'{(string)myObject["pass"]}', " +
-                        $"'{g}')";
-                    Console.WriteLine($"BD New user: {(string)myObject["name"]} :: {g}");
-                    var command = new NpgsqlCommand(sql, connection);
-                    command.ExecuteNonQuery();
-                    command.Dispose();
-                    data["name"] = (string)myObject["name"];
-                    data["uid"] = g;
-                    data["req"] = 1;
-                    data["error"] = "null";
-                    sendDictionaryByJson(stream, data);
-
-
-                    connection.Close();
-                    return new User((string)myObject["name"], g);
-                }
-                catch (NpgsqlException e)
-                {
-                    data["req"] = 0;
-                    data["error"] = e.Message;
-                    Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
-                    sendDictionaryByJson(stream, data);
-                    return null;
-                }
-
-        }
-        User LogIn(Dictionary<string, object> data, NetworkStream? stream, Dictionary<string, object>? myObject)
-        {
-            if (data == null)
-            {
-                data = new Dictionary<string, object>();
-                data["type"] = (int)Types.TYPE_Get_User;
-            }
-            using (NpgsqlConnection connection = new NpgsqlConnection(BD_SOURCE_USERS))
-                try
-                {
-                    string oString = $"Select * from users where \"Uemail\"='{myObject["email"]}'  and \"Upassword\"='{myObject["pass"]}'";
-                    NpgsqlCommand oCmd = new NpgsqlCommand(oString, connection);
-                    connection.Open();
-                    using (NpgsqlDataReader oReader = oCmd.ExecuteReader())
-                    {
-                        if (oReader.Read())
-                        {
-                            Console.WriteLine($"BD Login user: {oReader["Uname"].ToString()} :: {oReader["Uid"].ToString()}");
-                            data["req"] = 1;
-                            data["name"] = oReader["Uname"].ToString();
-                            data["uid"] = oReader["Uid"].ToString();
-                            data["error"] = "null";
-                            setUserStatys(oReader["Uid"].ToString(), 1);
-                           
-                            oReader.Close();
-                            connection.Close();
-
-                            sendDictionaryByJson(stream, data);
-                            return new User(data["name"].ToString(), data["uid"].ToString());
-                        }
-                        else
-                        {
-                            data["req"] = 0;
-                            data["error"] = "Not Found";
-                            sendDictionaryByJson(stream, data);
-                        }
-
-                        oReader.Close();
-                        connection.Close();
-                        sendDictionaryByJson(stream, data);
-                        return null;
-                    }
-                }
-                catch (NpgsqlException e)
-                {
-                    data["req"] = 0;
-                    data["error"] = e.Message;
-                    Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
-                  
-                }
+            Console.WriteLine($"BD New user: {(string)myObject["name"]} :: {user.uId}");
             sendDictionaryByJson(stream, data);
-            return null;
+            return user;
         }
-        void setUserStatys(string uid,int statys)
+        void setUserStatys(string uid, int statys)
         {
-            using (NpgsqlConnection connection = new NpgsqlConnection(BD_SOURCE_USERS))
-                try
-                {
-                    string oString = $"UPDATE users SET \"Ustatus\"={statys} where \"Uid\"='{uid}'";
-                    NpgsqlCommand oCmd = new NpgsqlCommand(oString, connection);
-                    connection.Open();
-                    oCmd.ExecuteNonQuery();   
-                }
-                catch (NpgsqlException e)
-                {
-                    Console.WriteLine($"\nError bd: {e.Message}\n{e.StackTrace}\n");
-                }
+            SQLDataManager.UdpateStatus(uid, statys);
         }
-        void closeConnect(TcpClient? client,User? user=null)
+        void closeConnect(TcpClient? client, User? user = null)
         {
             Console.WriteLine($"Client disconnected: {client.Client.RemoteEndPoint}");
             clients.Remove(client);
 
             if (user != null)
                 setUserStatys(user.uId, 0);
-            
+
             client.Close();
             client.Dispose();
             Console.WriteLine($"Client count: {clients.Count}\n");
@@ -389,7 +287,7 @@ namespace GameServerV1.Server
                 mStream.Close();
             }
         }
-        Dictionary<string, object>  ByteToDictionary(byte[] readingData, int PackSize)
+        Dictionary<string, object> ByteToDictionary(byte[] readingData, int PackSize)
         {
             using (var mStream = new MemoryStream())
                 try
@@ -399,7 +297,7 @@ namespace GameServerV1.Server
                         mStream.Write(readingData, 0, PackSize);
                         mStream.Position = 0;
 
-                        return binFormatter.Deserialize(mStream) as Dictionary<string, object> ;
+                        return binFormatter.Deserialize(mStream) as Dictionary<string, object>;
                     }
                 }
                 catch (SerializationException e)
@@ -424,17 +322,18 @@ namespace GameServerV1.Server
         }
         RoomServer FindActiveRoom()
         {
-            foreach(RoomServer room in rooms)
+            foreach (RoomServer room in rooms)
             {
                 Rules rules = room.Rules;
                 if (rules.Alive == 1 & (rules.BlueUser + rules.RedUser) > room.Users.Count)
                     return room;
-                
-            }return null;
+
+            }
+            return null;
         }
         void CreateNewRoom(NetworkStream? stream, IPAddress address)
         {
-           
+
             var data = new Dictionary<string, object>();
             data["type"] = (int)Types.TYPE_CreateRoomR;
             RoomServer roomServer = FindActiveRoom();
@@ -468,7 +367,8 @@ namespace GameServerV1.Server
             }
             sendDictionaryByJson(stream, data);
         }
-        Dictionary<string, object> StringJsonToDictionary(byte[] data,int size) {
+        Dictionary<string, object> StringJsonToDictionary(byte[] data, int size)
+        {
             Dictionary<string, object> temp = new Dictionary<string, object>();
             string json = Encoding.UTF8.GetString(data, 0, size);
             try
@@ -482,17 +382,19 @@ namespace GameServerV1.Server
                     temp["data"] = json;
                 }
                 return temp;
-            }catch(Exception e) {
+            }
+            catch (Exception e)
+            {
                 Console.WriteLine($"Error in StrJsonToDict: {e.Message}");
                 return null;
             }
         }
         void sendDictionaryByJson(NetworkStream stream, Dictionary<string, object> valuePairs)
         {
-             string json = ConvertDictionaryToJsonHard(valuePairs);
-             Console.WriteLine($"Send Json: {json}");
-             byte[] data = Encoding.UTF8.GetBytes(json);
-             stream.Write(data, 0, data.Length);             
+            string json = ConvertDictionaryToJsonHard(valuePairs);
+            Console.WriteLine($"Send Json: {json}");
+            byte[] data = Encoding.UTF8.GetBytes(json);
+            stream.Write(data, 0, data.Length);
         }
         string ConvertDictionaryToJsonHard(Dictionary<string, object> valuePairs)
         {
@@ -506,7 +408,7 @@ namespace GameServerV1.Server
                     temp += $@"'{obj.Key}':'{(string)obj.Value}',";
             }
 
-            return temp[startIndex: 0..^1] +"}";
+            return temp[startIndex: 0..^1] + "}";
 
         }
     }
