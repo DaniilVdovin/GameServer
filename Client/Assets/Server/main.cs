@@ -13,7 +13,7 @@ namespace Server
         private string text = "";
         public Text textUI;
         public InputField em, pas, ipi;
-        public string ip        = "server.minms.keenetic.pro:90",
+        public string ip        = "localhost:9000",
                       Email     = "email@mail.com",
                       Name      = "thisname",
                       Password  = "parol",

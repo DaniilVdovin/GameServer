@@ -93,7 +93,8 @@ namespace Server
             {
                 if (stream.DataAvailable)
                 {
-                    var obj = Udpate();
+                    var objMax = Udpate();
+                    foreach (var obj in objMax)
                     if (obj != null)
                     {
                         switch ((Types)Convert.ToInt32(obj["type"]))
@@ -248,7 +249,7 @@ namespace Server
             data["type"] = (int)Types.ROOM_Leave;
             sendPack(data);
         }
-        private Dictionary<string, object> Udpate()
+        private Dictionary<string, object>[] Udpate()
         {
             while(true)
             {

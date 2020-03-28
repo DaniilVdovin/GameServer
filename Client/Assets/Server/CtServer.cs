@@ -97,7 +97,8 @@ namespace Server
                     } while (stream.DataAvailable);
                     if (csize > 0)
                     {
-                        var obj = ByteJsonToDictionaryHard(rdata, csize);
+                        var objMax = ByteJsonToDictionaryHard(rdata, csize);
+                        foreach(var obj in objMax)
                         if (obj != null)
                         {
                             Debug.Log($"Type: {obj["type"]} Size: {csize} byte");
@@ -236,41 +237,46 @@ namespace Server
                 return null;
             }
         }
-        public static Dictionary<string, object> ByteJsonToDictionaryHard(byte[] data, int size)
+        public static Dictionary<string, object>[] ByteJsonToDictionaryHard(byte[] data, int size)
         {
             string json = Encoding.UTF8.GetString(data, 0, size);
-            string[] jsonArray = json.Replace(@"{", "").Replace(@"}", "").Split(',');
-            Debug.Log("json parametr size: " + jsonArray.Length);
-            var temp = new Dictionary<string, object>();
-            foreach (string obj in jsonArray)
-                if (obj != null)
-                {
-                    int val;
-                    float fval;
-                    object[] t = obj.Split(':');
-                    t[0] = t[0].ToString().Replace(@"'", "");
-                    var a = t[1].ToString();
-                    if (a.Contains("."))
+            List<Dictionary<string, object>> valuePairs=new List<Dictionary<string, object>>();
+            string[] resar = json.Split('}','{');
+            foreach (string j in resar) {
+                string[] jsonArray = json.Replace(@"{", "").Replace(@"}", "").Split(',');
+                Debug.Log("json parametr size: " + jsonArray.Length);
+                var temp = new Dictionary<string, object>();
+                foreach (string obj in jsonArray)
+                    if (obj != null)
                     {
-                        a = a.Replace(@"'", "").Replace(".",",");
-                        if (float.TryParse(a, out fval))
-                            temp.Add((string)t[0], fval);
+                        int val;
+                        float fval;
+                        object[] t = obj.Split(':');
+                        t[0] = t[0].ToString().Replace(@"'", "");
+                        var a = t[1].ToString();
+                        if (a.Contains("."))
+                        {
+                            a = a.Replace(@"'", "").Replace(".", ",");
+                            if (float.TryParse(a, out fval))
+                                temp.Add((string)t[0], fval);
+                            else
+                                temp.Add((string)t[0], a);
+                        }
                         else
-                            temp.Add((string)t[0], a);
-                    }
-                    else
-                    {
-                        a = a.Replace(@"'", "");
-                        if (int.TryParse(a, out val))
-                            temp.Add((string)t[0], val);
-                        else
-                            temp.Add((string)t[0], a);
-                    }
+                        {
+                            a = a.Replace(@"'", "");
+                            if (int.TryParse(a, out val))
+                                temp.Add((string)t[0], val);
+                            else
+                                temp.Add((string)t[0], a);
+                        }
 
-                    //Debug.Log($"json parameter Key:{t[0]} Value:{(int.TryParse((string)t[1], out val) ? val: t[1])}");
-                    
-                }
-             return temp;
+                        //Debug.Log($"json parameter Key:{t[0]} Value:{(int.TryParse((string)t[1], out val) ? val: t[1])}");
+
+                    }
+                valuePairs.Add(temp);
+            }
+            return valuePairs.ToArray();
             
         }
         public static string ConvertDictionaryToJsonHard(Dictionary<string, object> valuePairs)

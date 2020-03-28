@@ -141,7 +141,7 @@ namespace GameServerV1.Server
                         {
                             case Types.TYPE_LogIn:
                                 {
-                                    user = LogIn(null, stream, myObject);
+                                    user = LogIn(stream, myObject);
                                     if (user is null)
                                     {
                                         closeConnect(Client);
@@ -185,7 +185,7 @@ namespace GameServerV1.Server
                                         {
                                             myObject["email"] = "admin@admin.admin";
                                             myObject["pass"] = "admin";
-                                            user = LogIn(null, stream, myObject);
+                                            user = LogIn( stream, myObject);
                                             CreateNewRoom(stream, IPAddress.Any);
                                         }
                                         if (t.Contains("r="))
@@ -260,6 +260,22 @@ namespace GameServerV1.Server
 
             Console.WriteLine($"BD New user: {(string)myObject["name"]} :: {user.uId}");
             sendDictionaryByJson(stream, data);
+            return user;
+        }
+        User LogIn(NetworkStream? stream, Dictionary<string, object>? myObject)
+        {
+            var data = new Dictionary<string, object>();
+            data["type"] = (int)Types.TYPE_Get_User;
+            User user = SQLDataManager.GetUserData((string)myObject["email"], (string)myObject["pass"]);
+            if (user != null)
+            {
+                data["name"] = user.name;
+                data["uid"] = user.uId;
+                data["req"] = 1;
+                data["error"] = "null";
+                Console.WriteLine($"BD login user: {user.name} :: {user.uId}");
+                sendDictionaryByJson(stream, data);
+            }
             return user;
         }
         void setUserStatys(string uid, int statys)
@@ -408,7 +424,7 @@ namespace GameServerV1.Server
                     temp += $@"'{obj.Key}':'{(string)obj.Value}',";
             }
 
-            return temp[startIndex: 0..^1] + "}";
+            return temp[0..^1] + "}";
 
         }
     }

@@ -9,10 +9,9 @@ namespace GameServerV1.Server
     {
         static void Main(string[] args)
         {
-            // int port = int.Parse(Console.ReadLine());
-            //  MainServer server = new MainServer(port);
            SQLDataManager.InitSQL();
-           SQLDataManager.CreateNewUser("mike", "email2f", "passs");
+
+           MainServer server = new MainServer(9000);
            ConsoleKeyInfo cki;
            do
            {

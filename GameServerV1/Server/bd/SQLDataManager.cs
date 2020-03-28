@@ -13,7 +13,7 @@ namespace GameServerV1.Server
         private static String dbFileName;
         private static SQLiteConnection m_dbConn;
 
-        private static readonly string TAG="SQL";
+        private static readonly string TAG="SQLManager";
 
         public static void InitSQL()
         {
@@ -21,15 +21,12 @@ namespace GameServerV1.Server
           
             dbFileName = "db.sqlite";
 
-
-            if (!File.Exists(dbFileName))
-                SQLiteConnection.CreateFile(dbFileName);
             try
             {
                 m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
                 m_dbConn.Open();
 
-                Console.WriteLine(TAG + "Connect");
+                Console.WriteLine(TAG + " Connect");
             }
             catch (SQLiteException ex)
             {
@@ -49,11 +46,8 @@ namespace GameServerV1.Server
                 using (SQLiteDataReader oReader = Command.ExecuteReader())
                 {
                     while (oReader.Read())
-                        if (oReader.Read())
                         {
-                            oReader.Close();
-                            Command.Dispose();
-                            return GetUserData(email,passwoed);
+                        return new User(oReader.GetValue(0) as string, oReader.GetValue(1) as string);
                         }
                 }
 
@@ -61,13 +55,15 @@ namespace GameServerV1.Server
             catch(Exception e)
             {
                 Console.WriteLine(TAG + "Error: " + e.Message);
+                Console.WriteLine(TAG + "Error: " + e.StackTrace);
             }
 
             string id = Guid.NewGuid().ToString();
             string comand =
                "INSERT INTO users(id, name, email, pass, status) " +
                $"VALUES(\"{id}\", \"{name}\", \"{email}\"," +
-               $" \"{GetMd5Hash(passwoed)}\", 0)";
+               $" \"{GetMd5Hash(passwoed)}\", 0)" +
+               $"";
             try
             {
                 SQLiteCommand Command = new SQLiteCommand(comand, m_dbConn);
@@ -80,6 +76,8 @@ namespace GameServerV1.Server
             {
                 Console.WriteLine(TAG + "Disconect");
                 Console.WriteLine(TAG + "Error: " + ex.Message);
+
+                Console.WriteLine(TAG + "Error: " + ex.StackTrace);
             }
             return null;
 
@@ -87,18 +85,24 @@ namespace GameServerV1.Server
         public static User GetUserData(string email,string pass)
         {
             string find = $"Select 1 from users where \"email\"='{email}' AND \"pass\"='{GetMd5Hash(pass)}'";
+            User user = null;
             try
             {
                 SQLiteCommand Command = new SQLiteCommand(find, m_dbConn);
                 Command.ExecuteNonQuery();
                 using (SQLiteDataReader oReader = Command.ExecuteReader())
                 {
+
                     while (oReader.Read())
-                        if (oReader.Read())
-                        {
-                            oReader.Close();
-                            Command.Dispose();
-                            
+                    {   
+                            user = new User(oReader[1]as string,oReader[0]as string);
+
+                            if (user != null)
+                            {
+                                oReader.Close();
+                                Command.Dispose();
+                                break;
+                            }
                         }
                 }
 
@@ -106,8 +110,9 @@ namespace GameServerV1.Server
             catch (Exception e)
             {
                 Console.WriteLine(TAG + "Error: " + e.Message);
+                Console.WriteLine(TAG + "Error: " + e.StackTrace);
             }
-            return null;
+            return user;
         }
         public static void UdpateStatus(string uid, int statys)
         {
@@ -120,6 +125,7 @@ namespace GameServerV1.Server
             catch (Exception e)
             {
                 Console.WriteLine(TAG + "Error: " + e.Message);
+                Console.WriteLine(TAG + "Error: " + e.StackTrace);
             }
         }
         static string GetMd5Hash(string input)
