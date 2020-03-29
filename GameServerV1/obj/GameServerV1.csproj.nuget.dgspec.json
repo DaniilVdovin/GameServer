@@ -14,7 +14,7 @@
         "outputPath": "/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/daniilvdovin/.config/NuGet/NuGet.Config"
+          "/Users/daniilvdovin/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
