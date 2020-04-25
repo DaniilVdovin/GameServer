@@ -53,10 +53,6 @@ namespace GameServerV1.Server
         private static int portroomnow = PORT;
         private static int DEFPACSIZE = 8 * 1024;
 
-
-        public const string BD_SOURCE_USERS = @"Host=localhost; Database=postgres;Username=postgres;Password=24112000;Persist Security Info=True";
-
-
         private static TcpListener listener;
         private List<TcpClient> clients = new List<TcpClient>();
         public static List<RoomServer> rooms = new List<RoomServer>();

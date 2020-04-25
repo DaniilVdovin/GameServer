@@ -38,16 +38,18 @@ namespace GameServerV1.Server
 
         public static User CreateNewUser(string name, string email, string passwoed)
         {
-            string find = $"Select 1 from users where \"email\"='{email}'";
+            string find = $"Select * from users where \"email\"='{email}'";
             try
             {
                 SQLiteCommand Command = new SQLiteCommand(find, m_dbConn);
                 Command.ExecuteNonQuery();
                 using (SQLiteDataReader oReader = Command.ExecuteReader())
                 {
+                    if(oReader.HasRows)
                     while (oReader.Read())
                         {
-                        return new User(oReader.GetValue(0) as string, oReader.GetValue(1) as string);
+                            UdpateLastLogin(oReader.GetValue(0) as string);
+                            return new User(oReader.GetValue(0) as string, oReader.GetValue(3) as string);
                         }
                 }
 
@@ -60,9 +62,9 @@ namespace GameServerV1.Server
 
             string id = Guid.NewGuid().ToString();
             string comand =
-               "INSERT INTO users(id, name, email, pass, status) " +
+               "INSERT INTO users(id, name, email, pass, status, regdate, lastlogin) " +
                $"VALUES(\"{id}\", \"{name}\", \"{email}\"," +
-               $" \"{GetMd5Hash(passwoed)}\", 0)" +
+               $" \"{GetMd5Hash(passwoed)}\", 1, \"{DateTime.Now}\", \"{DateTime.Now}\")" +
                $"";
             try
             {
@@ -84,7 +86,7 @@ namespace GameServerV1.Server
         }
         public static User GetUserData(string email,string pass)
         {
-            string find = $"Select 1 from users where \"email\"='{email}' AND \"pass\"='{GetMd5Hash(pass)}'";
+            string find = $"Select * from users where \"email\"='{email}' AND \"pass\"='{GetMd5Hash(pass)}'";
             User user = null;
             try
             {
@@ -92,11 +94,10 @@ namespace GameServerV1.Server
                 Command.ExecuteNonQuery();
                 using (SQLiteDataReader oReader = Command.ExecuteReader())
                 {
-
+                    if (oReader.HasRows)
                     while (oReader.Read())
                     {   
-                            user = new User(oReader[1]as string,oReader[0]as string);
-
+                            user = new User(oReader.GetValue(0) as string, oReader.GetValue(3) as string);
                             if (user != null)
                             {
                                 oReader.Close();
@@ -112,6 +113,8 @@ namespace GameServerV1.Server
                 Console.WriteLine(TAG + "Error: " + e.Message);
                 Console.WriteLine(TAG + "Error: " + e.StackTrace);
             }
+            if(user != null)
+                UdpateLastLogin(user.uId);
             return user;
         }
         public static void UdpateStatus(string uid, int statys)
@@ -128,24 +131,28 @@ namespace GameServerV1.Server
                 Console.WriteLine(TAG + "Error: " + e.StackTrace);
             }
         }
+        public static void UdpateLastLogin(string uid)
+        {
+            string oString = $"UPDATE users SET \"lastlogin\"=\"{DateTime.Now}\" where \"id\"='{uid}'";
+            try
+            {
+                SQLiteCommand Command = new SQLiteCommand(oString, m_dbConn);
+                Command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(TAG + "Error: " + e.Message);
+                Console.WriteLine(TAG + "Error: " + e.StackTrace);
+            }
+        }
         static string GetMd5Hash(string input)
         {
-
-            // Convert the input string to a byte array and compute the hash.
             byte[] data = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            // Create a new Stringbuilder to collect the bytes
-            // and create a string.
             StringBuilder sBuilder = new StringBuilder();
-
-            // Loop through each byte of the hashed data 
-            // and format each one as a hexadecimal string.
             for (int i = 0; i < data.Length; i++)
             {
                 sBuilder.Append(data[i].ToString("x2"));
             }
-
-            // Return the hexadecimal string.
             return sBuilder.ToString();
         }
     }
