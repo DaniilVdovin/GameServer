@@ -3,10 +3,10 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Server/Room/RoomServer.cs">
     <Files>
       <File FileName="Program.cs" Line="1" Column="1" />
-      <File FileName="Server/bd/SQLDataManager.cs" Line="149" Column="10" />
-      <File FileName="Server/Room/RoomServer.cs" Line="354" Column="23" />
-      <File FileName="Server/MainServer.cs" Line="73" Column="1" />
-      <File FileName="../Client/Assets/Server/CtServer.cs" Line="1" Column="1" />
+      <File FileName="Server/bd/SQLDataManager.cs" />
+      <File FileName="Server/Room/RoomServer.cs" Line="157" Column="1" />
+      <File FileName="Server/MainServer.cs" />
+      <File FileName="../Client/Assets/Server/CtServer.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,6 +22,9 @@
             </Node>
           </Node>
         </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

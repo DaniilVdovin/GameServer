@@ -66,7 +66,7 @@
     <Compile Include="Assets\Server\CtServer.cs" />
     <Compile Include="Assets\Server\Room.cs" />
     <Compile Include="Assets\Server\User.cs" />
-    <Compile Include="Assets\Server\main.cs" />
+    <Compile Include="Assets\main.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>/Users/daniilvdovin/Documents/GitHub/GameServer/Client/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

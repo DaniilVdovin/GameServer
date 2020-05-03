@@ -159,6 +159,7 @@ namespace GameServerV1.Server
                                 }
                                 break;
                         }
+                    ob = null;
                 }
                 //Logic
                 {
@@ -289,7 +290,7 @@ namespace GameServerV1.Server
             var users = new Dictionary<string, object>();
             users["type"] = (int)Types.TYPE_update_users;
             users["users"] = (string)getListUser();
-            Console.WriteLine("user pack: " + users["users"]);
+            //Console.WriteLine("user pack: " + users["users"]);
             return users;
         }
         Dictionary<string, object> getAllUserDataByGroup(int group)
@@ -335,7 +336,7 @@ namespace GameServerV1.Server
             try
             {
                 stream.Write(data, 0, data.Length);
-                Console.WriteLine($"Room {PORT} send: {data.Length} byte to {nameofuser} | users: {Users.Count}");
+                //Console.WriteLine($"Room {PORT} send: {data.Length} byte to {nameofuser} | users: {Users.Count}");
             }
             catch (IOException e)
             {
