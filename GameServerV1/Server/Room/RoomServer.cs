@@ -145,7 +145,7 @@ namespace GameServerV1.Server
                                 {
                                     if (obj.ContainsKey("px") && obj.ContainsKey("rx"))
                                     {
-                                        Console.WriteLine($"Room {PORT} {(string)obj["px"]}  {(string)obj["py"]}  {(string)obj["pz"]}");
+                                        //Console.WriteLine($"Room {PORT} {(string)obj["px"]}  {(string)obj["py"]}  {(string)obj["pz"]}");
                                         int ind = Users.IndexOf(currentuser);
                                         currentuser.setPosition(
                                             float.Parse(((string)obj["px"]).Replace(".", ",")),
