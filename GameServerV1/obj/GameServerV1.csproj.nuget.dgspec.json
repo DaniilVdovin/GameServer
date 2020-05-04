@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/GameServerV1.csproj": {}
+    "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj": {}
   },
   "projects": {
-    "/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/GameServerV1.csproj": {
+    "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/GameServerV1.csproj",
+        "projectUniqueName": "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
         "projectName": "GameServerV1",
-        "projectPath": "/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/GameServerV1.csproj",
-        "packagesPath": "/Users/daniilvdovin/.nuget/packages/",
-        "outputPath": "/Users/daniilvdovin/Documents/GitHub/GameServer/GameServerV1/obj/",
+        "projectPath": "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\GameServerV1.csproj",
+        "packagesPath": "C:\\Users\\stels\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\stels\\Source\\Repos\\DaniilVdovin\\GameServer\\GameServerV1\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/Users/daniilvdovin/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\stels\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -73,7 +80,15 @@
               "version": "[3.0.1, 3.0.1]"
             },
             {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[3.0.2, 3.0.2]"
+            },
+            {
               "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.0.0, 3.0.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
               "version": "[3.0.0, 3.0.0]"
             }
           ],
@@ -82,7 +97,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.200/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

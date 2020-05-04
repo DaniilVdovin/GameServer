@@ -98,7 +98,8 @@ namespace Server
                     if (csize > 0)
                     {
                         var objMax = ByteJsonToDictionaryHard(rdata, csize);
-                        foreach(var obj in objMax)
+                        Debug.Log("objMax[]:"+ objMax.Length);
+                        var obj = objMax[0];
                         if (obj != null)
                         {
                             Debug.Log($"Type: {obj["type"]} Size: {csize} byte");
