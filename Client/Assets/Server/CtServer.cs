@@ -98,8 +98,7 @@ namespace Server
                     if (csize > 0)
                     {
                         var objMax = ByteJsonToDictionaryHard(rdata, csize);
-                        Debug.Log("objMax[]:"+ objMax.Length);
-                        var obj = objMax[0];
+                        foreach(var obj in objMax)
                         if (obj != null)
                         {
                             Debug.Log($"Type: {obj["type"]} Size: {csize} byte");
@@ -132,7 +131,7 @@ namespace Server
                         }
                         else Error("data is null");
                     }
-                    Thread.Sleep(100);
+                    Thread.Sleep(150);
                 }
             }
             catch (Exception e)
@@ -242,40 +241,48 @@ namespace Server
         {
             string json = Encoding.UTF8.GetString(data, 0, size);
             List<Dictionary<string, object>> valuePairs=new List<Dictionary<string, object>>();
+            //Debug.Log(json);
             string[] resar = json.Split('}','{');
-            foreach (string j in resar) {
-                string[] jsonArray = json.Replace(@"{", "").Replace(@"}", "").Split(',');
-                Debug.Log("json parametr size: " + jsonArray.Length);
-                var temp = new Dictionary<string, object>();
-                foreach (string obj in jsonArray)
-                    if (obj != null)
-                    {
-                        int val;
-                        float fval;
-                        object[] t = obj.Split(':');
-                        t[0] = t[0].ToString().Replace(@"'", "");
-                        var a = t[1].ToString();
-                        if (a.Contains("."))
+            foreach (string j in resar)
+            {
+                if (j.Trim(' ') != "")
+                {
+                    //Debug.LogWarning(j);
+                    string[] jsonArray = j.Replace(@"{", "").Replace(@"}", "").Split(',');
+                    //Debug.LogWarning(jsonArray.Length);
+                    var temp = new Dictionary<string, object>();
+                    foreach (string obj in jsonArray)
+                        if (obj != null | obj != "" | obj != " ")
                         {
-                            a = a.Replace(@"'", "").Replace(".", ",");
-                            if (float.TryParse(a, out fval))
-                                temp.Add((string)t[0], fval);
-                            else
-                                temp.Add((string)t[0], a);
-                        }
-                        else
-                        {
-                            a = a.Replace(@"'", "");
-                            if (int.TryParse(a, out val))
-                                temp.Add((string)t[0], val);
-                            else
-                                temp.Add((string)t[0], a);
-                        }
+                            int val;
+                            float fval;
+                            object[] t = obj.Split(':');
+                            t[0] = t[0].ToString().Replace(@"'", "");
+                            var a = "";
+                            if (t.Length > 1)
+                                a = t[1].ToString();
 
-                        //Debug.Log($"json parameter Key:{t[0]} Value:{(int.TryParse((string)t[1], out val) ? val: t[1])}");
+                            if (a.Contains("."))
+                            {
+                                a = a.Replace(@"'", "").Replace(".", ",");
+                                if (float.TryParse(a, out fval))
+                                    temp.Add((string)t[0], fval);
+                                else
+                                    temp.Add((string)t[0], a);
+                            }
+                            else
+                            {
+                                a = a.Replace(@"'", "");
+                                if (int.TryParse(a, out val))
+                                    temp.Add((string)t[0], val);
+                                else
+                                    temp.Add((string)t[0], a);
+                            }
 
-                    }
-                valuePairs.Add(temp);
+                            //Debug.Log($"json parameter Key:{t[0]} Value:{(int.TryParse((string)t[1], out val) ? val: t[1])}");
+                        }
+                    valuePairs.Add(temp);
+                }
             }
             return valuePairs.ToArray();
             

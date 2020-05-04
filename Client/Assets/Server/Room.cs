@@ -63,6 +63,7 @@ namespace Server
         }
         public Room(string address, int port, User us)
         {
+            users = new List<User>();
             alive = true;
             CurrentUser = us;
             this.port = port;
@@ -114,8 +115,17 @@ namespace Server
                                 break;
                             case Types.TYPE_update_users:
                                 {
-                                    UpdateUsersFromDictionaryArray((string)obj["users"]);
-                                    Debug.Log("Set new user pack");
+                                        //Debug.Log("GET USERS");
+                                        if (obj.ContainsKey("users"))
+                                        {
+                                            UpdateUsersFromDictionaryArray((string)obj["users"]);
+                                            Debug.Log("Set new user pack.\n"+users.Count);
+                                            uUpdate();
+                                        }
+                                        else
+                                        {
+                                            Debug.Log("NON-Set new user pack");
+                                        }
                                 }
                                 break;
                         }
@@ -125,8 +135,7 @@ namespace Server
         }
         void UpdateUsersFromDictionaryArray(string data)
         {
-            if (data.Contains("#"))
-            {
+
                 List<User> temp = new List<User>();
             /*foreach (Dictionary<string, object> data in value)
             {
@@ -145,32 +154,33 @@ namespace Server
                 string[] d;
                 if (t.Contains("*")) d = t.Split('*');
                 else d = new string[] { t };
-
-                Debug.Log($"User Pack: {d[0]}");
+                //Debug.Log($"User Pack: {d[0]}");
                 foreach (object us in d)
                     if (us != null)
                     {
                         var tl = us.ToString().Split('#');
-                        if (tl != null)
+                    //Debug.Log($"User Pack: {us.ToString()}");
+                    if (tl != null)
                         {
-                            User user = new User((string)tl[0].Split(':')[1], (string)tl[1].Split(':')[1]);
-                            user.SolderClass = int.Parse(tl[2].Split(':')[1]);
-                            user.group = int.Parse(tl[3].Split(':')[1]);
-                            user.Health = int.Parse(tl[4].Split(':')[1]);
+                            User user = new User((string)tl[0].Split(';')[1], (string)tl[1].Split(';')[1]);
+                            user.SolderClass = int.Parse(tl[2].Split(';')[1]);
+                            user.group = int.Parse(tl[3].Split(';')[1]);
+                            user.Health = int.Parse(tl[4].Split(';')[1]);
                             user.position = new Vector3(
-                                int.Parse(tl[5].Split(':')[1]),
-                                int.Parse(tl[6].Split(':')[1]),
-                                int.Parse(tl[7].Split(':')[1]));
-                            user.rotation = new Vector2(
-                                int.Parse(tl[8].Split(':')[1]),
-                                int.Parse(tl[9].Split(':')[1]));
+                                float.Parse(tl[5].Split(';')[1]),
+                                float.Parse(tl[6].Split(';')[1]),
+                                float.Parse(tl[7].Split(';')[1]));
+                          /*user.rotation = new Vector2(
+                                float.Parse(tl[8].Split(';')[1]),
+                                float.Parse(tl[9].Split(';')[1]));*/
                             temp.Add(user);
                         }
                     }
                 users = temp;
+                //Debug.Log($"Complide Getting users");
+                //Debug.Log($"Temp now: \n{temp.Count}");
+                //Debug.Log($"User now: \n{users.Count}");
                 temp.Clear();
-                uUpdate();
-            }
         }
         void Logic()
         {
@@ -190,7 +200,7 @@ namespace Server
                 data["rx"] = (rotation[0].ToString("0.0#")).ToString(CultureInfo.InvariantCulture).Replace(",", ".");
                 data["ry"] = (rotation[1].ToString("0.0#")).ToString(CultureInfo.InvariantCulture).Replace(",", ".");
                 //.ToString(CultureInfo.InvariantCulture)
-                Udpate();
+                //Udpate();
                 sendPack(data);
             }
         }
@@ -224,7 +234,7 @@ namespace Server
         {
             //string json = JsonUtility.ToJson(valuePairs);
             string json = CtServer.ConvertDictionaryToJsonHard(valuePairs);
-            Debug.Log(json);
+            //Debug.Log(json);
             byte[] data = Encoding.UTF8.GetBytes(json);
             stream.Write(data, 0, data.Length);
         }
@@ -257,7 +267,7 @@ namespace Server
                 int bytes = stream.Read(so.buffer, 0, so.buffer.Length);
                 if (bytes != 0)
                 {
-                    Debug.Log($"Pack size: {bytes} byte");
+                    //Debug.Log($"Pack size: {bytes} byte");
                     return CtServer.ByteJsonToDictionaryHard(so.buffer, bytes);
                 }
             }

@@ -38,6 +38,7 @@ namespace Server
             server.OnChangeUser += Server_OnChangeUser;
             server.OnError += Server_OnError;
             server.OnNewRoom += Server_OnNewRoom;
+            
 
             StartCoroutine(UdpateTransform());
         }
@@ -46,15 +47,12 @@ namespace Server
         {
             foreach (User user in e)
             {
-                if (!con(enemy, user))
-                {
                     var en = Instantiate(enPref);
                     en.name = user.uId;
                     en.transform.position = user.position;
                     enemy.Add(en);
-                }
             }
-            text += "\n Users: " + e.Length;
+            text= "Users: " + e.Length +" "+server.CurrentRoom.users.Count;
         }
         bool con(List<GameObject>e,User user)
         {
@@ -120,6 +118,7 @@ namespace Server
         { 
             text += $"\nUser :\nname:{server.CurrentUser.name}\nuid:{server.CurrentUser.uId}";
         }
+
         public void Sing()
         { 
             server.SingUp(name, em.text, pas.text, lang); 
@@ -142,10 +141,16 @@ namespace Server
         {
             server.CurrentRoom.GetNewUsers();
         }
+        public void Leave()
+        {
+            if (server.CurrentRoom!=null)
+                server.CurrentRoom.Leave();
+            server.Logout();
+            text = "";
+        }
         private void OnDestroy()
         {
-            server.CurrentRoom.Leave();
-            server.Logout();
+            Leave();
         }
 
         public IEnumerator UdpateTransform()
