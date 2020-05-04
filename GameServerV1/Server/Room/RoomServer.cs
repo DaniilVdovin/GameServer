@@ -39,7 +39,7 @@ namespace GameServerV1.Server
     }
     public class RoomServer
     {
-        public int TickServer = 300;
+        public int TickServer = 100;
         public Rules Rules          { get;  set; }
         public int PORT             { get; internal set; }
         public IPAddress ADDPRES    { get; internal set; }
@@ -145,7 +145,7 @@ namespace GameServerV1.Server
                                 {
                                     if (obj.ContainsKey("px") && obj.ContainsKey("rx"))
                                     {
-                                        //Console.WriteLine($"Room {PORT} {(string)obj["px"]}  {(string)obj["py"]}  {(string)obj["pz"]}");
+                                        //Console.WriteLine($"Room {PORT} {currentuser.name} {(string)obj["px"]}  {(string)obj["py"]}  {(string)obj["pz"]}");
                                         int ind = Users.IndexOf(currentuser);
                                         currentuser.setPosition(
                                             float.Parse(((string)obj["px"]).Replace(".", ",")),
@@ -265,7 +265,7 @@ namespace GameServerV1.Server
             currentuser.SolderClass = (int)Convert.ToInt32(obj["solderclass"]);
 
             Console.WriteLine($"Room {PORT} new User {currentuser.name}:{currentuser.uId}" +
-                $"\nUser Wanna play in {obj["group"]} group but w`ll be play in {currentuser.group}");
+                $"\nUser Wanna play in {obj["group"]} group but w`ll be play in {currentuser.group} now user in room {Users.Count}");
             return currentuser;
         }
         Dictionary<string, object> getRules()
@@ -297,7 +297,7 @@ namespace GameServerV1.Server
         {
             var users = new Dictionary<string, object>();
             users["type"] = (int)Types.TYPE_roomsend_auto_user;
-            users["users"] = (string)getListByGroup(group);
+            users["users"] = (string)getListUser();
             //Console.WriteLine("user pack: " + users["users"]);
             return users;
         }
@@ -356,33 +356,41 @@ namespace GameServerV1.Server
         }
         public string getListUser()
         {
-            string list = "[";
-            foreach(User u in Users)
+            try
             {
-                string user = $"" +
-                    $"'name':'{u.name}'#" +
-                    $"'uid':'{u.uId}'#" +
-                    $"'solderclass':{u.SolderClass}#" +
-                    $"'group':{u.group}#" +
-                    $"'health':{u.Health}#" +
-                    $"'px':{u.position.x.ToString().Replace(",", ".")}#" +
-                    $"'py':{u.position.y.ToString().Replace(",", ".")}#" +
-                    $"'pz':{u.position.z.ToString().Replace(",", ".")}#" +
+                string list = "[";
+                foreach (User u in Users)
+                {
+                    string user = $"" +
+                        $"'name';'{u.name}'#" +
+                        $"'uid';'{u.uId}'#" +
+                        $"'solderclass';{u.SolderClass}#" +
+                        $"'group';{u.group}#" +
+                        $"'health';{u.Health}#" +
+                        $"'px';{u.position.x.ToString().Replace(",", ".")}#" +
+                        $"'py';{u.position.y.ToString().Replace(",", ".")}#" +
+                        $"'pz';{u.position.z.ToString().Replace(",", ".")}#" +
 
-                    $"'rx':{u.rotation.x.ToString().Replace(",", ".")}#" +
-                    $"'ry':{u.rotation.y.ToString().Replace(",", ".")}*";
-                /* 
-                 user["name"] = ;
-                 user["uid"] = ;
-                 user["solderclass"] = ;
-                 user["group"] = u.group;
-                 user["health"] = u.Health;
-                 user["pos"] = new float[] { u.position.x,u.position.y,u.position.z };
-                 user["rot"] = new float[] { u.rotation.x, u.rotation.y };
-                 */
-                list +=user;
+                        $"'rx';{u.rotation.x.ToString().Replace(",", ".")}#" +
+                        $"'ry';{u.rotation.y.ToString().Replace(",", ".")}*";
+                    /* 
+                     user["name"] = ;
+                     user["uid"] = ;
+                     user["solderclass"] = ;
+                     user["group"] = u.group;
+                     user["health"] = u.Health;
+                     user["pos"] = new float[] { u.position.x,u.position.y,u.position.z };
+                     user["rot"] = new float[] { u.rotation.x, u.rotation.y };
+                     */
+                    list += user;
+                }
+                return list[0..^1] + "]";
             }
-            return list[0..^1] + "]";
+            catch (Exception e)
+            {
+                Console.WriteLine($"Room {PORT} Error getListUser {e.Message}");
+                return "null";
+            }
         }
         public string getListByGroup(int group)
         {
@@ -391,17 +399,17 @@ namespace GameServerV1.Server
             if(u.group == group)
             {
                 string user = $"" +
-                    $"'name':'{u.name}'#" +
-                    $"'uid':'{u.uId}'#" +
-                    $"'solderclass':{u.SolderClass}#" +
-                    $"'group':{u.group}#" +
-                    $"'health':{u.Health}#" +
-                    $"'px':{u.position.x}#" +
-                    $"'py':{u.position.y}#" +
-                    $"'pz':{u.position.z}#" +
+                    $"'name';'{u.name}'#" +
+                    $"'uid';'{u.uId}'#" +
+                    $"'solderclass';{u.SolderClass}#" +
+                    $"'group';{u.group}#" +
+                    $"'health';{u.Health}#" +
+                    $"'px';{u.position.x}#" +
+                    $"'py';{u.position.y}#" +
+                    $"'pz';{u.position.z}#" +
 
-                    $"'rx':{u.rotation.x}#" +
-                    $"'ry':{u.rotation.y}*";
+                    $"'rx';{u.rotation.x}#" +
+                    $"'ry';{u.rotation.y}*";
                 list += user;
             }
             return list[0..^1] + "]";
