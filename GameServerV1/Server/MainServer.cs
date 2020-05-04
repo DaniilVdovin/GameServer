@@ -228,13 +228,13 @@ namespace GameServerV1.Server
 
                     }
                     Thread.Sleep(300);
-                    timer -= 0.3f;
+                    /*timer -= 0.3f;
                     if (timer <= 0)
                     {
                         Console.WriteLine($"Timeout: {IsTimer} sec lost");
                         closeConnect(Client);
                         return;
-                    }
+                    }*/
                 }
             }
             catch (Exception e)
