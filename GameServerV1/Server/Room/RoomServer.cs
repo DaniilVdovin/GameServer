@@ -8,6 +8,7 @@ using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace GameServerV1.Server
 {
@@ -38,7 +39,7 @@ namespace GameServerV1.Server
     }
     public class RoomServer
     {
-        public int TickServer = 300;
+        public int TickServer = 100;
         public Rules Rules          { get;  set; }
         public int PORT             { get; internal set; }
         public IPAddress ADDPRES    { get; internal set; }
@@ -69,15 +70,18 @@ namespace GameServerV1.Server
             try
             {
                 while (true)
-                    using (TcpClient client = socket.AcceptTcpClient())
-                        try
-                        {
-                            new Thread(listner).Start(client);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message + "\n" + e.StackTrace);
-                        }
+                {
+                    TcpClient client = socket.AcceptTcpClient();
+                    client.NoDelay = true;
+                    try
+                    {
+                        new Thread(listner).Start(client);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message + "\n" + e.StackTrace);
+                    }
+                }
             }
             catch (SocketException e)
             {
@@ -92,7 +96,8 @@ namespace GameServerV1.Server
             {
                 if (stream.DataAvailable)
                 {
-                    var obj = Udpate(stream);
+                    var ob = Udpate(stream);
+                    foreach(var obj in ob)
                     if (obj != null)
                         switch ((Types)Convert.ToInt32(obj["type"]))
                         {
@@ -118,8 +123,9 @@ namespace GameServerV1.Server
                                 {
                                     stream.Close();
                                     ((TcpClient)client).Close();
+                                    Console.WriteLine($"Room {PORT} User:{currentuser.name} Leave");
                                     Users.Remove(currentuser);
-                                    Thread.CurrentThread.Abort();
+                                    currentuser = null;
                                 }
                                 return;
                             case Types.ROOM_Send_Damage:
@@ -137,27 +143,38 @@ namespace GameServerV1.Server
                                 break;
                             case Types.Room_Send_Transform: 
                                 {
-                                    int ind = Users.IndexOf(currentuser);
-                                    currentuser.setPosition((float)obj["px"], (float)obj["py"], (float)obj["pz"]);
-                                    currentuser.setRotation((float)obj["rx"], (float)obj["rx"]);
-                                    Users[ind] = currentuser;
+                                    if (obj.ContainsKey("px") && obj.ContainsKey("rx"))
+                                    {
+                                        //Console.WriteLine($"Room {PORT} {currentuser.name} {(string)obj["px"]}  {(string)obj["py"]}  {(string)obj["pz"]}");
+                                        int ind = Users.IndexOf(currentuser);
+                                        currentuser.setPosition(
+                                            float.Parse(((string)obj["px"]).Replace(".", ",")),
+                                            float.Parse(((string)obj["py"]).Replace(".", ",")),
+                                            float.Parse(((string)obj["pz"]).Replace(".", ",")));
+                                        currentuser.setRotation(
+                                            float.Parse(((string)obj["rx"]).Replace(".", ",")),
+                                            float.Parse(((string)obj["ry"]).Replace(".", ",")));
+                                        Users[ind] = currentuser;
+                                    }
                                 }
                                 break;
                         }
+                    ob = null;
                 }
                 //Logic
                 {
-                    Send(stream, ConvertDictionaryToByteHard(getAllUserDataByGroup(currentuser.group)), currentuser.name);
+                    if(currentuser != null)
+                        Send(stream, ConvertDictionaryToByteHard(getAllUserData()), currentuser.name);
                 }
                 Thread.Sleep(TickServer);
             }
                    
         }
-        bool DetectDamageVector(Vector2 UserPosition, float UserRotation, Vector2 TargetPosition)
+        bool DetectDamageVector(Vector2 UserPosition, double UserRotation, Vector2 TargetPosition)
         {
             double angleRadian = (UserRotation) * Math.PI / 180;
-            float x, y, k, m, n;
-            float
+            double x, y, k, m, n;
+            double
                 x1 = UserPosition.x,
                 y1 = UserPosition.y,
 
@@ -219,7 +236,7 @@ namespace GameServerV1.Server
             }
             return null;
         }
-        Dictionary<string, object> Udpate(NetworkStream stream)
+        Dictionary<string, object>[] Udpate(NetworkStream stream)
         {
             while (true)
             {
@@ -248,7 +265,7 @@ namespace GameServerV1.Server
             currentuser.SolderClass = (int)Convert.ToInt32(obj["solderclass"]);
 
             Console.WriteLine($"Room {PORT} new User {currentuser.name}:{currentuser.uId}" +
-                $"\nUser Wanna play in {obj["group"]} group but w`ll be play in {currentuser.group}");
+                $"\nUser Wanna play in {obj["group"]} group but w`ll be play in {currentuser.group} now user in room {Users.Count}");
             return currentuser;
         }
         Dictionary<string, object> getRules()
@@ -273,15 +290,15 @@ namespace GameServerV1.Server
             var users = new Dictionary<string, object>();
             users["type"] = (int)Types.TYPE_update_users;
             users["users"] = (string)getListUser();
-            Console.WriteLine("user pack: " + users["users"]);
+            //Console.WriteLine("user pack: " + users["users"]);
             return users;
         }
         Dictionary<string, object> getAllUserDataByGroup(int group)
         {
             var users = new Dictionary<string, object>();
             users["type"] = (int)Types.TYPE_roomsend_auto_user;
-            users["users"] = (string)getListByGroup(group);
-            Console.WriteLine("user pack: " + users["users"]);
+            users["users"] = (string)getListUser();
+            //Console.WriteLine("user pack: " + users["users"]);
             return users;
         }
         byte[] FromDictionary(Dictionary<string, object> valuePairs)
@@ -316,8 +333,15 @@ namespace GameServerV1.Server
         }
         public void Send(NetworkStream stream, byte[] data,string nameofuser="unknow")
         {
-            stream.Write(data, 0, data.Length);
-            Console.WriteLine($"Room {PORT} send: {data.Length} byte to {nameofuser}");
+            try
+            {
+                stream.Write(data, 0, data.Length);
+                //Console.WriteLine($"Room {PORT} send: {data.Length} byte to {nameofuser} | users: {Users.Count}");
+            }
+            catch (IOException e)
+            {
+                
+            }
         }
         private void Receive(Socket socket)
         {
@@ -326,39 +350,47 @@ namespace GameServerV1.Server
                 State so = (State)ar.AsyncState;
                 int bytes = socket.EndReceive(ar);
                 socket.BeginReceive(so.buffer, 0, bufSize, SocketFlags.None,recv, so);
-                Console.WriteLine("Room on port:{2} RECV: {0}: {1},", 
-                     bytes, Encoding.ASCII.GetString(so.buffer, 0, bytes), PORT);
+                /*Console.WriteLine("Room on port:{2} RECV: {0}: {1},", 
+                     bytes, Encoding.ASCII.GetString(so.buffer, 0, bytes), PORT);*/
             }, state);
         }
         public string getListUser()
         {
-            string list = "[";
-            foreach(User u in Users)
+            try
             {
-                string user = $"" +
-                    $"'name':'{u.name}'#" +
-                    $"'uid':'{u.uId}'#" +
-                    $"'solderclass':{u.SolderClass}#" +
-                    $"'group':{u.group}#" +
-                    $"'health':{u.Health}#" +
-                    $"'px':{u.position.x}#" +
-                    $"'py':{u.position.y}#" +
-                    $"'pz':{u.position.z}#" +
+                string list = "[";
+                foreach (User u in Users)
+                {
+                    string user = $"" +
+                        $"'name';'{u.name}'#" +
+                        $"'uid';'{u.uId}'#" +
+                        $"'solderclass';{u.SolderClass}#" +
+                        $"'group';{u.group}#" +
+                        $"'health';{u.Health}#" +
+                        $"'px';{u.position.x.ToString().Replace(",", ".")}#" +
+                        $"'py';{u.position.y.ToString().Replace(",", ".")}#" +
+                        $"'pz';{u.position.z.ToString().Replace(",", ".")}#" +
 
-                    $"'rx':{u.rotation.x}#" +
-                    $"'ry':{u.rotation.y}*";
-                /* 
-                 user["name"] = ;
-                 user["uid"] = ;
-                 user["solderclass"] = ;
-                 user["group"] = u.group;
-                 user["health"] = u.Health;
-                 user["pos"] = new float[] { u.position.x,u.position.y,u.position.z };
-                 user["rot"] = new float[] { u.rotation.x, u.rotation.y };
-                 */
-                list +=user;
+                        $"'rx';{u.rotation.x.ToString().Replace(",", ".")}#" +
+                        $"'ry';{u.rotation.y.ToString().Replace(",", ".")}*";
+                    /* 
+                     user["name"] = ;
+                     user["uid"] = ;
+                     user["solderclass"] = ;
+                     user["group"] = u.group;
+                     user["health"] = u.Health;
+                     user["pos"] = new float[] { u.position.x,u.position.y,u.position.z };
+                     user["rot"] = new float[] { u.rotation.x, u.rotation.y };
+                     */
+                    list += user;
+                }
+                return list[0..^1] + "]";
             }
-            return list[0..^1] + "]";
+            catch (Exception e)
+            {
+                Console.WriteLine($"Room {PORT} Error getListUser {e.Message}");
+                return "null";
+            }
         }
         public string getListByGroup(int group)
         {
@@ -367,30 +399,33 @@ namespace GameServerV1.Server
             if(u.group == group)
             {
                 string user = $"" +
-                    $"'name':'{u.name}'#" +
-                    $"'uid':'{u.uId}'#" +
-                    $"'solderclass':{u.SolderClass}#" +
-                    $"'group':{u.group}#" +
-                    $"'health':{u.Health}#" +
-                    $"'px':{u.position.x}#" +
-                    $"'py':{u.position.y}#" +
-                    $"'pz':{u.position.z}#" +
+                    $"'name';'{u.name}'#" +
+                    $"'uid';'{u.uId}'#" +
+                    $"'solderclass';{u.SolderClass}#" +
+                    $"'group';{u.group}#" +
+                    $"'health';{u.Health}#" +
+                    $"'px';{u.position.x}#" +
+                    $"'py';{u.position.y}#" +
+                    $"'pz';{u.position.z}#" +
 
-                    $"'rx':{u.rotation.x}#" +
-                    $"'ry':{u.rotation.y}*";
+                    $"'rx';{u.rotation.x}#" +
+                    $"'ry';{u.rotation.y}*";
                 list += user;
             }
             return list[0..^1] + "]";
         }
-        Dictionary<string, object> StringJsonToDictionary(byte[] data, int size)
+        Dictionary<string, object>[] StringJsonToDictionary(byte[] data, int size)
         {
-            Dictionary<string, object> temp = new Dictionary<string, object>();
+            List<Dictionary<string, object>> temp = new List<Dictionary<string, object>>();
             try
             {
-                string json = Encoding.UTF8.GetString(data, 0, size);
-                Console.WriteLine($"I have: {json}");
-                temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-                return temp;
+                string jsonall = Encoding.UTF8.GetString(data, 0, size);
+                foreach (string json in jsonall.Split("}{"))
+                {
+                    var js = $"{{ { json.Replace('{', ' ').Replace('}', ' ')} }}";
+                    temp.Add(JsonConvert.DeserializeObject<Dictionary<string, object>>(js));
+                }
+                return temp.ToArray();
             }
             catch (Exception e)
             {
@@ -409,7 +444,7 @@ namespace GameServerV1.Server
                 if (obj.Value is string)
                     temp += $@"'{obj.Key}':'{(string)obj.Value}',";
             }
-            Console.WriteLine("Pack send: " + temp);
+            //Console.WriteLine("Pack send: " + temp);
             return Encoding.UTF8.GetBytes(temp[0..^1] + "}");
 
         }

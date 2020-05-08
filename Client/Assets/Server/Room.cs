@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -39,7 +40,11 @@ namespace Server
     }
     public class Room
     {
-
+        public event EventHandler<User[]> OnUpdate;
+        public void uUpdate()
+        {
+            OnUpdate?.Invoke(this, users.ToArray());
+        }
         public int port { get; internal set; }
         public Rules rules;
 
@@ -47,15 +52,19 @@ namespace Server
 
         private const int bufSize = 8 * 1024;
         private State state = new State();
-        public User CurrentUser {get;set;}
+        public User CurrentUser { get; set; }
         TcpClient tcpClient;
         NetworkStream stream;
+        private bool alive;
+
         public class State
         {
             public byte[] buffer = new byte[bufSize];
         }
-        public Room(string address,int port,User us)
+        public Room(string address, int port, User us)
         {
+            users = new List<User>();
+            alive = true;
             CurrentUser = us;
             this.port = port;
             try
@@ -65,6 +74,7 @@ namespace Server
                     if (CurrentUser != null)
                     {
                         tcpClient = new TcpClient(address, this.port);
+                        tcpClient.NoDelay = true;
                         stream = tcpClient.GetStream();
 
                         new Thread(listner).Start();
@@ -81,10 +91,11 @@ namespace Server
         void listner()
         {
             while (true)
-            {  
+            {
                 if (stream.DataAvailable)
                 {
-                    var obj = Udpate();
+                    var objMax = Udpate();
+                    foreach (var obj in objMax)
                     if (obj != null)
                     {
                         switch ((Types)Convert.ToInt32(obj["type"]))
@@ -104,8 +115,17 @@ namespace Server
                                 break;
                             case Types.TYPE_update_users:
                                 {
-                                    UpdateUsersFromDictionaryArray((string)obj["users"]);
-                                    Debug.Log("Set new user pack");
+                                        //Debug.Log("GET USERS");
+                                        if (obj.ContainsKey("users"))
+                                        {
+                                            UpdateUsersFromDictionaryArray((string)obj["users"]);
+                                            Debug.Log("Set new user pack.\n"+users.Count);
+                                            uUpdate();
+                                        }
+                                        else
+                                        {
+                                            Debug.Log("NON-Set new user pack");
+                                        }
                                 }
                                 break;
                         }
@@ -114,8 +134,9 @@ namespace Server
             }
         }
         void UpdateUsersFromDictionaryArray(string data)
-            {
-            List<User> temp = new List<User>();
+        {
+
+                List<User> temp = new List<User>();
             /*foreach (Dictionary<string, object> data in value)
             {
                 User user = new User((string)data["name"], (string)data["uid"]);
@@ -129,36 +150,59 @@ namespace Server
                 temp.Add(user);
             }
             */
-           
-            var t = data.Replace("'[", "").Replace("]'", "");
-            string[] d;
-            if (t.Contains("*")) d = t.Split('*');
-            else d = new string[] {t};
-
-            Debug.Log($"User Pack: {d[0]}");
-            foreach (object us in d)
-                if (us != null)
-                {
-                    var tl = us.ToString().Split('#');
-                    User user = new User((string)tl[0].Split(':')[1], (string)tl[1].Split(':')[1]);
-                    user.SolderClass = int.Parse(tl[2].Split(':')[1]);
-                    user.group = int.Parse(tl[3].Split(':')[1]);
-                    user.Health = int.Parse(tl[4].Split(':')[1]);
-                    user.position = new Vector3(
-                        int.Parse(tl[5].Split(':')[1]),
-                        int.Parse(tl[6].Split(':')[1]),
-                        int.Parse(tl[7].Split(':')[1]));
-                    user.rotation = new Vector2(
-                        int.Parse(tl[8].Split(':')[1]),
-                        int.Parse(tl[9].Split(':')[1]));
-                    temp.Add(user);
-                }
-            users = temp;
-            temp.Clear();
+                var t = data.Replace("'[", "").Replace("]'", "");
+                string[] d;
+                if (t.Contains("*")) d = t.Split('*');
+                else d = new string[] { t };
+                //Debug.Log($"User Pack: {d[0]}");
+                foreach (object us in d)
+                    if (us != null)
+                    {
+                        var tl = us.ToString().Split('#');
+                    //Debug.Log($"User Pack: {us.ToString()}");
+                    if (tl != null)
+                        {
+                            User user = new User((string)tl[0].Split(';')[1], (string)tl[1].Split(';')[1]);
+                            user.SolderClass = int.Parse(tl[2].Split(';')[1]);
+                            user.group = int.Parse(tl[3].Split(';')[1]);
+                            user.Health = int.Parse(tl[4].Split(';')[1]);
+                            user.position = new Vector3(
+                                float.Parse(tl[5].Split(';')[1]),
+                                float.Parse(tl[6].Split(';')[1]),
+                                float.Parse(tl[7].Split(';')[1]));
+                          /*user.rotation = new Vector2(
+                                float.Parse(tl[8].Split(';')[1]),
+                                float.Parse(tl[9].Split(';')[1]));*/
+                            temp.Add(user);
+                        }
+                    }
+                users = temp;
+                //Debug.Log($"Complide Getting users");
+                //Debug.Log($"Temp now: \n{temp.Count}");
+                //Debug.Log($"User now: \n{users.Count}");
+                temp.Clear();
         }
         void Logic()
         {
             JoinRoom();
+        }
+        public void SendTransform(Single[] position, Single[] rotation)
+        {
+            if (alive)
+            {
+                var data = new Dictionary<string, object>();
+                data["type"] = (int)Types.Room_Send_Transform;
+                //position
+                data["px"] = (position[0].ToString("0.0#")).ToString(CultureInfo.InvariantCulture).Replace(",",".");
+                data["py"] = (position[1].ToString("0.0#")).ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+                data["pz"] = (position[2].ToString("0.0#")).ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+                //rotation
+                data["rx"] = (rotation[0].ToString("0.0#")).ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+                data["ry"] = (rotation[1].ToString("0.0#")).ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+                //.ToString(CultureInfo.InvariantCulture)
+                //Udpate();
+                sendPack(data);
+            }
         }
         private void JoinRoom()
         {
@@ -190,7 +234,7 @@ namespace Server
         {
             //string json = JsonUtility.ToJson(valuePairs);
             string json = CtServer.ConvertDictionaryToJsonHard(valuePairs);
-            Debug.Log(json);
+            //Debug.Log(json);
             byte[] data = Encoding.UTF8.GetBytes(json);
             stream.Write(data, 0, data.Length);
         }
@@ -208,7 +252,14 @@ namespace Server
         {
 
         } 
-        private Dictionary<string, object> Udpate()
+        public void Leave()
+        {
+            alive = false;
+            var data = new Dictionary<string, object>();
+            data["type"] = (int)Types.ROOM_Leave;
+            sendPack(data);
+        }
+        private Dictionary<string, object>[] Udpate()
         {
             while(true)
             {
@@ -216,7 +267,7 @@ namespace Server
                 int bytes = stream.Read(so.buffer, 0, so.buffer.Length);
                 if (bytes != 0)
                 {
-                    Debug.Log($"Pack size: {bytes} byte");
+                    //Debug.Log($"Pack size: {bytes} byte");
                     return CtServer.ByteJsonToDictionaryHard(so.buffer, bytes);
                 }
             }

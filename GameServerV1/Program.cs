@@ -9,13 +9,14 @@ namespace GameServerV1.Server
     {
         static void Main(string[] args)
         {
-             MainServer server = new MainServer();
+           SQLDataManager.InitSQL();
 
-             ConsoleKeyInfo cki;
-             do
-             {
-                 cki = Console.ReadKey();
-             } while (cki.Key != ConsoleKey.Escape);
+           MainServer server = new MainServer(9000);
+           ConsoleKeyInfo cki;
+           do
+           {
+              cki = Console.ReadKey();
+           } while (cki.Key != ConsoleKey.Escape);
         }
        
     }

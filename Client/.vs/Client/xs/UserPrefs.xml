@@ -1,0 +1,31 @@
+﻿<Properties StartupConfiguration="{12F44184-A422-5F27-22E6-507969043F15}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Server/CtServer.cs">
+    <Files>
+      <File FileName="Assets/Server/CtServer.cs" Line="102" Column="41" />
+      <File FileName="Assets/Server/Room.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Client" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Server" expanded="True">
+                <Node name="CtServer.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="def94107-9a16-4dd6-aeba-836aba61f7f8" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
