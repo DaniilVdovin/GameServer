@@ -97,6 +97,7 @@ namespace GameServerV1.Server
                 if (stream.DataAvailable)
                 {
                     var ob = Udpate(stream);
+                    if(ob!=null)
                     foreach(var obj in ob)
                     if (obj != null)
                         switch ((Types)Convert.ToInt32(obj["type"]))
@@ -389,6 +390,7 @@ namespace GameServerV1.Server
             catch (Exception e)
             {
                 Console.WriteLine($"Room {PORT} Error getListUser {e.Message}");
+                Console.WriteLine(e.StackTrace);
                 return "null";
             }
         }

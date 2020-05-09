@@ -14,6 +14,7 @@ namespace GameServerV1.Server
 {
     public enum Types
     {
+        test = -1,
         TYPE_NonPack = 0,
 
         TYPE_SingUp = 1,
@@ -136,6 +137,12 @@ namespace GameServerV1.Server
                         Console.WriteLine($"Type: {myObject["type"]}");
                         switch ((Types)Convert.ToInt32(myObject["type"]))
                         {
+                            case Types.test:
+                                {
+                                    if (!SQLDataManager.ValidationByMAC((string)myObject["mac"]))
+                                        closeConnect(Client);
+                                }
+                                break;
                             case Types.TYPE_LogIn:
                                 {
                                     user = LogIn(stream, myObject);
@@ -167,7 +174,27 @@ namespace GameServerV1.Server
                                 {
                                     string t = myObject["data"].ToString();
                                     Console.WriteLine("Non Dictionary Data: " + t.Substring(0, 11));
-                                    byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r" + File.ReadAllText("Server/WebUI/NotFound.html"));
+                                    
+                                    byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r" + File.ReadAllText("Server/WebUI/NotFound.html")
+                                        .Replace("{users}","" + (clients.Count-1))
+                                        .Replace("{rooms}", "" + rooms.Count)
+                                        .Replace("{color}", "red")
+                                        .Replace("{status}", "User with this MACAddress can't play now")
+                                        );
+                                    if (t.Substring(0, 20).Contains("?mac="))
+                                    {
+                                        string mac = t.Substring(t.IndexOf("=")+1, t.IndexOf('H')-11);
+                                        bool val = SQLDataManager.ValidationByMAC(mac);
+                                        if (val)
+                                        data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r" + File.ReadAllText("Server/WebUI/NotFound.html")
+                                                                                  .Replace("{users}", "" + (clients.Count - 1))
+                                                                                  .Replace("{rooms}", "" + rooms.Count)
+                                                                                  .Replace("{color}", "green")
+                                                                                  .Replace("{status}", "User with this MACAddress can play now")
+                                                                                  );
+                                        Console.WriteLine($"Now check MAC: {mac} answer = {val}");
+                                    }
+                                      
                                     stream.Write(data, 0, data.Length);
                                     closeConnect(Client);
                                 }

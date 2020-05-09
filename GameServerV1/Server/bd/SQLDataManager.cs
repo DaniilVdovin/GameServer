@@ -117,6 +117,32 @@ namespace GameServerV1.Server
                 UdpateLastLogin(user.uId);
             return user;
         }
+        public static bool ValidationByMAC(string mac)
+        {
+            string find = $"Select * from validations where MACAddress='{mac}'";
+            try
+            {
+                SQLiteCommand Command = new SQLiteCommand(find, m_dbConn);
+                Command.ExecuteNonQuery();
+                using (SQLiteDataReader oReader = Command.ExecuteReader())
+                {
+                    if (oReader.HasRows)
+                        while (oReader.Read())
+                        {
+                            if (oReader.GetInt32("Enable") == 1)
+                                return true;
+                            else
+                                return false;
+                        }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(TAG + "Error: " + e.Message);
+                Console.WriteLine(TAG + "Error: " + e.StackTrace);
+            }
+            return false;
+        }
         public static void UdpateStatus(string uid, int statys)
         {
             string oString = $"UPDATE users SET \"status\"={statys} where \"id\"='{uid}'";
