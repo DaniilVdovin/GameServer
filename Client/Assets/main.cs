@@ -12,12 +12,13 @@ namespace Server
     {
         private string text = "";
         public Text textUI;
-        public InputField em, pas, ipi;
+        public InputField em, pas, ipi,idi;
         public string ip        = "localhost:9000",
                       Email     = "email@mail.com",
                       Name      = "thisname",
                       Password  = "parol",
-                      lang      = "ru";
+                      lang      = "ru",
+                      id = "";
         CtServer server;
 
         public GameObject enPref;
@@ -30,11 +31,16 @@ namespace Server
             em.text = Email;
             pas.text = Password;
             ipi.text = ip;
+ 
+            // idi.text = id = SystemInfo.deviceUniqueIdentifier;
+
         }
+
+       
         public void init()
         {
             server = new CtServer(ipi.text.Split(':')[0], int.Parse(ipi.text.Split(':')[1]));
-           
+            idi.text = id = server.GetMacAddress();
             server.OnChangeUser += Server_OnChangeUser;
             server.OnError += Server_OnError;
             server.OnNewRoom += Server_OnNewRoom;
@@ -45,6 +51,7 @@ namespace Server
 
         private void Server_OnUpdate(object sender, User[] e)
         {
+            Debug.Log("Server upd");
             foreach (User user in e)
             {
                     var en = Instantiate(enPref);
@@ -52,7 +59,7 @@ namespace Server
                     en.transform.position = user.position;
                     enemy.Add(en);
             }
-            text= "Users: " + e.Length +" "+server.CurrentRoom.users.Count;
+            text = "Users: " + e.Length +" "+server.CurrentRoom.users.Count;
         }
         bool con(List<GameObject>e,User user)
         {

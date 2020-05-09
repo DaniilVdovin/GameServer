@@ -304,5 +304,35 @@ namespace Server
             return temp.Substring(0, temp.Length - 1) + @"}";
 
         }
+        public string GetMacAddress()
+        {
+            string physicalAddress = "";
+
+            NetworkInterface[] nice = NetworkInterface.GetAllNetworkInterfaces();
+
+            foreach (NetworkInterface adaper in nice)
+            {
+
+                Debug.Log(adaper.Description);
+
+                if (adaper.Description == "en0")
+                {
+                    physicalAddress = adaper.GetPhysicalAddress().ToString();
+                    break;
+                }
+                else
+                {
+                    physicalAddress = adaper.GetPhysicalAddress().ToString();
+
+                    if (physicalAddress != "")
+                    {
+                        break;
+                    };
+                }
+            }
+
+            return physicalAddress;
+        }
     }
+
 }

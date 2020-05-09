@@ -118,6 +118,7 @@ namespace Server
                                         //Debug.Log("GET USERS");
                                         if (obj.ContainsKey("users"))
                                         {
+
                                             UpdateUsersFromDictionaryArray((string)obj["users"]);
                                             Debug.Log("Set new user pack.\n"+users.Count);
                                             uUpdate();
@@ -150,7 +151,7 @@ namespace Server
                 temp.Add(user);
             }
             */
-                var t = data.Replace("'[", "").Replace("]'", "");
+                var t = data.Replace("[", "").Replace("]", "");
                 string[] d;
                 if (t.Contains("*")) d = t.Split('*');
                 else d = new string[] { t };
