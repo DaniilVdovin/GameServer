@@ -66,6 +66,7 @@ namespace GameServerV1.Server
                 PORT = port;
                 listener = new TcpListener(IPAddress.Any, PORT);
                 listener.Start();
+                Console.Title = "WGServer";
                 Console.WriteLine("Listening...");
                 _status = true;
                 while (_status)
@@ -167,42 +168,6 @@ namespace GameServerV1.Server
                                     string t = myObject["data"].ToString();
                                     Console.WriteLine("Non Dictionary Data: " + t.Substring(0, 11));
                                     byte[] data = Encoding.ASCII.GetBytes("HTTP/1.1 404\n\r\n\r" + File.ReadAllText("Server/WebUI/NotFound.html"));
-                                    if (t.Contains("/?"))
-                                    {
-                                        if (t.Contains("l="))
-                                        {
-                                            myObject["name"] = "admin";
-                                            myObject["email"] = "admin@admin.admin";
-                                            myObject["pass"] = "admin";
-                                            user = SingUp(stream, myObject);
-                                            CreateNewRoom(stream, IPAddress.Any);
-                                        }
-                                        if (t.Contains("n="))
-                                        {
-                                            myObject["email"] = "admin@admin.admin";
-                                            myObject["pass"] = "admin";
-                                            user = LogIn( stream, myObject);
-                                            CreateNewRoom(stream, IPAddress.Any);
-                                        }
-                                        if (t.Contains("r="))
-                                        {
-                                            string rq = t.Substring(t.IndexOf("r=") + 2);
-                                            int rm = int.Parse(rq.Substring(0, rq.IndexOf(" ")));
-                                            foreach (RoomServer room in rooms)
-                                                if (room.PORT == rm)
-                                                {
-                                                    data = Encoding.ASCII.GetBytes($"HTTP/1.1 201\n\r\n\r" + File.ReadAllText("Server/WebUI/RoomUI.html")
-                                                        .Replace("{0}", "" + room.PORT)
-                                                        .Replace("{1}", "" + room.Rules.RedUser)
-                                                        .Replace("{2}", "" + room.Rules.BlueUser)
-                                                        .Replace("{3}", "" + room.Rules.RedScore)
-                                                        .Replace("{4}", "" + room.Rules.BlueScore)
-                                                        .Replace("{5}", "" + room.getListUser())
-                                                        );
-                                                    break;
-                                                }
-                                        }
-                                    }
                                     stream.Write(data, 0, data.Length);
                                     closeConnect(Client);
                                 }
@@ -211,7 +176,7 @@ namespace GameServerV1.Server
                                 {
                                     switch (myObject["cmd"])
                                     {
-                                        case "getRoom":
+                                        case "getRooms":
                                             {
                                                 var d = new Dictionary<string, object>();
                                                 rooms.ForEach(room =>
