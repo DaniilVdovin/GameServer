@@ -9,6 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using System.Globalization;
+using System.Data.SQLite;
 
 namespace GameServerV1.Server
 {
@@ -107,6 +108,7 @@ namespace GameServerV1.Server
                                     {
                                         Users.Add(currentuser = NewUser(stream, obj));
                                     }
+                                    //нужен фидбк
                                 }
                                 break;
                             case Types.TYPE_i_wanna_info:
@@ -136,6 +138,7 @@ namespace GameServerV1.Server
                                                            new Vector2(To.position.x, To.position.y)
                                                            ))
                                     {
+                                         
                                         //setdamage((int)obj["damage"]);
                                         Console.WriteLine($"Room {PORT} Damage from {currentuser.name} to {To.name} {obj["damage"]}");
                                     }

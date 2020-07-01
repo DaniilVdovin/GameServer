@@ -61,6 +61,7 @@ namespace Server
         {
             public byte[] buffer = new byte[bufSize];
         }
+
         public Room(string address, int port, User us)
         {
             users = new List<User>();

@@ -375,7 +375,7 @@ namespace GameServerV1.Server
                 Console.WriteLine($"Create new.. no we have free room {roomServer.PORT}");
                 data["req"] = 1;
                 data["port"] = roomServer.PORT;
-                data["error"] = null;
+                data["error"] = "null";
             }
             sendDictionaryByJson(stream, data);
         }

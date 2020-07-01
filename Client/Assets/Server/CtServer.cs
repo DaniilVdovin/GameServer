@@ -184,8 +184,6 @@ namespace Server
             data["pass"] = password;
             data["leng"] = leng;
             sendDictionaryByJson(data);
-
-
         }
         public void LogIn(string email, string password)
         {
