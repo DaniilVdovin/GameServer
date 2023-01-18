@@ -1,4 +1,5 @@
 ![banner](UGV2p2CjOYU.jpg)
+https://vk.me/weltkrieg.group
 
 # GameServer
 Basic server logic.
