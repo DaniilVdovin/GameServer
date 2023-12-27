@@ -180,6 +180,8 @@ Don't have arguments and don't `return`. Just call `GetNewUsers()` if you wanna 
     3. Clone folder [data]() in root folder
  3. Instal Build [GameServer]()
  4. Start server and write IP\Host and port
+
+[![Star History Chart](https://api.star-history.com/svg?repos=DaniilVdovin/GameServer&type=Date)](https://star-history.com/#DaniilVdovin/GameServer&Date)
  
 ##### Good Luck.
 
